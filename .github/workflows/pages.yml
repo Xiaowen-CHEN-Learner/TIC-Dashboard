@@ -1,9 +1,9 @@
 name: pages
 
-# Optional. Publishes the dashboard to GitHub Pages from main.
-# It does nothing until the owner sets the repository variable ENABLE_PAGES to "true"
-# and chooses "GitHub Actions" as the Pages source. A Pages site can be reached by
-# anyone with the link.
+# Publishes the dashboard to GitHub Pages from main, after the rule checks pass.
+# It runs only while the repository variable ENABLE_PAGES is "true" and the Pages
+# source is "GitHub Actions". Set the variable to "false" to stop publishing.
+# A Pages site can be reached by anyone with the link.
 
 on:
   push:
@@ -15,9 +15,10 @@ permissions:
   pages: write
   id-token: write
 
+# One deployment at a time. A running deployment is left to finish.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -41,4 +42,4 @@ jobs:
           path: site
       - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
