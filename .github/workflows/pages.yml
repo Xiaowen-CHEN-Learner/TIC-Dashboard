@@ -21,12 +21,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     if: ${{ vars.ENABLE_PAGES == 'true' }}
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,6 +37,17 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+
+  # A job of its own. When the deploy step ran straight after the upload in one job, it
+  # sometimes asked for the built site before the upload was listed, and failed with
+  # "No artifacts named github-pages were found". Starting a new job gives it time.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5

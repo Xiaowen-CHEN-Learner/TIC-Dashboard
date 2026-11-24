@@ -1,6 +1,6 @@
 # Data model
 
-All content is in `data/`. Five files, each plain JSON. `tools/check.py` validates every rule on this page.
+All content is in `data/`. Six files, each plain JSON. `tools/check.py` validates every rule on this page.
 
 ## meta.json
 
@@ -35,7 +35,7 @@ The kind sets the evidence label:
 
 ## companies.json
 
-`order` is the sequence used on every screen. Each company has:
+`order` is the sequence used on every screen. It also sets the section numbers on Company financials: the first company is 3.1, the second 3.2. Each company has:
 
 | Field | Meaning |
 |---|---|
@@ -125,3 +125,38 @@ A list of tables. Each has `title`, `src`, `columns`, `rows` and an optional `no
 | `calendar` | Confirmed future dates only: `date`, `company`, `kind`, `event`, `src`. `kind` is `earnings` for results dates, which show on TIC earnings news, or `other`, which shows on Industry news. |
 | `calendar_windows` | Timing given as a window, not a date, with the same `kind`. |
 | `calendar_note` | Says which companies have no confirmed date. |
+
+## prices.json
+
+Month-end share prices and market caps for the TIC stock price screen. Index levels, returns and weights are not stored: `tools/stockindex.py` computes them for the screen, the chart and the checks.
+
+| Field | Meaning |
+|---|---|
+| `base` | The month both indexes are set to 100, `YYYY-MM`. |
+| `last` | The last complete month, `YYYY-MM`. Every series ends here. |
+| `last_date` | The last trading day of that month, `YYYY-MM-DD`. Not after the as-of date. |
+| `read_on` | The day the price and market-cap pages were read. |
+| `series` | One entry per company, keyed as in `companies.json`. |
+| `market_caps` | One entry per company: `src`, `values` as `[month, USD billion]` pairs, and an optional `note` shown under the weights table. |
+| `method`, `limits` | The two lists printed on the screen. Rewrite the first `limits` line when `last` moves. |
+
+Each series has:
+
+| Field | Meaning |
+|---|---|
+| `symbol`, `market`, `currency` | As the price source lists the share. |
+| `price_prefix`, `price_suffix`, `price_dp` | How the latest price is printed, for example `CHF ` and 2, or `p` and 0 for pence. |
+| `src` | The source of the prices. |
+| `last_close` | The unadjusted closing price on `last_date`, as printed on the screen. |
+| `adj` | `[month, price]` pairs: the month-end close adjusted for dividends and splits, in the share's own currency. Months run in order with no gap and end at `last`. All the pairs come from one reading of the source, because a source restates its earlier adjusted prices after each dividend. |
+| `ret`, `ret_src` | Optional. Published monthly total returns in percent, as `[month, return]` pairs, for months the price source does not cover. Where a month has both a return and prices, they must agree. |
+
+How the numbers are used:
+
+- A share's return for a month is `adj[month] / adj[previous month] - 1`. Where either price is missing, the published return in `ret` is used.
+- A share joins both indexes at the first month end it has data for. Its first return is the month after.
+- The equal-weighted index averages the returns of the shares in it each month.
+- The market-cap-weighted index weights each return by the share's market cap at the previous month end. At a month listed in `market_caps` the published figure is used. In between, the last published figure is moved by the share's own return. Before a share's first published figure, the value is worked back from it.
+- Nothing is converted here. The market caps are in US dollars because the source publishes them that way, and they are used only as weights.
+
+The checks fail on a gap in the months, a missing source, a monthly move above 70%, a published return that disagrees with the prices, or weights that do not add up to 100%.

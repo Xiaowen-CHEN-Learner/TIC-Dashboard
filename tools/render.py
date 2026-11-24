@@ -7,8 +7,10 @@ tools/check.py also verifies.
 from html import escape as esc
 
 import charts
-from model import (EARNINGS_TYPES, LABELS, REASONS, STATUSES, label_of, period_src, source_use, tally,
-                   ytd_figure)
+import stockindex
+from charts import ln_month
+from model import (EARNINGS_TYPES, LABELS, REASONS, STATUSES, label_of, period_src, price_sources, source_use,
+                   tally, ytd_figure)
 
 MINUS = "−"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -88,6 +90,8 @@ class Ctx:
         self.fin, self.news, self.meta = d["financials"], d["news"], d["meta"]
         self.screens = d["screens"]["screens"]
         self.as_of = d["meta"]["as_of"]
+        self.px = d["prices"]
+        self.ix = stockindex.build(self.px, self.order)  # both share-price indexes, computed once
 
     def href(self, screen_id, frag=None):
         s = next(x for x in self.screens if x["id"] == screen_id)
@@ -111,6 +115,11 @@ class Ctx:
 
     def fin_link(self, cid, text=None):
         return f'<a href="{self.href("financials", "fin-" + cid)}">{esc(text or self.cos[cid]["short"])}</a>'
+
+    def sec_no(self, cid):
+        """Section number of a company on the Company financials screen: 3.1, 3.2 and so on."""
+        screen = next(s for s in self.screens if s["id"] == "financials")
+        return f'{int(screen["num"])}.{self.order.index(cid) + 1}'
 
 
 class Refs:
@@ -188,6 +197,7 @@ def status_pill(key):
     return f'<span class="st st-{key}">{WORD[key]}</span>'
 
 
+DAGGER = '<sup class="mk">†</sup>'
 LEGEND = ('<p class="legend"><sup class="mk">c</sup> computed here. <sup class="mk">s</sup> from a secondary '
           'source. <sup class="mk">†</sup> see the notes under the table. n/f: not found in the sources used. '
           'n/a: not applicable. n/m: not meaningful. A dash means not reported for the period, or not captured.</p>')
@@ -201,14 +211,14 @@ def sidebar(ctx, active):
         cur = ' aria-current="page"' if s["id"] == active else ""
         nav.append(f'<a class="nav-item" data-screen="{s["id"]}" href="{ctx.href(s["id"])}"{cur}>'
                    f'<span class="nav-num">{s["num"]}</span><span>{esc(s["label"])}</span></a>')
-    cos = "".join(f'<a href="{ctx.href("financials", "fin-" + cid)}"><span>{esc(ctx.cos[cid]["short"])}</span>'
-                  f'<span class="tick">{esc(ctx.cos[cid]["ticker"])}</span></a>' for cid in ctx.order)
+        if s["id"] == "financials":  # one numbered entry per company section
+            subs = "".join(f'<a class="nav-sub" href="{ctx.href("financials", "fin-" + cid)}" data-jump="fin-{cid}">'
+                           f'<span class="nav-num">{ctx.sec_no(cid)}</span> <span>{esc(ctx.cos[cid]["short"])}</span></a>'
+                           for cid in ctx.order)
+            nav.append(f'<div class="nav-subs">{subs}</div>')
     return (f'<aside class="side" aria-label="Dashboard navigation">'
             f'<a class="brand" href="{ctx.href("overview")}">{LOGO}<span class="brand-t"><strong>TIC Industry</strong>'
             f'<small>Dashboard</small></span></a>'
-            f'<details class="picker"><summary><span class="picker-k">Companies</span>'
-            f'<span class="picker-v">{len(ctx.order)} listed groups</span></summary>'
-            f'<div class="picker-list">{cos}</div></details>'
             f'<nav class="nav" aria-label="Screens"><p class="nav-h">Screens</p>{"".join(nav)}</nav>'
             f'<div class="side-foot"><p>As of {fdate(ctx.as_of)}</p><p>Public sources only. Not investment advice.</p></div>'
             f'</aside>')
@@ -491,7 +501,8 @@ def feed(ctx, earnings):
 # ---------- company financials ----------
 
 def jumpbar(ctx):
-    links = "".join(f'<a href="{ctx.href("financials", "fin-" + cid)}" data-jump="fin-{cid}">{esc(ctx.cos[cid]["short"])}'
+    links = "".join(f'<a href="{ctx.href("financials", "fin-" + cid)}" data-jump="fin-{cid}">'
+                    f'<span class="tick">{ctx.sec_no(cid)}</span> {esc(ctx.cos[cid]["short"])} '
                     f'<span class="tick">{esc(ctx.cos[cid]["ticker"])}</span></a>' for cid in ctx.order)
     return f'<nav class="jump" aria-label="Jump to a company">{links}</nav>'
 
@@ -515,7 +526,8 @@ def tiles(ctx, cid, refs):
            tile(ctx, refs, f'{co["margin_measure"]}, {col}', f_pct(mar["cells"][-1][0]),
                 f'{co["profit_measure"]} {big(co, pr["cells"][-1][0])}', mar["cells"][-1][1])]
     rg = row["v"].get("growth")
-    out.append(tile(ctx, refs, f'Revenue, {row["label"]}', big(co, row["v"]["revenue"]),
+    rev_label = next(m["label"] for m in fin["interim"]["metrics"] if m["key"] == "revenue")
+    out.append(tile(ctx, refs, f'{rev_label}, {row["label"]}', big(co, row["v"]["revenue"]),
                     f"{f_change(rg)} as reported" if rg is not None else "", period_src(row, "revenue")))
     ov = orow["v"].get("organic")
     if ov is not None:
@@ -683,6 +695,92 @@ def outlook_block(ctx, cid, refs):
     return f'<div class="ol-grid">{html}</div>'
 
 
+def _moved(pct):
+    return "unchanged" if pct == 0 else f'{"up" if pct > 0 else "down"} {abs(pct):.1f}%'
+
+
+def share_price(series):
+    """A share's last month-end close with its currency mark: CHF 103.60, 5,930p."""
+    return f'{series["price_prefix"]}{series["last_close"]:,.{series["price_dp"]}f}{series["price_suffix"]}'
+
+
+def share_line(ctx, cid, refs):
+    """Last month-end share price and the total return so far that year, from data/prices.json."""
+    series, ix = ctx.px["series"][cid], ctx.ix
+    last = ix["months"][-1]
+    year = last[:4]
+    ret, full = stockindex.share_year_return(ix, cid, f"{int(year) - 1}-12", last)
+    span = f"in {year} to that date" if full else f'since {ln_month(ix["first"][cid])}, when the price series starts'
+    return (f'{esc(share_price(series))} at the close on {fdate(ctx.px["last_date"])}. Total return {span}: '
+            f'{f_change(ret * 100)}, dividends included. {ctx.ev(ctx.label(series["src"]))} '
+            f'{refs.mark(series["src"])}')
+
+
+def latest_summary(ctx, cid, refs):
+    """What the company last reported, its outlook, its share price, the main points and the newest news.
+
+    Every part is drawn from data already on the dashboard, so the block cannot disagree with the tables.
+    """
+    co, fin = ctx.cos[cid], ctx.fin[cid]
+    row, orow = latest(ctx, cid)
+    v, used = row["v"], [(row, "revenue")]
+    rev_label = next(m["label"] for m in fin["interim"]["metrics"] if m["key"] == "revenue")
+    lead = f'{esc(rev_label)} {big(co, v["revenue"])}'
+    if v.get("growth") is not None:
+        lead += f', {_moved(v["growth"])} as reported'
+        used.append((row, "growth"))
+    lead += "."
+    if orow["v"].get("organic") is not None:
+        where = "" if orow is row else f' in {esc(orow["label"])}'
+        lead += f' {esc(co["organic_label"])} was {f_pct(orow["v"]["organic"])}{where}.'
+        used.append((orow, "organic"))
+    if "profit" in v and "margin" in v:
+        lead += f' {esc(co["profit_measure"])} {big(co, v["profit"])}, a margin of {f_pct(v["margin"])}.'
+        used += [(row, "profit"), (row, "margin")]
+    else:
+        lead += " The update gave no profit figure."
+    srcs = []
+    for per, key in used:
+        sid = period_src(per, key)
+        if sid not in srcs:
+            srcs.append(sid)
+    labels = []
+    for sid in srcs:
+        if ctx.label(sid) not in labels:
+            labels.append(ctx.label(sid))
+    when = f', reported {fdate(row["reported"])}' if row.get("reported") else ""
+    head = (f'<h3 id="ls-{cid}">Latest summary <span class="h-meta">{esc(row["label"])}{when} '
+            f'{" ".join(ctx.ev(x) for x in labels)} {refs.marks(x for x in srcs if x != "computed")}</span></h3>')
+    lat, o = fin["latest"], fin["outlook"]
+    osrcs = [o["src"]] + [it["src"] for it in o["items"] if it.get("src")]
+    olabel = ctx.ev("company_claim")  # an outlook is the company's own claim, whoever reports it
+    if any(ctx.label(sid) == "secondary_report" for sid in osrcs):
+        olabel += " " + ctx.ev("secondary_report")
+    facts = (f'<dl class="ls-facts"><div><dt>Full-year outlook</dt><dd>{status_pill(lat["status"])} '
+             f'{esc(lat["status_text"])} {olabel} {refs.marks(osrcs)}</dd></div>'
+             f'<div><dt><a href="{ctx.href("stock")}">Month-end share price</a></dt>'
+             f'<dd>{share_line(ctx, cid, refs)}</dd></div></dl>')
+    news = [it for it in ctx.news["news"] if it["company"] == cid][:3]
+    recent = ""
+    if news:
+        items = "".join(
+            f'<li><time datetime="{it["date"]}">{fdate(it["date"])}</time>'
+            f'<a href="{ctx.href("earnings" if it["type"] in EARNINGS_TYPES else "industry-news", "n-" + it["id"])}">'
+            f'{esc(it["headline"])}</a></li>' for it in news)
+        recent = f'<h4>Recent news</h4><ul class="ls-news">{items}</ul>'
+    calls = [c for c in ctx.news["calls"] if c["company"] == cid]
+    points = ""
+    if calls:
+        call = max(calls, key=lambda c: c["date"])
+        pts = "".join(f"<li>{esc(p)}</li>" for p in call["points"])
+        points = (f'<div class="ls-side"><h4>Main points: {esc(call["event"])}, {fdate(call["date"])} '
+                  f'<span class="h-meta">{ctx.ev(ctx.label(call["sources"][0]))} {refs.marks(call["sources"])}</span></h4>'
+                  f'<ul class="ls-points">{pts}</ul></div>')
+    return (f'<section class="latest" aria-labelledby="ls-{cid}">{head}'
+            f'<div class="ls-grid"><div class="ls-main"><p class="ls-lead">{lead}</p>{facts}{recent}</div>{points}</div>'
+            f'</section>')
+
+
 def company_section(ctx, cid):
     co, fin = ctx.cos[cid], ctx.fin[cid]
     refs = Refs(ctx, f"src-{cid}")
@@ -691,6 +789,7 @@ def company_section(ctx, cid):
              ("Reports in", co["unit"])]
     dl = "".join(f"<div><dt>{k}</dt><dd>{esc(v)}</dd></div>" for k, v in facts if v)
     profile_refs = refs.marks(co["profile_sources"])
+    summary = latest_summary(ctx, cid, refs)
     status = ""
     if co.get("status"):
         st = co["status"]
@@ -705,11 +804,11 @@ def company_section(ctx, cid):
     annual_h = "Annual figures and the latest year to date" if fin["latest"].get("ytd_order") else "Annual figures"
     return (
         f'<section class="card co" id="fin-{cid}" aria-labelledby="h-{cid}">'
-        f'<header class="co-head"><div><h2 id="h-{cid}">{esc(co["name"])}</h2>'
+        f'<header class="co-head"><div><h2 id="h-{cid}"><span class="sec-no">{ctx.sec_no(cid)}</span> {esc(co["name"])}</h2>'
         f'<p class="co-desc">{esc(co["description"])} {profile_refs}</p></div>'
         f'<p class="co-links"><span class="pill">{esc(co["listing"])}</span>'
         f'<a class="btn" href="{esc(co["ir_url"], quote=True)}" target="_blank" rel="noopener noreferrer">Investor relations site</a></p>'
-        f'</header><dl class="facts">{dl}</dl>{status}{t}{company_charts(ctx, cid)}'
+        f'</header>{summary}{status}<dl class="facts">{dl}</dl>{t}{company_charts(ctx, cid)}'
         f'<h3>{annual_h}</h3>{annual}'
         f'<h3>Interim results reported in {ctx.as_of[:4]}</h3>{interim}'
         f'<h3>Segments</h3>{segs}'
@@ -721,6 +820,179 @@ def company_section(ctx, cid):
 
 def companies(ctx):
     return "".join(company_section(ctx, cid) for cid in ctx.order)
+
+
+# ---------- TIC stock price ----------
+
+EV_COMPUTED = '<span class="ev ev-computed">computed</span>'
+INDEX_NAMES = {"cap": "Market-cap weighted", "eq": "Equal weighted"}
+
+
+def f_level(v):
+    return f"{v:,.1f}"
+
+
+def stock_tiles(ctx):
+    """Level of each index at the last month end, then each index's return so far that year."""
+    ix = ctx.ix
+    months, last = ix["months"], ix["months"][-1]
+    year_start = f"{int(last[:4]) - 1}-12"
+    on = fdate(ctx.px["last_date"])
+
+    def stat(label, value, sub):
+        return (f'<div class="tile"><p class="tile-k">{esc(label)}</p><p class="tile-v">{value}</p>'
+                f'<p class="tile-s">{esc(sub)}</p><p class="tile-f">{EV_COMPUTED}</p></div>')
+
+    out = [stat(f"{INDEX_NAMES[k]} index", f_level(ix[k][-1]),
+                f'At {on}. {f_change((ix[k][-1] / ix[k][0] - 1) * 100)} since the end of {ln_month(months[0])}')
+           for k in ("cap", "eq")]
+    out += [stat(f"{INDEX_NAMES[k]}, {last[:4]} so far",
+                 f_change(stockindex.change(ix[k], months, year_start, last) * 100),
+                 f'To {on}. {ln_month(last)} alone: {f_change(ix[k + "_ret"][-1] * 100)}')
+            for k in ("cap", "eq")]
+    return f'<div class="tiles">{"".join(out)}</div>'
+
+
+def stock_chart(ctx):
+    ix = ctx.ix
+    months = ix["months"]
+    notes = [(ix["first"][cid], f'{ctx.cos[cid]["short"]} joins') for cid in ctx.order if ix["first"][cid] != months[0]]
+    lines = [{"name": INDEX_NAMES["cap"], "values": ix["cap"], "dashed": False},
+             {"name": INDEX_NAMES["eq"], "values": ix["eq"], "dashed": True}]
+    svg = charts.timeseries(months, lines, "Market-cap-weighted and equal-weighted indexes of the "
+                            f"{len(ctx.order)} TIC shares at each month end, {ln_month(months[0])} to "
+                            f"{ln_month(months[-1])}", notes=sorted(notes), base=stockindex.BASE_LEVEL)
+    return figure(f"Both indexes at each month end, end of {ln_month(months[0])} = 100",
+                  "Total return with dividends reinvested, each share in its own currency. Solid line: weighted by "
+                  "market cap. Dashed line: every share weighted equally.", svg,
+                  "The scale is fitted to the data to show change. The latest level is printed at the end of each "
+                  "line; point at a month to read it. Every month-end level is in the table lower down this screen.",
+                  cls="card chart chart-wide")
+
+
+def stock_returns(ctx, refs):
+    """Calendar-year total returns: the two indexes, then each share in its own currency."""
+    ix = ctx.ix
+    months = ix["months"]
+    spans = stockindex.year_spans(months)
+    on = fdate(ctx.px["last_date"])
+    head = "".join(f'<th class="num" scope="col">{y}{"" if done else f"<small>to {on[:-5]}</small>"}</th>'
+                   for y, _, _, done in spans)
+    rows = []
+    for key in ("cap", "eq"):
+        tds = "".join(f'<td class="num">{f_change(stockindex.change(ix[key], months, a, b) * 100)}</td>'
+                      for _, a, b, _ in spans)
+        rows.append(f'<tr class="r key"><th scope="row">{INDEX_NAMES[key]} index<small>All shares in the index, '
+                    f'each in its own currency</small></th>{tds}'
+                    f'<td class="num">{f_change((ix[key][-1] / ix[key][0] - 1) * 100)}</td><td>{EV_COMPUTED}</td></tr>')
+    part = False
+    for cid in ctx.order:
+        series = ctx.px["series"][cid]
+        tds = ""
+        for _, a, b, _ in spans:
+            r, full = stockindex.share_year_return(ix, cid, a, b)
+            if r is None:
+                tds += '<td class="num na" title="Not in the indexes in this year">n/a</td>'
+            else:
+                part = part or not full
+                tds += f'<td class="num">{f_change(r * 100)}{"" if full else DAGGER}</td>'
+        whole = ix["first"][cid] == months[0]
+        part = part or not whole
+        srcs = [series["src"]] + ([series["ret_src"]] if series.get("ret_src") else [])
+        rows.append(f'<tr><th scope="row">{ctx.fin_link(cid)}<small>{esc(series["symbol"])} on '
+                    f'{esc(series["market"])}, in {esc(series["currency"])}</small></th>{tds}'
+                    f'<td class="num">{f_change((ix["growth"][cid][-1] - 1) * 100)}{"" if whole else DAGGER}</td>'
+                    f'<td class="refs">{ctx.ev(ctx.label(series["src"]))} {refs.marks(srcs)}</td></tr>')
+    note = (f'<p class="legend">{DAGGER} From the month end the share joined the indexes, so not a full period. '
+            'n/a: not in the indexes that year.</p>') if part else ""
+    return ('<div class="table-wrap"><table class="t fin"><thead><tr><th scope="col">Index or share</th>'
+            f'{head}<th class="num" scope="col">All years<small>since {ln_month(months[0])}</small></th>'
+            f'<th scope="col" class="refs">Evidence</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{note}'
+            '<p class="legend">Returns include dividends. Each share is in its own currency, so the share rows are '
+            'not like-for-like with each other.</p>')
+
+
+def stock_weights(ctx, refs):
+    """Each share's weight going into the next month, with the market cap behind it."""
+    ix = ctx.ix
+    months = ix["months"]
+    last = months[-1]
+    equal = 100 / len(ix["last_weights"])
+    rows, drifted = [], False
+    for cid in ctx.order:
+        co, series, mcap = ctx.cos[cid], ctx.px["series"][cid], ctx.px["market_caps"][cid]
+        known = dict(mcap["values"])
+        at = max((m for m in known if m <= last), default=min(known))
+        how = f"Published value of {known[at]:,.2f} at the end of {ln_month(at)}"
+        mark = ""
+        if at != last:
+            how += ", moved by the share's return since then"
+            mark, drifted = '<sup class="mk">c</sup>', True
+        joined = "From the start" if ix["first"][cid] == months[0] else ln_month(ix["first"][cid])
+        rows.append(
+            f'<tr><th scope="row">{ctx.fin_link(cid)}<small>{esc(co["listing"])}</small></th>'
+            f'<td>{joined}</td><td class="num">{esc(share_price(series))}</td>'
+            f'<td class="num" title="{esc(how, quote=True)}">{ix["mcap"][cid][-1]:,.1f}{mark}</td>'
+            f'<td>{charts.share_bar(ix["last_weights"][cid] * 100, dp=1)}</td><td class="num">{equal:.1f}%</td>'
+            f'<td class="refs">{ctx.ev(ctx.label(mcap["src"]))} {refs.mark(mcap["src"])}</td></tr>')
+    rows.append(f'<tr class="r key"><th scope="row">All {len(ix["last_weights"])} shares</th><td></td><td></td>'
+                f'<td class="num">{ix["last_total"]:,.1f}</td><td>{charts.share_bar(100, dp=1)}</td>'
+                f'<td class="num">100.0%</td><td></td></tr>')
+    notes = "".join(f'<li><strong>{esc(ctx.cos[cid]["short"])}:</strong> {esc(ctx.px["market_caps"][cid]["note"])}</li>'
+                    for cid in ctx.order if ctx.px["market_caps"][cid].get("note"))
+    notes = f'<ul class="cell-notes">{notes}</ul>' if notes else ""
+    legend = ('<sup class="mk">c</sup> computed here: the latest published year-end value, moved by the share\'s '
+              'return since then. ') if drifted else ""
+    return ('<div class="table-wrap"><table class="t fin"><thead><tr><th scope="col">Share</th>'
+            '<th scope="col">In the indexes</th>'
+            f'<th class="num" scope="col">Share price, {fdate(ctx.px["last_date"])}</th>'
+            '<th class="num" scope="col">Market cap used, USD bn</th><th scope="col">Market-cap weight</th>'
+            '<th class="num" scope="col">Equal weight</th><th scope="col" class="refs">Market cap from</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>{notes}'
+            f'<p class="legend">{legend}Share prices are in each share\'s own currency. US dollar market caps '
+            'are used only to set the weights.</p>')
+
+
+def stock_levels(ctx):
+    """Every month-end level of both indexes: the numbers behind the chart."""
+    ix = ctx.ix
+    months = ix["months"]
+    head = "".join(f'<th class="num" scope="col">{m}</th>' for m in charts.MONTH_NAMES)
+    out = []
+    for key in ("cap", "eq"):
+        level = dict(zip(months, ix[key]))
+        rows = []
+        for year, start, end, done in stockindex.year_spans(months):
+            tds = "".join(f'<td class="num">{f_level(level[f"{year}-{m:02d}"])}</td>' if f"{year}-{m:02d}" in level
+                          else '<td class="num na"></td>' for m in range(1, 13))
+            rows.append(f'<tr><th scope="row">{year}</th>{tds}'
+                        f'<td class="num lat">{f_change(stockindex.change(ix[key], months, start, end) * 100)}</td></tr>')
+        out.append(f'<h3 class="h-sub">{INDEX_NAMES[key]} index</h3><div class="table-wrap"><table class="t fin lv">'
+                   f'<thead><tr><th scope="col">Year</th>{head}<th class="num lat" scope="col">Year\'s return</th></tr>'
+                   f'</thead><tbody>{"".join(rows)}</tbody></table></div>')
+    last = months[-1]
+    return "".join(out) + (f'<p class="legend">Both indexes are {f_level(stockindex.BASE_LEVEL)} at the end of '
+                           f'{ln_month(months[0])}. The return for {last[:4]} runs to the end of {ln_month(last)}. '
+                           f'All levels are computed here by <code>tools/stockindex.py</code>.</p>')
+
+
+def stock_blocks(ctx):
+    """Every slot on the TIC stock price screen. The tables share one numbered source list."""
+    refs = Refs(ctx, "src-stock")
+    out = {
+        "stock_last": fdate(ctx.px["last_date"]),
+        "stock_read_on": fdate(ctx.px["read_on"], long=True),
+        "stock_base": fdate(ctx.ix["months"][0], long=True),
+        "stock_tiles": stock_tiles(ctx),
+        "stock_chart": stock_chart(ctx),
+        "stock_returns": stock_returns(ctx, refs),
+        "stock_weights": stock_weights(ctx, refs),
+        "stock_levels": stock_levels(ctx),
+        "stock_method": bullet(ctx, "method", ctx.px),
+        "stock_limits": bullet(ctx, "limits", ctx.px),
+    }
+    out["stock_sources"] = refs.render()
+    return out
 
 
 # ---------- sources and method ----------
@@ -735,12 +1007,17 @@ def labels_table(ctx):
 
 def review_block(ctx):
     t = tally(ctx.d)
+    px = price_sources(ctx.d)
+    px_done = sum(1 for sid in px if ctx.src[sid].get("reviewed_by"))
     return (f'<p class="review"><span class="review-n">{t["checked"]:,} of {t["sourced"]:,}</span> sourced figures have been '
-            f'checked against their source by a person.</p><p class="sub">{esc(ctx.meta["review"]["how"])}</p>')
+            f'checked against their source by a person.</p><p class="sub">{esc(ctx.meta["review"]["how"])}</p>'
+            f'<p class="sub">Share prices are counted by source, not by figure: {px_done} of {len(px)} price and '
+            f'market-cap sources behind <a href="{ctx.href("stock")}">TIC stock price</a> have been checked.</p>')
 
 
-def bullet(ctx, key):
-    return '<ul class="notes">' + "".join(f"<li>{esc(x)}</li>" for x in ctx.meta[key]) + "</ul>"
+def bullet(ctx, key, where=None):
+    items = (where or ctx.meta)[key]
+    return '<ul class="notes">' + "".join(f"<li>{esc(x)}</li>" for x in items) + "</ul>"
 
 
 def register(ctx):
@@ -770,6 +1047,9 @@ def slots(ctx):
         "href_earnings": ctx.href("earnings"),
         "href_financials": ctx.href("financials"),
         "href_sources": ctx.href("sources"),
+        "href_stock": ctx.href("stock"),
+        "sec_first": ctx.sec_no(ctx.order[0]),
+        "sec_last": ctx.sec_no(ctx.order[-1]),
         "n_companies": str(len(ctx.order)),
         "n_industry_news": str(len(news_items(ctx, False))),
         "n_earnings_news": str(len(news_items(ctx, True))),
@@ -793,6 +1073,7 @@ def slots(ctx):
         "earnings_feed": feed(ctx, earnings=True),
         "jumpbar": jumpbar(ctx),
         "companies": companies(ctx),
+        **stock_blocks(ctx),
         "labels_table": labels_table(ctx),
         "review": review_block(ctx),
         "comparability": bullet(ctx, "comparability"),

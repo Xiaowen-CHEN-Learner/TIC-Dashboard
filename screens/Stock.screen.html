@@ -1,0 +1,41 @@
+<header class="page-head">
+  <div>
+    <p class="crumb">TIC Industry Dashboard / TIC stock price</p>
+    <h1>TIC stock price</h1>
+    <p class="lede">Two indexes of the seven shares, month by month since the end of {{stock_base}}. One weights each share by its market capitalisation; the other gives every share the same weight. Both count dividends as reinvested.</p>
+  </div>
+  <p class="pills"><span class="pill pill-strong">To {{stock_last}}</span><span class="pill">{{n_companies}} shares</span><span class="pill">5 currencies</span></p>
+</header>
+{{banner}}
+{{stock_tiles}}
+{{stock_chart}}
+<section class="card" aria-labelledby="sp-h-returns">
+  <h2 id="sp-h-returns">Total return by calendar year</h2>
+  <p class="sub">The two indexes, then each share in its own currency. Computed here from month-end adjusted prices.</p>
+  {{stock_returns}}
+</section>
+<section class="card" aria-labelledby="sp-h-weights">
+  <h2 id="sp-h-weights">Shares and weights at {{stock_last}}</h2>
+  <p class="sub">The weight each share carries into the next month. The equal-weighted index gives every share the same weight.</p>
+  {{stock_weights}}
+</section>
+<section class="card" aria-labelledby="sp-h-levels">
+  <h2 id="sp-h-levels">Index level at each month end</h2>
+  <p class="sub">The numbers behind the chart. Both indexes are 100 at the end of {{stock_base}}.</p>
+  {{stock_levels}}
+</section>
+<div class="grid2">
+  <section class="card" aria-labelledby="sp-h-method">
+    <h2 id="sp-h-method">How the indexes are built</h2>
+    {{stock_method}}
+  </section>
+  <section class="card" aria-labelledby="sp-h-limits">
+    <h2 id="sp-h-limits">What to keep in mind</h2>
+    {{stock_limits}}
+  </section>
+</div>
+<section class="card" aria-labelledby="sp-h-sources">
+  <h2 id="sp-h-sources">Price and market-cap sources</h2>
+  <p class="sub">Read on {{stock_read_on}}. Links open the source in a new tab.</p>
+  {{stock_sources}}
+</section>

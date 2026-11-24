@@ -5,6 +5,7 @@
     {"id": "industry-news", "num": "01", "label": "Industry news", "template": "IndustryNews.screen.html", "file": "IndustryNews.html"},
     {"id": "earnings", "num": "02", "label": "TIC earnings news", "template": "EarningsNews.screen.html", "file": "EarningsNews.html", "was": ["News.html"]},
     {"id": "financials", "num": "03", "label": "Company financials", "template": "Financials.screen.html", "file": "Financials.html"},
-    {"id": "sources", "num": "04", "label": "Sources and method", "template": "Sources.screen.html", "file": "Sources.html"}
+    {"id": "sources", "num": "04", "label": "Sources and method", "template": "Sources.screen.html", "file": "Sources.html"},
+    {"id": "stock", "num": "05", "label": "TIC stock price", "template": "Stock.screen.html", "file": "Stock.html"}
   ]
 }

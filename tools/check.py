@@ -13,8 +13,10 @@ What it checks
   3. Arithmetic: growth rates, margins, segment totals and declared period sums agree with the figures.
   4. News: required fields, known company and type, dated on or before the as-of date, newest first.
      Calendar entries say whether they are earnings dates or other dates.
-  5. Writing: no banned words, no long quotations, no emoji.
-  6. Built pages: no empty slots, balanced tags, unique ids, every internal link resolves.
+  5. Share prices: one price or return for every month a share is in the index, a source for
+     every series, published returns that agree with the prices, and indexes that compute.
+  6. Writing: no banned words, no long quotations, no emoji.
+  7. Built pages: no empty slots, balanced tags, unique ids, every internal link resolves.
 """
 import pathlib
 import re
@@ -24,6 +26,7 @@ from html.parser import HTMLParser
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import model         # noqa: E402
 import build_static  # noqa: E402
+import stockindex    # noqa: E402
 
 TOL = 0.15  # percentage points allowed between a stated rate and the one recomputed from rounded figures
 DATE = re.compile(r"^\d{4}-(0[1-9]|1[0-2])(-(0[1-9]|[12]\d|3[01]))?$")
@@ -306,7 +309,99 @@ def check_news(d, src):
         err(f"news.json types: needs {sorted(model.EARNINGS_TYPES)}, the types shown on the TIC earnings news screen")
 
 
-# ---------- 5. writing ----------
+# ---------- 5. share prices ----------
+
+MONTH = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+MAX_MONTHLY_MOVE = 0.7  # a monthly move beyond this is far more likely a typing slip than a real return
+
+
+def check_pairs(pairs, where, positive):
+    """A list of [month, number] pairs in month order with no gap. Returns the months."""
+    months = []
+    if not isinstance(pairs, list):
+        err(f"{where}: must be a list of [month, number] pairs")
+        return months
+    for pair in pairs:
+        if not (isinstance(pair, list) and len(pair) == 2 and MONTH.match(str(pair[0])) and num(pair[1])):
+            err(f"{where}: {pair!r} is not a [month, number] pair")
+            return months
+        if positive and pair[1] <= 0:
+            err(f"{where} {pair[0]}: must be above zero")
+        if months and pair[0] != stockindex.next_month(months[-1]):
+            err(f"{where}: {pair[0]} does not follow {months[-1]}; months must run in order with no gap")
+        months.append(pair[0])
+    return months
+
+
+def check_prices(d, src):
+    px, order = d["prices"], d["companies"]["order"]
+    w = "prices.json"
+    before = len(errors)
+    for k in ("base", "last"):
+        if not MONTH.match(str(px.get(k))):
+            err(f"{w}: {k} must be YYYY-MM")
+            return
+    if px["base"] >= px["last"]:
+        err(f"{w}: base must be before last")
+        return
+    for k in ("last_date", "read_on"):
+        if not DATE.match(str(px.get(k))) or len(px[k]) != 10:
+            err(f"{w}: {k} must be YYYY-MM-DD")
+    if str(px.get("last_date"))[:7] != px["last"] or str(px.get("last_date")) > d["meta"]["as_of"]:
+        err(f"{w}: last_date must fall in the last month and not after the as-of date")
+    if set(px["series"]) != set(order) or set(px["market_caps"]) != set(order):
+        err(f"{w}: series and market_caps need exactly the companies in companies.json order")
+        return
+    for cid in order:
+        s, ws = px["series"][cid], f"{w} {cid}"
+        need(src, s.get("src"), ws)
+        for k in ("symbol", "market", "currency"):
+            if not s.get(k):
+                err(f"{ws}: missing {k}")
+        if s.get("price_dp") not in (0, 1, 2) or not num(s.get("last_close")) or s["last_close"] <= 0:
+            err(f"{ws}: needs price_dp of 0, 1 or 2 and a last_close above zero")
+        adj_months = check_pairs(s.get("adj"), f"{ws} adj", positive=True)
+        if not adj_months or adj_months[-1] != px["last"]:
+            err(f"{ws}: adj must end at {px['last']}")
+        if s.get("ret") is not None:
+            need(src, s.get("ret_src"), f"{ws} ret")
+            check_pairs(s["ret"], f"{ws} ret", positive=False)
+            adj = dict(s.get("adj") or [])
+            for month, published in s["ret"]:
+                prev = [m for m in adj if stockindex.next_month(m) == month]
+                if month in adj and prev:
+                    close((adj[month] / adj[prev[0]] - 1) * 100, published, stockindex.RET_TOLERANCE + 0.05,
+                          f"{ws} ret {month}", "published return against the one from prices")
+        mcap, wm = px["market_caps"][cid], f"{w} market_caps {cid}"
+        need(src, mcap.get("src"), wm)
+        values = mcap.get("values")
+        if not isinstance(values, list) or not values:
+            err(f"{wm}: needs at least one [month, USD billion] pair")
+        else:
+            for pair in values:
+                if not (isinstance(pair, list) and len(pair) == 2 and MONTH.match(str(pair[0])) and num(pair[1])
+                        and pair[1] > 0):
+                    err(f"{wm}: {pair!r} is not a [month, USD billion] pair")
+    if len(errors) > before:  # the indexes need clean inputs; report those problems first
+        return
+    try:
+        result = stockindex.build(px, order)
+    except (ValueError, KeyError, ZeroDivisionError) as e:
+        err(f"{w}: the indexes cannot be computed: {e}")
+        return
+    for cid in order:
+        for month, r in zip(result["months"], result["returns"][cid]):
+            if r is not None and abs(r) > MAX_MONTHLY_MOVE:
+                err(f"{w} {cid} {month}: a monthly return of {r * 100:.0f}% looks like a typing slip")
+    for name in ("cap", "eq"):
+        if result[name][0] != stockindex.BASE_LEVEL or min(result[name]) <= 0:
+            err(f"{w}: the {name} index must start at {stockindex.BASE_LEVEL:g} and stay above zero")
+    for month, weights in zip(result["months"], result["weights"]):
+        if weights is not None and abs(sum(weights.values()) - 1) > 1e-9:
+            err(f"{w} {month}: market-cap weights do not add up to 100%")
+
+
+# ---------- 6. writing ----------
 
 def strings(x, path=""):
     if isinstance(x, str):
@@ -322,7 +417,7 @@ def strings(x, path=""):
 
 def check_writing(d):
     texts = []
-    for name in ("meta", "companies", "financials", "news"):
+    for name in ("meta", "companies", "financials", "news", "prices"):
         texts += [(f"{name}.json {p}", s) for p, s in strings(d[name])]
     texts += [(f"sources.json {sid}.title", s["title"]) for sid, s in d["sources"]["sources"].items()]
     for f in sorted(model.SCREENS.glob("*.html")):
@@ -339,7 +434,7 @@ def check_writing(d):
             err(f"{where}: emoji or pictograph. Use words")
 
 
-# ---------- 6. built pages ----------
+# ---------- 7. built pages ----------
 
 class Page(HTMLParser):
     def __init__(self):
@@ -434,6 +529,7 @@ def main():
     if extra:
         err(f"financials.json: companies not in companies.json order: {sorted(extra)}")
     check_news(d, src)
+    check_prices(d, src)
     check_writing(d)
     pages = check_pages(d)
 
@@ -442,6 +538,10 @@ def main():
     print(f"Sources {len(src)}; news items {len(d['news']['news'])}; pages built {len(pages)}")
     print("Figures by evidence label: " + ", ".join(f"{k} {v}" for k, v in t["by_label"].items()))
     print(f"Checked by a person: {t['checked']} of {t['sourced']} sourced figures")
+    px = model.price_sources(d)
+    print(f"Share prices: {sum(len(s['adj']) for s in d['prices']['series'].values())} month-end prices to "
+          f"{d['prices']['last']}; {sum(1 for sid in px if src[sid].get('reviewed_by'))} of {len(px)} price and "
+          f"market-cap sources checked by a person")
     if unused:
         print(f"Note: {len(unused)} sources are in the register but not cited: {', '.join(unused)}")
     if errors:
