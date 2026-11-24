@@ -1,0 +1,38 @@
+{
+  "title": "TIC Industry Dashboard",
+  "subtitle": "Testing, inspection and certification: listed-company news and financials",
+  "as_of": "2026-11-23",
+  "banner": "Compiled by an AI assistant from public sources on {as_of}. No figure has yet been checked by a person. Company measures differ and are not like-for-like. This is not investment advice.",
+
+  "review": {
+    "how": "A figure counts as checked when its source in data/sources.json carries reviewed_by and reviewed_on. Open the source, compare every figure that cites it, then add the two fields."
+  },
+
+  "evidence_labels": {
+    "verified_public_record": "Taken from a regulatory filing or a regulated exchange announcement, or a faithful copy of one.",
+    "company_claim": "Stated by the company outside a regulated results document. Every outlook and target carries this label.",
+    "secondary_report": "Taken from news coverage, a call summary, a data aggregator or an adviser note. Replace with the company document when it is available.",
+    "computed": "Calculated here from other figures on the page. The formula is shown in the table notes.",
+    "not_found_in_scoped_search": "Looked for and not found in the sources used. Never estimated."
+  },
+
+  "comparability": [
+    "Profit measures differ. UL Solutions, Eurofins and TIC Solutions report adjusted EBITDA; SGS, Bureau Veritas and Intertek report an adjusted operating profit after depreciation; ALS reports underlying EBIT. The overview charts keep the two families apart.",
+    "Growth measures differ. Intertek reports like-for-like growth at constant currency; the others report organic growth on their own definitions. TIC Solutions also gives a combined growth rate that treats NV5 as owned in both periods.",
+    "Reporting periods differ. ALS has a 31 March year end, so its half year runs April to September. SGS, Bureau Veritas, Intertek and Eurofins publish revenue only at Q1 and Q3.",
+    "Currencies are left as reported: USD, CHF, EUR, GBP and AUD. Nothing is converted, so revenue figures cannot be added or ranked across companies.",
+    "Each year is shown as it appears in the most recent release that presents it. Later restatements can change comparatives; where a restated figure is used, the table notes say so."
+  ],
+
+  "known_gaps": [
+    "ALS half-year FY27 figures (released 23 November 2026) come from press coverage only. Replace them with the ASX release and Appendix 4D.",
+    "SGS: net debt and leverage at the end of 2025 were not found. Sales by business line were not captured. FY2024 and FY2025 profit attributable come from secondary sources.",
+    "UL Solutions: FY2022 revenue comes from a data aggregator. Debt, cash and dividends for FY2022 and FY2023 were not captured. The first-quarter 2026 release was not captured; Q1 revenue is derived.",
+    "Bureau Veritas: annual figures come from the company's key-figures web page, not the Universal Registration Document. Nine-month 2026 revenue is on a new basis and does not equal H1 plus Q3.",
+    "Intertek: FY2025 statutory profit after tax was not found. Revenue by division was not captured. Equity and enterprise values for the EQT offer differ between sources.",
+    "Eurofins: FY2025 figures are preliminary and unaudited. Group organic growth for FY2024 was not captured. FY2022 and FY2023 organic growth is for the core business only.",
+    "TIC Solutions: 2024 is split into Predecessor and Successor periods, and NV5 joins from 4 August 2025, so year-on-year growth is not like-for-like. Cash flow and balance-sheet figures for 2024 were not captured.",
+    "Next results dates were found only for SGS and ALS.",
+    "Share prices, valuation multiples and analyst consensus are out of scope for this version."
+  ]
+}

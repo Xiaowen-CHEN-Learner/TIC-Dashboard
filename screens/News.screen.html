@@ -1,0 +1,38 @@
+<header class="page-head">
+  <div>
+    <p class="crumb">TIC Industry Dashboard / TIC news</p>
+    <h1>TIC news</h1>
+    <p class="lede">Earnings results, earnings calls, deals and strategy updates from the seven companies since January 2026.</p>
+  </div>
+  <p class="pills"><span class="pill pill-strong">As of {{as_of}}</span><span class="pill">{{n_news}} news items</span></p>
+</header>
+{{banner}}
+<div class="filterbar">
+  <p class="filter-k">Show</p>
+  {{company_chips}}
+</div>
+<section class="card" aria-labelledby="nw-h-results">
+  <h2 id="nw-h-results">Earnings results this year</h2>
+  <p class="sub">One row per results release or trading update, newest first. Amounts are in each company's reporting currency.</p>
+  {{results_log}}
+</section>
+<section class="card" aria-labelledby="nw-h-calls">
+  <h2 id="nw-h-calls">Earnings calls</h2>
+  <p class="sub">The latest call or investor event for each company: the main points reported, and where to read or hear it. Points are paraphrased from the release and from third-party call records. They are not quotations.</p>
+  {{calls}}
+</section>
+<section class="card" aria-labelledby="nw-h-cal">
+  <h2 id="nw-h-cal">Confirmed dates ahead</h2>
+  <p class="sub">Only dates found in a company document are listed.</p>
+  {{calendar}}
+</section>
+<section class="card" aria-labelledby="nw-h-feed">
+  <div class="card-head">
+    <div>
+      <h2 id="nw-h-feed">News</h2>
+      <p class="sub" data-count aria-live="polite">{{n_news}} items</p>
+    </div>
+    {{type_chips}}
+  </div>
+  {{feed}}
+</section>

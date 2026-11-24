@@ -1,0 +1,46 @@
+<header class="page-head">
+  <div>
+    <p class="crumb">TIC Industry Dashboard / Sources and method</p>
+    <h1>Sources and method</h1>
+    <p class="lede">Where every figure comes from, how it is labelled, and what is still missing.</p>
+  </div>
+  <p class="pills"><span class="pill pill-strong">As of {{as_of}}</span><span class="pill">{{n_sources}} sources</span></p>
+</header>
+{{banner}}
+<div class="grid2">
+  <section class="card" aria-labelledby="so-h-method">
+    <h2 id="so-h-method">How this dashboard is compiled</h2>
+    <ul class="notes">
+      <li>Figures come from company results releases, regulatory filings and exchange announcements where one was found. Otherwise they come from news coverage, call records or data providers, and are labelled as such.</li>
+      <li>Every figure carries a source. A figure that was not found is shown as n/f. Nothing is estimated.</li>
+      <li>Outlook statements and targets are the companies' own claims and carry the company_claim label.</li>
+      <li>Growth rates, margins, segment totals and period sums are recomputed by <code>tools/check.py</code> and must agree with the stated figures.</li>
+      <li>News summaries are written in plain words from the sources listed. They are not quotations.</li>
+      <li>The dashboard holds public information only. It is not investment advice.</li>
+    </ul>
+  </section>
+  <section class="card" aria-labelledby="so-h-review">
+    <h2 id="so-h-review">Human review</h2>
+    {{review}}
+  </section>
+</div>
+<section class="card" aria-labelledby="so-h-labels">
+  <h2 id="so-h-labels">Evidence labels</h2>
+  <p class="sub">Each figure and news item shows one of these labels. The count is the number of figures on the company financials screen.</p>
+  {{labels_table}}
+</section>
+<div class="grid2">
+  <section class="card" aria-labelledby="so-h-compare">
+    <h2 id="so-h-compare">Why the companies are not like-for-like</h2>
+    {{comparability}}
+  </section>
+  <section class="card" id="gaps" aria-labelledby="so-h-gaps">
+    <h2 id="so-h-gaps">Known gaps</h2>
+    {{gaps}}
+  </section>
+</div>
+<section class="card" aria-labelledby="so-h-register">
+  <h2 id="so-h-register">Source register</h2>
+  <p class="sub">{{n_sources}} sources, accessed {{as_of_long}}. Links open the source in a new tab.</p>
+  {{register}}
+</section>

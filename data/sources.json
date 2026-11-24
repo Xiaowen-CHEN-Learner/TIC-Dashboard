@@ -1,0 +1,881 @@
+{
+ "accessed": "2026-11-23",
+ "kinds": {
+  "filing": "Regulatory filing or regulated exchange announcement (SEC EDGAR, ASX, LSE RNS, SIX ad hoc, AMF / Euronext regulated release), including faithful copies on news wires",
+  "company": "Company web page or press release outside a regulated results document",
+  "news": "News coverage",
+  "transcript": "Earnings-call transcript or call summary from a third party",
+  "aggregator": "Financial data aggregator",
+  "advisory": "Adviser or consultancy report"
+ },
+ "sources": {
+  "uls_q3_26": {
+   "title": "UL Solutions Inc. reports third quarter 2026 results (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2026-11-03",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001901440/000190144026000029/exhibit991q32026ulsolution.htm"
+  },
+  "uls_q3_quartr": {
+   "title": "UL Solutions Q3 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-11-03",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/ul-solutions-inc-uls-q3-2026_F3R49WFs"
+  },
+  "uls_q2_26": {
+   "title": "UL Solutions Inc. reports second quarter 2026 results (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2026-08-04",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001901440/000190144026000021/exhibit991q22026ulsolution.htm"
+  },
+  "uls_fy25": {
+   "title": "UL Solutions Inc. reports fourth quarter and full-year 2025 results (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2026-02-19",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000190144026000003/exhibit991q42025ulsolution.htm"
+  },
+  "uls_fy24": {
+   "title": "UL Solutions Inc. reports fourth quarter and full year 2024 results (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2025-02-20",
+   "kind": "filing",
+   "url": "https://sec.gov/Archives/edgar/data/1901440/000190144025000010/exhibit991q4ulsolutionsear.htm"
+  },
+  "uls_10k_24": {
+   "title": "UL Solutions Inc. Form 10-K for fiscal year 2024",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2025-02-20",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000190144025000012/uls-20241231.htm"
+  },
+  "uls_s1_24": {
+   "title": "UL Solutions Inc. Form S-1 (summary financial and non-GAAP data, 2021 to 2023)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2024-09-03",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000162828024039106/uls-20240903.htm"
+  },
+  "uls_sa": {
+   "title": "UL Solutions income statement, FY2021 to FY2025",
+   "publisher": "StockAnalysis",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://stockanalysis.com/stocks/uls/financials/income-statement/"
+  },
+  "uls_ee_agree": {
+   "title": "UL Solutions agrees to acquire Eurofins Scientific's Electrical & Electronics business (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2026-04-13",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000119312526152920/d900814dex991.htm"
+  },
+  "uls_ee_close": {
+   "title": "UL Solutions completes acquisition of Eurofins Scientific's Electrical & Electronics business (Form 8-K, Exhibit 99.1)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2026-10-01",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0001901440/000162828026064246/exhibit991pressreleaseoful.htm"
+  },
+  "sgs_q3_26": {
+   "title": "SGS third quarter 2026 sales update (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2026-10-23",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en/news/2026/10/sgs-third-quarter-2026-sales-update"
+  },
+  "sgs_h1_26": {
+   "title": "SGS 2026 half year results (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2026-07-24",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en/news/2026/07/sgs-2026-half-year-results"
+  },
+  "sgs_fy25": {
+   "title": "SGS 2025 full year results (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2026-02-11",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en-ch/news/2026/02/2025-full-year-results"
+  },
+  "sgs_fy25_rtt": {
+   "title": "SGS FY25 results rise, sees sales growth in FY26",
+   "publisher": "RTTNews",
+   "date": "2026-02-11",
+   "kind": "news",
+   "url": "https://www.rttnews.com/3620019/sgs-fy25-results-rise-sees-sales-growth-in-fy26-confirms-fy27-view.aspx"
+  },
+  "sgs_fy24": {
+   "title": "SGS 2024 full year results (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2025-02-11",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en-ch/news/2025/02/sgs-2024-full-year-results"
+  },
+  "sgs_fy24_ro": {
+   "title": "SGS 2024 full year results, Romanian edition (PDF with financial highlights table)",
+   "publisher": "SGS",
+   "date": "2025-02-11",
+   "kind": "filing",
+   "url": "https://www.sgs.com/-/media/sgscorp/documents/rezultate-financiare-sgs-full-year-2024.cdn.ro-RO.1.pdf"
+  },
+  "sgs_ir24": {
+   "title": "SGS 2024 Integrated Report",
+   "publisher": "SGS",
+   "date": "2025-02-11",
+   "kind": "filing",
+   "url": "https://www.sgs.com/-/media/sgscorp/documents/corporate/reports-and-presentations/2020s/2025/sgs-2024-integrated-report-en.cdn.en.pdf"
+  },
+  "sgs_fy24_quartr": {
+   "title": "SGS H2 2024 earnings summary",
+   "publisher": "Quartr",
+   "date": "2025-02-11",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/sgs-sa-sgsn-h2-2024_oqgiIXmG"
+  },
+  "sgs_fy24_bw": {
+   "title": "SGS on track thanks to higher sales and improved profitability",
+   "publisher": "blue News (Keystone-SDA)",
+   "date": "2025-02-11",
+   "kind": "news",
+   "url": "https://www.bluewin.ch/en/news/sgs-on-track-thanks-to-higher-sales-and-improved-profitability-li.2555388"
+  },
+  "sgs_fy23": {
+   "title": "SGS 2023 full year results, earnings release (PDF)",
+   "publisher": "SGS",
+   "date": "2024-01-26",
+   "kind": "filing",
+   "url": "https://www.sgs.com/-/media/sgscorp/documents/corporate/reports-and-presentations/2020s/2023/sgs-2023-full-year-results-earnings-release-en.cdn.en.pdf"
+  },
+  "sgs_prescient": {
+   "title": "SGS acquires Prescient Security in the US",
+   "publisher": "SGS",
+   "date": "2026-10-02",
+   "kind": "company",
+   "url": "https://www.sgs.com/en/news/2026/10/sgs-acquires-prescient-security-in-the-us"
+  },
+  "sgs_cme": {
+   "title": "Capital Markets Event 2026: SGS unveils Strategy 2030",
+   "publisher": "SGS",
+   "date": "2026-11-18",
+   "kind": "company",
+   "url": "https://www.sgs.com/en-gb/news/2026/11/capital-markets-event-2026-sgs-unveils-strategy-2030-leading-the-future-of-trust"
+  },
+  "sgs_cme_inv": {
+   "title": "SGS targets 5-7% annual organic sales growth, 17% margin by 2030",
+   "publisher": "Investing.com",
+   "date": "2026-11-18",
+   "kind": "news",
+   "url": "https://www.investing.com/news/stock-market-news/sgs-targets-57-annual-organic-sales-growth-17-margin-by-2030-5034773"
+  },
+  "sgs_cme_tv": {
+   "title": "Weekly recap: Strategy 27 early completion and 2026 outlook, dividend plan",
+   "publisher": "TradingView News",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://www.tradingview.com/news/tradingview:9cfdd81669db0:0-weekly-recap-strategy-27-early-completion-and-2026-outlook-dividend-plan/"
+  },
+  "sgs_ir": {
+   "title": "SGS investor relations page (financial calendar)",
+   "publisher": "SGS",
+   "date": null,
+   "kind": "company",
+   "url": "https://www.sgs.com/en/investors/investor-relations"
+  },
+  "sgs_hq": {
+   "title": "SGS inaugurates new global headquarters in Baar, Switzerland",
+   "publisher": "SGS",
+   "date": "2026-01-30",
+   "kind": "company",
+   "url": "https://www.sgs.com/en/news/2026/01/sgs-inaugurates-new-global-headquarters-in-baar-switzerland"
+  },
+  "bv_q3_26": {
+   "title": "Bureau Veritas: double-digit total revenue growth in the third quarter of 2026 (Business Wire release)",
+   "publisher": "Bureau Veritas via TT / Business Wire",
+   "date": "2026-10-21",
+   "kind": "filing",
+   "url": "https://via.tt.se/pressmeddelande/4607671/bureau-veritas-double-digit-total-revenue-growth-in-the-third-quarter-of-2026?lang=en"
+  },
+  "bv_cmd_26": {
+   "title": "Bureau Veritas confirms LEAP | 28 ambition and upgrades total revenue growth for 2027-2028 (Capital Markets Day release)",
+   "publisher": "Bureau Veritas via Taiwan News / Business Wire",
+   "date": "2026-09-22",
+   "kind": "company",
+   "url": "https://taiwannews.com.tw/en/news/6444276"
+  },
+  "bv_h1_26": {
+   "title": "Bureau Veritas H1 2026 results press release",
+   "publisher": "Bureau Veritas",
+   "date": "2026-07-29",
+   "kind": "filing",
+   "url": "https://group.bureauveritas.com/newsroom/delivering-our-commitments-higher-sequential-organic-growth-q2"
+  },
+  "bv_h1_26_bw": {
+   "title": "Bureau Veritas H1 2026 results (Business Wire copy with key figures table)",
+   "publisher": "Bureau Veritas via Business Wire",
+   "date": "2026-07-29",
+   "kind": "filing",
+   "url": "https://www.businesswire.com/news/home/20260728246725/en/"
+  },
+  "bv_h1_26_call": {
+   "title": "Bureau Veritas half year 2026 earnings call transcript",
+   "publisher": "GuruFocus",
+   "date": "2026-07-29",
+   "kind": "transcript",
+   "url": "https://www.gurufocus.com/stock/LTS:0MH1/transcripts/8993219"
+  },
+  "bv_q1_26": {
+   "title": "Bureau Veritas Q1 2026 revenue press release",
+   "publisher": "Bureau Veritas via Euronext",
+   "date": "2026-04-22",
+   "kind": "filing",
+   "url": "https://live.euronext.com/en/products/equities/company-news/2026-04-22-bureau-veritas-steady-organic-revenue-growth-first"
+  },
+  "bv_q1_26_quartr": {
+   "title": "Bureau Veritas Q1 2026 trading update summary",
+   "publisher": "Quartr",
+   "date": "2026-04-22",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/bureau-veritas-sa-bvi-q1-2026-tu_oCvhZmey"
+  },
+  "bv_fy25": {
+   "title": "Bureau Veritas FY 2025 results press release",
+   "publisher": "Bureau Veritas",
+   "date": "2026-02-25",
+   "kind": "filing",
+   "url": "https://group.bureauveritas.com/newsroom/sector-leading-organic-revenue-growth-65-fy-2025-strong-margin-improvement-163-fy"
+  },
+  "bv_fy25_bw": {
+   "title": "Bureau Veritas FY 2025 results (Business Wire copy with key figures table)",
+   "publisher": "Bureau Veritas via Business Wire",
+   "date": "2026-02-25",
+   "kind": "filing",
+   "url": "https://www.businesswire.com/news/home/20260224846309/en/"
+  },
+  "bv_keyfig": {
+   "title": "Bureau Veritas key figures, 2021 to 2025",
+   "publisher": "Bureau Veritas",
+   "date": null,
+   "kind": "company",
+   "url": "https://group.bureauveritas.com/investors/our-profile/key-figures"
+  },
+  "bv_fy24": {
+   "title": "Bureau Veritas FY 2024 results press release",
+   "publisher": "Bureau Veritas via Business Wire",
+   "date": "2025-02-25",
+   "kind": "filing",
+   "url": "https://www.businesswire.com/news/home/20250224326662/en"
+  },
+  "bv_fy23": {
+   "title": "Bureau Veritas FY 2023 results press release",
+   "publisher": "Bureau Veritas via Euronext",
+   "date": "2024-02-22",
+   "kind": "filing",
+   "url": "https://live.euronext.com/en/products/equities/company-news/2024-02-22-bureau-veritas-excellent-2023-performance-strong-growth"
+  },
+  "bv_fy22": {
+   "title": "Bureau Veritas FY 2022 results press release (PDF)",
+   "publisher": "Bureau Veritas via AMF",
+   "date": "2023-02-23",
+   "kind": "filing",
+   "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/MKW/2023/02/FCMKW114181_20230223.pdf"
+  },
+  "bv_lotus": {
+   "title": "Bureau Veritas company events (agreement to acquire LotusWorks)",
+   "publisher": "Simply Wall St (S&P Capital IQ feed)",
+   "date": "2026-04-07",
+   "kind": "aggregator",
+   "url": "https://simplywall.st/stocks/us/commercial-services/otc-bvrd.f/bureau-veritas/past"
+  },
+  "itrk_q3_26": {
+   "title": "Intertek trading statement, 28 October 2026 (RNS)",
+   "publisher": "Intertek via Investegate",
+   "date": "2026-10-28",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/trading-statement/9844552"
+  },
+  "itrk_q3_26_an": {
+   "title": "Intertek quarterly sales rise ahead of GBP9.5 billion takeover by EQT",
+   "publisher": "Alliance News via AJ Bell",
+   "date": "2026-10-28",
+   "kind": "news",
+   "url": "https://www.ajbell.co.uk/news/articles/intertek-quarterly-sales-rise-ahead-gbp95-billion-takeover-eqt"
+  },
+  "itrk_q3_26_quartr": {
+   "title": "Intertek Q3 2026 trading update summary",
+   "publisher": "Quartr",
+   "date": "2026-10-28",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/intertek-group-plc-itrk-q3-2026-tu_oqbiDyql"
+  },
+  "itrk_h1_26": {
+   "title": "Intertek 2026 half year results announcement (RNS)",
+   "publisher": "Intertek via Investegate",
+   "date": "2026-07-31",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/half-year-financial-report/9697054"
+  },
+  "itrk_h1_26_quartr": {
+   "title": "Intertek H1 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-07-31",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/intertek-group-plc-itrk-h1-2026_oqbihSDH"
+  },
+  "itrk_h1_26_an": {
+   "title": "Intertek interim profit rises ahead of GBP10 billion takeover by EQT",
+   "publisher": "Alliance News via SharePrices",
+   "date": "2026-07-31",
+   "kind": "news",
+   "url": "https://shareprices.com/news/intertek-interim-profit-rises-ahead-of-gbp10-billion-takeover-by-eqt-0736tnn42juxbd2/"
+  },
+  "itrk_votes": {
+   "title": "Intertek: results of Court Meeting and General Meeting (RNS)",
+   "publisher": "Intertek via Investegate",
+   "date": "2026-08-06",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/results-of-court-meeting-and-general-meeting/9709222"
+  },
+  "itrk_offer": {
+   "title": "Recommended final cash offer for Intertek Group plc by Isotope Bidco Limited (RNS)",
+   "publisher": "EQT Fund Management via Investegate",
+   "date": "2026-06-18",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/recommended-final-cash-offer/9625392"
+  },
+  "itrk_offer_an": {
+   "title": "Intertek agrees 'attractive' GBP9.5 billion takeover offer from EQT",
+   "publisher": "Alliance News via AJ Bell",
+   "date": "2026-06-18",
+   "kind": "news",
+   "url": "https://www.ajbell.co.uk/news/articles/intertek-agrees-attractive-ps95-billion-takeover-offer-eqt"
+  },
+  "itrk_final_prop": {
+   "title": "EQT: statement regarding final possible offer for Intertek (RNS)",
+   "publisher": "EQT Fund Management via Investegate",
+   "date": "2026-05-12",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/statement-re-final-possible-offer/9563654"
+  },
+  "itrk_minded": {
+   "title": "Intertek set to accept higher approach from Swedish bidder",
+   "publisher": "Express & Star (PA)",
+   "date": "2026-05-13",
+   "kind": "news",
+   "url": "https://www.expressandstar.com/uk-news/intertek-set-to-accept-higher-ps94bn-approach-from-swedish-bidder-8542653"
+  },
+  "itrk_timeline": {
+   "title": "Intertek's path to the UK's third-largest private equity takeover",
+   "publisher": "Reuters via Euronext",
+   "date": "2026-06-18",
+   "kind": "news",
+   "url": "https://live.euronext.com/en/financial-news/interteks-path-uks-third-largest-private-equity-takeover"
+  },
+  "itrk_review": {
+   "title": "Intertek strategic review initiation and trading statement, 14 April 2026 (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2026-04-14",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/strategic-review-initiation-trading-statement-roboiwrty3suujp.html"
+  },
+  "itrk_review_dt": {
+   "title": "Intertek launches strategic review and reports 5.4% LFL revenue growth in Q1 2026 (RNS copy)",
+   "publisher": "Intertek via DirectorsTalk",
+   "date": "2026-04-14",
+   "kind": "filing",
+   "url": "https://www.directorstalkinterviews.com/intertek-launches-strategic-review-and-reports-5-4-lfl-revenue-growth-in-q1-2026/4121248820"
+  },
+  "itrk_review_rt": {
+   "title": "UK product testing firm Intertek weighs break up, shares jump",
+   "publisher": "Reuters via LSE.co.uk",
+   "date": "2026-04-14",
+   "kind": "news",
+   "url": "https://www.lse.co.uk/news/uk-product-testing-firm-intertek-weighs-break-up-shares-jump--5v9ujn6fro6bc6g.html"
+  },
+  "itrk_review_an": {
+   "title": "Intertek launches strategic review, names Mogford new chair",
+   "publisher": "Alliance News via Morningstar",
+   "date": "2026-04-14",
+   "kind": "news",
+   "url": "https://www.morningstar.co.uk/uk/news/AN_1776165525827506300/update-intertek-launches-strategic-review-names-mogford-new-chair.aspx"
+  },
+  "itrk_q1_quartr": {
+   "title": "Intertek Q1 2026 trading update summary",
+   "publisher": "Quartr",
+   "date": "2026-04-14",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/intertek-group-plc-itrk-q1-2026-tu_oqbiDQt9"
+  },
+  "itrk_fy25": {
+   "title": "Intertek 2025 full year results announcement (RNS)",
+   "publisher": "Intertek via Investegate",
+   "date": "2026-03-03",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/final-results/9454689"
+  },
+  "itrk_fy25_rns": {
+   "title": "Intertek 2025 full year results announcement (RNS copy with key financials table)",
+   "publisher": "Intertek via Stockopedia",
+   "date": "2026-03-03",
+   "kind": "filing",
+   "url": "https://www.stockopedia.com/share-prices/intertek-LON:ITRK/news/urn:newsml:reuters.com:20260303:nRSC0230Va"
+  },
+  "itrk_fy25_an": {
+   "title": "Intertek shares fall 12% despite steady earnings and higher dividend",
+   "publisher": "Alliance News via AJ Bell",
+   "date": "2026-03-03",
+   "kind": "news",
+   "url": "https://www.ajbell.co.uk/news/articles/intertek-shares-fall-12-despite-steady-earnings-and-higher-dividend"
+  },
+  "itrk_fy24": {
+   "title": "Intertek 2024 full year results announcement (RNS copy)",
+   "publisher": "Intertek via Stockopedia",
+   "date": "2025-03-04",
+   "kind": "filing",
+   "url": "https://www.stockopedia.com/share-prices/intertek-LON:ITRK/news/reg-intertek-group-plc-final-results-urn:newsml:reuters.com:20250304:nRSD1877Za"
+  },
+  "itrk_fy24_pdf": {
+   "title": "Intertek 2024 full year results announcement (PDF)",
+   "publisher": "Intertek",
+   "date": "2025-03-04",
+   "kind": "filing",
+   "url": "https://w3prep.intertek.se/siteassets/investors/2025/intertek-2024-full-year-results-announcement.pdf"
+  },
+  "itrk_fy23": {
+   "title": "Intertek 2023 full year results announcement (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2024-03-05",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/final-results-01r4lwswzwqg2qj.html"
+  },
+  "itrk_fy23_dt": {
+   "title": "Intertek 2023 full year results (RNS copy with statutory table)",
+   "publisher": "Intertek via DirectorsTalk",
+   "date": "2024-03-05",
+   "kind": "filing",
+   "url": "https://www.directorstalkinterviews.com/intertek-reports-highest-lfl-revenue-growth-in-the-last-10-years/4121146190"
+  },
+  "itrk_fy22": {
+   "title": "Intertek 2022 full year results announcement (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2023-02-28",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/final-results-69v31jnlxvc1z9q.html"
+  },
+  "itrk_fy22_inv": {
+   "title": "Intertek 2022 full year results announcement (RNS)",
+   "publisher": "Intertek via Investegate",
+   "date": "2023-02-28",
+   "kind": "filing",
+   "url": "https://www.investegate.co.uk/announcement/rns/intertek-group--itrk/final-results/7237688"
+  },
+  "erf_9m_26": {
+   "title": "Eurofins delivers improving organic growth through 9M 2026 (press release)",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-10-21",
+   "kind": "filing",
+   "url": "https://www.eurofins.com/en/media-centre/press-releases/eurofins-delivers-improving-organic-growth-through-9m-2026-remains-on-track-for-2026-and-mid-term-profitability-objectives/"
+  },
+  "erf_9m_26_ii": {
+   "title": "Eurofins: accelerating growth in the third quarter, but 2026 organic target out of reach",
+   "publisher": "Ideal Investisseur",
+   "date": "2026-10-21",
+   "kind": "news",
+   "url": "https://www.ideal-investisseur.fr/en/stock-news/eurofins-accelerating-growth-in-the-third-quarter-but-2026-organic-target-out-of-reach/27618.html"
+  },
+  "erf_h1_26": {
+   "title": "Eurofins 2026 half year results press release (PDF)",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-07-23",
+   "kind": "filing",
+   "url": "https://cdnmediaassets.eurofins.com/eurofins-corporate/media/xh1buk5m/eurofins-2026-half-year-results-press-release.pdf"
+  },
+  "erf_h1_26_pres": {
+   "title": "Eurofins H1 2026 results presentation (PDF)",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-07-23",
+   "kind": "company",
+   "url": "https://cdnmediaassets.eurofins.com/eurofins-corporate/media/scdcvdiq/eurofins-scientific-h1-2026-results-presentation.pdf"
+  },
+  "erf_h1_26_quartr": {
+   "title": "Eurofins Scientific Q2 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-07-23",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/eurofins-scientific-se-erf-q2-2026_3PENmrNF"
+  },
+  "erf_q1_26": {
+   "title": "Eurofins achieves organic growth of 2.6% in Q1 2026 (press release)",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-04-22",
+   "kind": "filing",
+   "url": "https://www.eurofins.com/en/media-centre/press-releases/eurofins-achieves-organic-growth-of-26-in-q1-2026-including-impact-of-exceptionally-severe-weather-2026-and-mid-term-objectives-reiterated/"
+  },
+  "erf_q1_26_quartr": {
+   "title": "Eurofins Scientific Q1 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-04-22",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/eurofins-scientific-se-erf-q1-2026_3PENmQDM"
+  },
+  "erf_fy25": {
+   "title": "Eurofins FY 2025 results press release, preliminary unaudited (PDF)",
+   "publisher": "Eurofins Scientific via AMF",
+   "date": "2026-01-29",
+   "kind": "filing",
+   "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/BWR/2026/01/FCBWR166349_20260129.pdf"
+  },
+  "erf_fy24": {
+   "title": "Eurofins FY 2024 results press release",
+   "publisher": "Eurofins Scientific via Euronext",
+   "date": "2025-01-30",
+   "kind": "filing",
+   "url": "https://live.euronext.com/en/products/equities/company-news/2025-01-30-eurofins-achieves-new-record-level-annual-revenues-while"
+  },
+  "erf_fy23": {
+   "title": "Eurofins FY 2023 results press release (PDF)",
+   "publisher": "Eurofins Scientific via AMF",
+   "date": "2024-02-27",
+   "kind": "filing",
+   "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/BWR/2024/02/FCBWR155326_20240227.pdf"
+  },
+  "erf_element_agree": {
+   "title": "Eurofins agrees to acquire Element Materials Technology's Life Sciences Testing Services business in North America",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-07-20",
+   "kind": "company",
+   "url": "https://www.eurofins.com/en/media-centre/press-releases/eurofins-agrees-to-acquire-element-materials-technology-s-life-sciences-testing-services-business-in-north-america/"
+  },
+  "erf_element_close": {
+   "title": "Eurofins completes the acquisition of Element Materials Technology's Life Sciences Testing Services business in North America",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-10-02",
+   "kind": "company",
+   "url": "https://www.eurofins.com/en/media-centre/press-releases/eurofins-completes-the-acquisition-of-element-materials-technology-s-life-sciences-testing-services-business-in-north-america/"
+  },
+  "als_h1_27_rtt": {
+   "title": "ALS Ltd. H1 profit surges, lifts FY27 organic revenue growth view; but stock drops",
+   "publisher": "RTTNews",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://www.rttnews.com/3716965/als-ltd-h1-profit-surges-lifts-fy27-organic-revenue-growth-view-but-stock-drops.aspx"
+  },
+  "als_h1_27_inv": {
+   "title": "ALS H1 FY27 slides: Minerals margin hits decade high, stock falls 12%",
+   "publisher": "Investing.com",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://www.investing.com/news/company-news/als-h1-fy27-slides-minerals-margin-hits-decade-high-stock-falls-12-93CH-5044194"
+  },
+  "als_h1_27_gf": {
+   "title": "ALS Ltd H1 2027 earnings call highlights",
+   "publisher": "GuruFocus",
+   "date": "2026-11-23",
+   "kind": "transcript",
+   "url": "https://www.gurufocus.com/news/9214349/als-ltd-cpblf-h1-2027-earnings-call-highlights-record-halfyear-profit-as-minerals-surge-offsets-life-sciences-weakness"
+  },
+  "als_h1_27_call": {
+   "title": "Earnings call transcript: ALS H1 2027",
+   "publisher": "Investing.com",
+   "date": "2026-11-23",
+   "kind": "transcript",
+   "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-als-h1-2027-profit-jumps-but-stock-falls-122-93CH-5044191"
+  },
+  "als_h1_27_kal": {
+   "title": "Underlying EBIT up 18.6%, shares down 10.98%: ALS revises its Life Sciences outlook",
+   "publisher": "Kalkine",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://kalkine.com.au/stock-analysis/industrials/underlying-ebit-up-186-shares-down-1098-als-asxalq-revises-its-life-sciences-outlook"
+  },
+  "als_h1_27_tip": {
+   "title": "ALS reports 21.6% underlying EPS growth and 250-basis-point margin expansion",
+   "publisher": "TipRanks",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://www.tipranks.com/news/company-announcements/als-reports-21-6-underlying-eps-growth-and-250-basis-point-margin-expansion"
+  },
+  "als_h1_27_sk": {
+   "title": "ALS Limited shares fall 12% on H1 results",
+   "publisher": "Skrill Network",
+   "date": "2026-11-23",
+   "kind": "news",
+   "url": "https://skrillnetwork.com/als-ltd-asx-alq-shares-plunge-12percent-as-life-sciences-weakness-overshadows-record-profit"
+  },
+  "als_fy26": {
+   "title": "ALS delivers record FY26 result (ASX release)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2026-05-18",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20260518/pdf/06zp39vt4cnw8n.pdf"
+  },
+  "als_fy26_pres": {
+   "title": "ALS FY26 results presentation (ASX)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2026-05-18",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20260518/pdf/06zp3d06q2jcdp.pdf"
+  },
+  "als_fy26_is": {
+   "title": "ALS Limited price-sensitive announcement summary, 18 May 2026",
+   "publisher": "InvestSMART",
+   "date": "2026-05-18",
+   "kind": "aggregator",
+   "url": "https://www.investsmart.com.au/investment-tools/shares/asx-price-sensitive-announcements/asx-alq/2526453"
+  },
+  "als_fy26_q": {
+   "title": "ALS H2 2026 (FY26) earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-05-18",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/als-limited-alq-h2-2026_FkvI8H9S"
+  },
+  "als_ar26": {
+   "title": "ALS Annual Report 2026 (financial calendar)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2026-06-26",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20260626/pdf/0711chvy78hk7q.pdf"
+  },
+  "als_fy25": {
+   "title": "ALS delivers solid FY25 result and launches A$350m equity raising (ASX release)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2025-05-27",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20250527/pdf/06k43drjyvb0jj.pdf"
+  },
+  "als_fy24": {
+   "title": "ALS Limited announces solid FY24 results amid market challenges",
+   "publisher": "ALS Limited",
+   "date": "2024-05-20",
+   "kind": "filing",
+   "url": "https://www.alsglobal.com/en/News-and-publications/2024/05/ALS-Limited-announces-solid-FY24-results-amid-market-challenges"
+  },
+  "als_ar24": {
+   "title": "ALS Annual Report 2024 (five-year financial highlights)",
+   "publisher": "ALS Limited via ASX",
+   "date": null,
+   "kind": "filing",
+   "url": "https://cdn-api.markitdigital.com/apiman-gateway/ASX/asx-research/1.0/file/2924-02821158-2A1531311"
+  },
+  "als_agm24": {
+   "title": "ALS 2024 Annual General Meeting, Chairman's address",
+   "publisher": "ALS Limited via FinancialReports.eu",
+   "date": null,
+   "kind": "filing",
+   "url": "https://financialreports.eu/filings/als-limited/agm-information/2024/37894913/"
+  },
+  "als_h1_26": {
+   "title": "ALS H1 FY26 results (ASX release)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2025-11-18",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20251118/pdf/06s3qy8vphhf3r.pdf"
+  },
+  "als_profile": {
+   "title": "ALS Limited company profile",
+   "publisher": "Yahoo Finance",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://sg.finance.yahoo.com/quote/ALQ.AX/profile"
+  },
+  "tic_q3_26": {
+   "title": "TIC Solutions reports results for the third quarter 2026 (Form 8-K, Exhibit 99.1)",
+   "publisher": "TIC Solutions via SEC EDGAR",
+   "date": "2026-11-05",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0002032966/000162828026070564/ticsolutions-x3q26earnings.htm"
+  },
+  "tic_q3_26_ew": {
+   "title": "TIC Solutions misses EPS by a penny, but organic growth and a raised revenue outlook shift the debate",
+   "publisher": "Earnings Whispers via Finviz",
+   "date": "2026-11-05",
+   "kind": "news",
+   "url": "https://finviz.com/news/417279/tic-solutions-misses-eps-by-a-penny-but-an-organic-growth-inflection-and-raised-revenue-outlook-shift-the-debate-to-cash-and-leverage"
+  },
+  "tic_q3_26_call": {
+   "title": "TIC Solutions Q3 2026 earnings call transcript",
+   "publisher": "Earnings Whispers",
+   "date": "2026-11-05",
+   "kind": "transcript",
+   "url": "https://www.earningswhispers.com/transcript/TIC/Q32026"
+  },
+  "tic_q3_26_quartr": {
+   "title": "TIC Solutions Q3 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-11-05",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/tic-solutions-inc-tic-q3-2026_FVEvAak0"
+  },
+  "tic_q2_26": {
+   "title": "TIC Solutions reports results for the second quarter 2026 (Form 8-K, Exhibit 99.1)",
+   "publisher": "TIC Solutions via SEC EDGAR",
+   "date": "2026-08-06",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0002032966/000162828026053818/ticsolutions-x2q26earnings.htm"
+  },
+  "tic_q2_26_bw": {
+   "title": "TIC Solutions reports results for the second quarter 2026 (Business Wire copy)",
+   "publisher": "TIC Solutions via Business Wire",
+   "date": "2026-08-06",
+   "kind": "filing",
+   "url": "https://www.businesswire.com/news/home/20260806635564/en/"
+  },
+  "tic_invday": {
+   "title": "TIC Solutions introduces 3 / 18 / 85 long-term financial performance framework at 2026 Investor Day",
+   "publisher": "TIC Solutions via Business Wire",
+   "date": "2026-05-19",
+   "kind": "company",
+   "url": "https://www.businesswire.com/news/home/20260519906273/en/"
+  },
+  "tic_q1_26": {
+   "title": "TIC Solutions reports results for the first quarter 2026 (Form 8-K, Exhibit 99.1)",
+   "publisher": "TIC Solutions via SEC EDGAR",
+   "date": "2026-05-06",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/0002032966/000162828026030884/ticsolutions-x1q26earnings.htm"
+  },
+  "tic_fy25": {
+   "title": "TIC Solutions reports results for the fourth quarter and full year 2025 and announces CEO succession (Form 8-K, Exhibit 99.1)",
+   "publisher": "TIC Solutions via SEC EDGAR",
+   "date": "2026-03-12",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/2032966/000162828026017010/confidential-ticsolutionsx.htm"
+  },
+  "tic_fy25_call": {
+   "title": "TIC Solutions Q4 2025 earnings call summary",
+   "publisher": "MarketBeat via Yahoo Finance",
+   "date": "2026-03-12",
+   "kind": "transcript",
+   "url": "https://finance.yahoo.com/news/tic-solutions-q4-earnings-call-124953679.html"
+  },
+  "tic_rebrand": {
+   "title": "Acuren announces company rebrand to TIC Solutions",
+   "publisher": "Acuren Corporation via Business Wire",
+   "date": "2025-09-30",
+   "kind": "company",
+   "url": "https://www.businesswire.com/news/home/20250929548483/en"
+  },
+  "tic_rebrand_fly": {
+   "title": "Acuren announces company rebrand to TIC Solutions",
+   "publisher": "TheFly via TipRanks",
+   "date": "2025-09-30",
+   "kind": "news",
+   "url": "https://www.tipranks.com/news/the-fly/acuren-announces-company-rebrand-to-tic-solutions-thefly"
+  },
+  "ind_consultancy": {
+   "title": "M&A in testing, inspection, certification and compliance sector remains upbeat",
+   "publisher": "Consultancy.eu",
+   "date": "2026-05-30",
+   "kind": "news",
+   "url": "https://www.consultancy.eu/news/13863/ma-in-testing-inspection-certification-and-compliance-sector-remains-upbeat"
+  },
+  "ind_oaklins": {
+   "title": "Spot On: Testing, Inspection, Certification & Compliance, June 2026",
+   "publisher": "Oaklins",
+   "date": "2026-06",
+   "kind": "advisory",
+   "url": "https://www.oaklins.com/uploads/2026/06/Oaklins-TICC-Spot-On-Jun2026.pdf"
+  },
+  "itrk_votes_tip": {
+   "title": "Intertek shareholders approve EQT-backed cash takeover via scheme",
+   "publisher": "TipRanks",
+   "date": "2026-08-06",
+   "kind": "news",
+   "url": "https://www.tipranks.com/news/company-announcements/intertek-shareholders-approve-eqt-backed-cash-takeover-via-scheme"
+  },
+  "uls_424b4": {
+   "title": "UL Solutions Inc. prospectus, Form 424B4 (net income 2021 to 2023)",
+   "publisher": "UL Solutions via SEC EDGAR",
+   "date": "2024-09",
+   "kind": "filing",
+   "url": "https://www.sec.gov/Archives/edgar/data/1901440/000162828024039710/ulsolutions-424b4.htm"
+  },
+  "uls_q2_quartr": {
+   "title": "UL Solutions Q2 2026 earnings summary",
+   "publisher": "Quartr",
+   "date": "2026-08-04",
+   "kind": "transcript",
+   "url": "https://quartr.com/events/ul-solutions-inc-uls-q2-2026_F3R49KON"
+  },
+  "sgs_agm25": {
+   "title": "SGS publishes invitation and agenda for the 2025 Annual General Meeting",
+   "publisher": "SGS",
+   "date": "2025-02-28",
+   "kind": "company",
+   "url": "https://www.sgs.com/news/2025/02/sgs-publishes-invitation-and-agenda-for-the-2025-annual-general-meeting"
+  },
+  "itrk_fy23_cityam": {
+   "title": "Intertek 2023 full year results coverage",
+   "publisher": "City A.M.",
+   "date": "2024-03-05",
+   "kind": "news",
+   "url": "https://cityam.com/?p=2130262"
+  },
+  "itrk_h1_26_blog": {
+   "title": "Intertek half year results 2026 (private investor summary)",
+   "publisher": "joshthompson.co.uk",
+   "date": null,
+   "kind": "news",
+   "url": "https://joshthompson.co.uk/investing/intertek-half-year-results-2026/"
+  },
+  "erf_fy22": {
+   "title": "Eurofins FY 2022 results press release",
+   "publisher": "Eurofins Scientific",
+   "date": "2023-03-01",
+   "kind": "filing",
+   "url": "https://www.eurofins.com/media-centre/press-releases/2023-03-01/"
+  },
+  "erf_fy25_pres": {
+   "title": "Eurofins Scientific 2025 full year results presentation (PDF)",
+   "publisher": "Eurofins Scientific",
+   "date": "2026-01-29",
+   "kind": "company",
+   "url": "https://cdnmedia.eurofins.com/corporate-eurofins/media/x0jkreyr/eurofins-scientific-2025-full-year-results-presentation.pdf"
+  },
+  "als_fy26_news": {
+   "title": "ALS Limited delivers record FY26 result (company news page)",
+   "publisher": "ALS Limited",
+   "date": "2026-05-18",
+   "kind": "filing",
+   "url": "https://www.alsglobal.com/da/News-and-publications/2026/05/ALS-Limited-delivers-record-FY26-result"
+  },
+  "als_quartr_co": {
+   "title": "ALS Limited company page (results summaries)",
+   "publisher": "Quartr",
+   "date": null,
+   "kind": "transcript",
+   "url": "https://quartr.com/companies/als-limited_14554"
+  },
+  "ind_aventis": {
+   "title": "M&A in the TICC industry",
+   "publisher": "Aventis Advisors",
+   "date": null,
+   "kind": "advisory",
+   "url": "https://aventis-advisors.com/ma-in-ticc-industry/"
+  },
+  "itrk_cfo": {
+   "title": "Intertek directorate change, 26 March 2026 (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2026-03-26",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/directorate-change-a3lsyh4ny58ydcn.html"
+  },
+  "itrk_cfo_decl": {
+   "title": "Intertek director declaration, 10 April 2026 (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2026-04-10",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/director-declaration-i9rhdfsljia0hun.html"
+  },
+  "bv_urd25": {
+   "title": "Bureau Veritas: filing of the 2025 Universal Registration Document (press release with registered office)",
+   "publisher": "Bureau Veritas via Euronext",
+   "date": "2026-03-30",
+   "kind": "filing",
+   "url": "https://live.euronext.com/en/products/equities/company-news/2026-03-30-bureau-veritas-filing-2025-universal-registration"
+  }
+ }
+}

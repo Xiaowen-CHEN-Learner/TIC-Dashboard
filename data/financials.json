@@ -1,0 +1,716 @@
+{
+  "_readme": "Cells are [value, source, note]. source is an id from sources.json, or 'computed' (the note gives the formula). A missing value is [null, reason] with reason not_found, not_applicable or not_meaningful. See docs/DATA_MODEL.md.",
+
+  "uls": {
+    "latest": {"period": "Q3 2026", "status": "raised", "status_text": "Organic growth outlook raised to about 6.5%; margin outlook about 27.0%"},
+    "annual": {
+      "reported": "2026-02-19",
+      "columns": ["FY2022", "FY2023", "FY2024", "FY2025"],
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenue", "kind": "money",
+         "cells": [[2520, "uls_sa"], [2678, "uls_10k_24"], [2870, "uls_fy25"], [3053, "uls_fy25"]]},
+        {"key": "growth", "role": "growth", "label": "Reported growth", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[null, "not_found"], [6.3, "computed", "2,678 / 2,520 - 1"], [7.2, "uls_fy24"], [6.4, "uls_fy25"]]},
+        {"key": "organic", "role": "organic", "label": "Organic growth", "kind": "pct_change",
+         "cells": [[null, "not_found"], [null, "not_found"], [8.7, "uls_fy24"], [6.2, "uls_fy25"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted EBITDA", "kind": "money",
+         "cells": [[547, "uls_s1_24"], [563, "uls_s1_24"], [656, "uls_fy25"], [792, "uls_fy25"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted EBITDA margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[21.7, "computed", "547 / 2,520"], [21.0, "computed", "563 / 2,678"], [22.9, "uls_fy25"], [25.9, "uls_fy25"]]},
+        {"key": "net", "role": "net", "label": "Net income", "kind": "money",
+         "cells": [[309, "uls_424b4"], [276, "uls_424b4"], [345, "uls_fy25"], [345, "uls_fy25"]]},
+        {"key": "eps", "role": "eps", "label": "Adjusted diluted EPS (USD)", "kind": "per_share",
+         "cells": [[1.52, "uls_s1_24"], [1.44, "uls_s1_24"], [1.70, "uls_fy25"], [1.99, "uls_fy25"]]},
+        {"key": "cfo", "label": "Net cash from operating activities", "kind": "money",
+         "cells": [[372, "uls_s1_24"], [467, "uls_s1_24"], [524, "uls_fy25"], [600, "uls_fy25"]]},
+        {"key": "fcf", "role": "fcf", "label": "Free cash flow", "kind": "money",
+         "cells": [[208, "uls_s1_24"], [252, "uls_s1_24"], [287, "uls_fy25"], [403, "uls_fy25"]]},
+        {"key": "debt", "role": "netdebt", "label": "Debt at year end, balance-sheet carrying value", "kind": "money",
+         "cells": [[null, "not_found"], [null, "not_found"], [742, "uls_fy25"], [491, "uls_fy25"]]},
+        {"key": "cash", "label": "Cash and cash equivalents at year end", "kind": "money",
+         "cells": [[null, "not_found"], [null, "not_found"], [298, "uls_fy25"], [295, "uls_fy25"]]},
+        {"key": "dividends", "label": "Dividends paid", "kind": "money",
+         "cells": [[null, "not_found"], [null, "not_found"], [100, "uls_fy25"], [104, "uls_fy25"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenue", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Adjusted EBITDA", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "net", "label": "Net income", "kind": "money"},
+        {"key": "eps", "label": "Adj. diluted EPS", "kind": "per_share"}
+      ],
+      "periods": [
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-11-03", "src": "uls_q3_26",
+         "v": {"revenue": 823, "growth": 5.1, "organic": 7.0, "profit": 235, "margin": 28.6, "net": 117, "eps": 0.62}},
+        {"label": "9M 2026", "end": "2026-09-30", "reported": "2026-11-03", "src": "uls_q3_26",
+         "v": {"revenue": 2397, "growth": 5.9, "profit": 651, "margin": 27.2, "net": 469},
+         "computed": {"growth": "2,397 / 2,264 - 1"},
+         "note": "Nine-month operating cash flow 594, capital expenditure 199, free cash flow 395."},
+        {"label": "Q2 2026", "end": "2026-06-30", "reported": "2026-08-04", "src": "uls_q2_26",
+         "v": {"revenue": 816, "growth": 5.2, "organic": 6.6, "profit": 219, "margin": 26.8, "net": 254, "eps": 0.59},
+         "note": "Net income includes the gain on the sale of the Employee Health and Safety software business, about 191 according to a call summary."},
+        {"label": "Q1 2026", "end": "2026-03-31", "reported": null, "src": "uls_q3_26",
+         "v": {"revenue": 758},
+         "computed": {"revenue": "9M 2,397 - Q2 816 - Q3 823"},
+         "note": "The first-quarter release was not captured; revenue is derived from later releases."}
+      ]
+    },
+    "segments": [
+      {"title": "Segments, FY2025", "src": "uls_fy25", "total": 3053, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+         {"key": "profit", "label": "Adj. EBITDA", "kind": "money"},
+         {"key": "margin", "label": "Adj. EBITDA margin", "kind": "pct"}
+       ],
+       "rows": [
+         {"name": "Industrial", "revenue": 1341, "organic": 7.1, "profit": 468, "margin": 34.9},
+         {"name": "Consumer", "revenue": 1319, "organic": 6.1, "profit": 249, "margin": 18.9},
+         {"name": "Software and Advisory", "revenue": 393, "organic": 3.7, "profit": 75, "margin": 19.1}
+       ]},
+      {"title": "Segments, Q3 2026", "src": "uls_q3_26", "total": 823, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+         {"key": "profit", "label": "Adj. EBITDA", "kind": "money"},
+         {"key": "margin", "label": "Adj. EBITDA margin", "kind": "pct"}
+       ],
+       "rows": [
+         {"name": "Industrial", "revenue": 410, "organic": 8.4, "profit": 148, "margin": 36.1},
+         {"name": "Consumer", "revenue": 360, "organic": 5.9, "profit": 77, "margin": 21.4},
+         {"name": "Risk & Compliance Software", "revenue": 53, "organic": 4.7, "profit": 10, "margin": 18.9}
+       ],
+       "note": "The third segment was renamed and reshaped in 2026. Its Q3 2025 comparative is 64, so it is not comparable with Software and Advisory in the FY2025 table."}
+    ],
+    "outlook": {
+      "title": "Full-year 2026 outlook", "as_of": "2026-11-03", "src": "uls_q3_26",
+      "items": [
+        {"text": "Organic revenue growth of about 6.5% at constant currency, after about 0.7 points lost to business exits.", "change": "raised", "was": "Mid-single-digit (February 2026)"},
+        {"text": "Adjusted EBITDA margin of about 27.0%, after about 0.9 points of extra transaction costs.", "change": "narrowed", "was": "26.5% to 27.0% (February 2026)"},
+        {"text": "Capital expenditure of about 8.5% of revenue.", "change": "raised", "was": "7% to 8% (February 2026)"},
+        {"text": "Effective tax rate of about 26%.", "change": "confirmed"}
+      ]
+    },
+    "notes": [
+      "UL Solutions listed in April 2024. FY2022 and FY2023 figures come from its SEC registration documents; FY2022 revenue comes from a data aggregator and should be replaced by the filing figure.",
+      "Free cash flow is the company's measure: operating cash flow less capital expenditure.",
+      "The Eurofins electrical and electronics business, bought for about 686 in cash, is consolidated from 1 October 2026, so it first appears in Q4 2026.",
+      "Total debt before issuance costs was 494 at the end of 2025, 303 at 30 June 2026 and 766 at 30 September 2026; cash was 1,016 at 30 September 2026, before the acquisition payment."
+    ]
+  },
+
+  "sgs": {
+    "latest": {"period": "Q3 2026", "status": "confirmed", "status_text": "2026 outlook confirmed; Strategy 2030 targets set on 18 November"},
+    "annual": {
+      "reported": "2026-02-11",
+      "columns": ["FY2022", "FY2023", "FY2024", "FY2025"],
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Sales", "kind": "money",
+         "cells": [[6642, "sgs_fy23"], [6622, "sgs_fy23"], [6794, "sgs_ir24"], [6945, "sgs_fy25"]]},
+        {"key": "growth", "role": "growth", "label": "Reported growth", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[null, "not_found"], [-0.3, "sgs_fy23"], [2.6, "sgs_fy24_ro"], [2.2, "computed", "6,945 / 6,794 - 1"]]},
+        {"key": "organic", "role": "organic", "label": "Organic growth", "kind": "pct_change",
+         "cells": [[null, "not_found"], [8.1, "sgs_fy23"], [7.5, "sgs_ir24"], [5.6, "sgs_fy25"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted operating income", "kind": "money",
+         "cells": [[1023, "sgs_fy23"], [971, "sgs_fy23"], [1040, "sgs_fy24_ro"], [1108, "sgs_fy25"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted operating income margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[15.4, "sgs_fy23"], [14.7, "sgs_fy23"], [15.3, "sgs_ir24"], [16.0, "sgs_fy25"]]},
+        {"key": "net", "role": "net", "label": "Profit attributable to equity holders", "kind": "money",
+         "cells": [[588, "sgs_fy23"], [553, "sgs_fy23"], [581, "sgs_fy24_quartr"], [668, "sgs_fy25_rtt"]]},
+        {"key": "eps", "role": "eps", "label": "Basic EPS (CHF)", "kind": "per_share",
+         "cells": [[3.15, "sgs_fy23"], [3.00, "sgs_fy23"], [3.10, "sgs_ir24"], [3.48, "sgs_fy25", "3.21 before the sale of the Geneva head office"]]},
+        {"key": "fcf", "role": "fcf", "label": "Free cash flow", "kind": "money",
+         "cells": [[481, "sgs_fy23"], [604, "sgs_fy23"], [748, "sgs_ir24"], [841, "sgs_fy25", "774 before the sale of the Geneva head office"]]},
+        {"key": "netdebt", "role": "netdebt", "label": "Net debt, including lease liabilities", "kind": "money",
+         "cells": [[2823, "sgs_fy23"], [2839, "sgs_fy23"], [2670, "sgs_fy24_ro"], [null, "not_found"]]},
+        {"key": "leverage", "role": "leverage", "label": "Net debt / EBITDA", "kind": "ratio",
+         "cells": [[null, "not_found"], [2.0, "sgs_fy24_ro"], [1.8, "sgs_fy24_ro"], [null, "not_found"]]},
+        {"key": "dps", "role": "dps", "label": "Dividend per share (CHF)", "kind": "per_share",
+         "cells": [[null, "not_found"], [3.20, "sgs_fy24_bw"], [3.20, "sgs_agm25"], [3.20, "sgs_fy25_rtt", "Reported as maintained"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Sales", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "margin", "label": "Adj. operating income margin", "kind": "pct"},
+        {"key": "fcf", "label": "Free cash flow", "kind": "money"}
+      ],
+      "periods": [
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-10-23", "src": "sgs_q3_26",
+         "v": {"revenue": 1982, "growth": 14.6, "organic": 5.7},
+         "note": "Sales update only. Acquisitions added 6.9 points and currency 2.0 points."},
+        {"label": "H1 2026", "end": "2026-06-30", "reported": "2026-07-24", "src": "sgs_h1_26",
+         "v": {"revenue": 3683, "growth": 7.6, "organic": 5.6, "margin": 15.1, "fcf": 260},
+         "note": "Organic growth was 5.9% in Q2. Margin up 20 basis points. Free cash flow up 25.0% excluding 80 of head-office sale proceeds in H1 2025."}
+      ]
+    },
+    "segments": [],
+    "segments_note": "Sales by business line were not captured for this version. They are published in the company's half-year and annual reports.",
+    "outlook": {
+      "title": "2026 outlook", "as_of": "2026-10-23", "src": "sgs_q3_26",
+      "items": [
+        {"text": "2026 outlook confirmed with the third-quarter sales update.", "change": "confirmed"},
+        {"text": "Press coverage of the 18 November event reports the company expects 2026 sales of about CHF 7.7bn and adjusted operating income above CHF 1.2bn, with a CHF 3.20 dividend planned.", "change": null, "src": "sgs_cme_tv"}
+      ],
+      "targets": {
+        "title": "Strategy 2030, announced 18 November 2026", "src": "sgs_cme",
+        "items": [
+          "Organic sales growth of 5% to 7% a year through 2030, plus 1% to 2% a year from acquisitions.",
+          "Adjusted operating income margin of at least 17% by 2030.",
+          "Cash conversion above 50% throughout.",
+          "Digital Trust revenue of at least CHF 750m by 2030, and sustainability (Impact Now) revenue of about CHF 1.5bn."
+        ]
+      }
+    },
+    "notes": [
+      "SGS redefined free cash flow, return on invested capital and net debt in its FY2023 release; FY2022 is shown on the redefined basis from that release.",
+      "2025 includes the sale of the Geneva head-office building: a gain of 60 in H1 2025 operating income and 80 of proceeds.",
+      "Net debt and leverage for the end of 2025 were not found in the sources used.",
+      "The FY2024 and FY2025 profit attributable figures come from secondary sources and should be checked against the integrated reports."
+    ]
+  },
+
+  "bvi": {
+    "latest": {"period": "Q3 2026", "status": "confirmed", "status_text": "2026 outlook confirmed; raised in July to mid-to-high single-digit organic growth"},
+    "annual": {
+      "reported": "2026-02-25",
+      "columns": ["FY2022", "FY2023", "FY2024", "FY2025"],
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenue", "kind": "money",
+         "cells": [[5650.6, "bv_keyfig"], [5867.8, "bv_keyfig"], [6240.9, "bv_keyfig"], [6466.4, "bv_keyfig"]]},
+        {"key": "growth", "role": "growth", "label": "Reported growth", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[13.4, "bv_fy22"], [3.8, "bv_fy23"], [6.4, "bv_fy24"], [3.6, "bv_fy25"]]},
+        {"key": "organic", "role": "organic", "label": "Organic growth", "kind": "pct_change",
+         "cells": [[7.8, "bv_fy22"], [8.5, "bv_fy23"], [10.2, "bv_fy24"], [6.5, "bv_fy25"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted operating profit", "kind": "money",
+         "cells": [[902.1, "bv_keyfig"], [930.2, "bv_keyfig"], [996.2, "bv_keyfig"], [1052.9, "bv_keyfig"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted operating margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[16.0, "bv_keyfig"], [15.9, "bv_keyfig"], [16.0, "bv_keyfig"], [16.3, "bv_keyfig"]]},
+        {"key": "opprofit", "label": "Operating profit", "kind": "money",
+         "cells": [[799.3, "bv_keyfig"], [824.4, "bv_keyfig"], [933.4, "bv_keyfig"], [992.4, "bv_keyfig"]]},
+        {"key": "net", "role": "net", "label": "Attributable net profit", "kind": "money",
+         "cells": [[466.7, "bv_keyfig"], [503.7, "bv_keyfig"], [569.4, "bv_keyfig"], [588.0, "bv_keyfig"]]},
+        {"key": "eps", "role": "eps", "label": "Adjusted EPS (EUR)", "kind": "per_share",
+         "cells": [[1.18, "bv_fy22"], [1.27, "bv_fy23"], [1.38, "bv_fy24"], [1.42, "bv_fy25_bw"]]},
+        {"key": "fcf", "role": "fcf", "label": "Free cash flow", "kind": "money",
+         "cells": [[657.0, "bv_keyfig"], [659.1, "bv_keyfig"], [843.3, "bv_keyfig"], [824.2, "bv_keyfig"]]},
+        {"key": "netdebt", "role": "netdebt", "label": "Adjusted net financial debt", "kind": "money",
+         "cells": [[975.3, "bv_keyfig"], [936.2, "bv_keyfig"], [1226.3, "bv_keyfig"], [1253.3, "bv_keyfig"]]},
+        {"key": "leverage", "role": "leverage", "label": "Adjusted net debt / EBITDA", "kind": "ratio",
+         "cells": [[0.97, "bv_fy23"], [0.92, "bv_fy23"], [1.06, "bv_fy24"], [1.1, "bv_fy25"]]},
+        {"key": "dps", "role": "dps", "label": "Dividend per share (EUR)", "kind": "per_share",
+         "cells": [[null, "not_found"], [0.83, "bv_fy23"], [0.90, "bv_fy24"], [0.92, "bv_fy25", "Proposed"]]},
+        {"key": "employees", "label": "Employees at year end", "kind": "count",
+         "cells": [[82590, "bv_keyfig"], [81510, "bv_keyfig"], [84250, "bv_keyfig"], [82049, "bv_keyfig"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenue", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Adj. operating profit", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "net", "label": "Attributable net profit", "kind": "money"}
+      ],
+      "periods": [
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-10-21", "src": "bv_q3_26",
+         "v": {"revenue": 1569.7, "growth": 10.1, "organic": 6.2},
+         "note": "Revenue only. Acquisitions net of disposals added 1.8 points and currency 2.1 points. Q3 2025 is restated to 1,425.2 for the businesses being exited."},
+        {"label": "9M 2026", "end": "2026-09-30", "reported": "2026-10-21", "src": "bv_q3_26",
+         "v": {"revenue": 4513.8, "growth": 4.9, "organic": 5.7},
+         "note": "Shown on the new four-division basis, which leaves out the businesses planned for exit. It is therefore not the sum of H1 as published in July and Q3."},
+        {"label": "H1 2026", "end": "2026-06-30", "reported": "2026-07-29", "src": "bv_h1_26_bw",
+         "v": {"revenue": 3258.4, "growth": 2.1, "organic": 5.0, "profit": 506.5, "margin": 15.5, "net": 237.9},
+         "note": "As published in July, before the change of basis. Operating profit was 430.8 against 513.1; a provision of 32 was booked for the Government Services compliance matter. Adjusted net debt / EBITDA was 1.45x at 30 June."},
+        {"label": "Q1 2026", "end": "2026-03-31", "reported": "2026-04-22", "src": "bv_q1_26",
+         "v": {"revenue": 1547.0, "growth": -0.8, "organic": 4.5},
+         "note": "Revenue only, as published in April."}
+      ]
+    },
+    "segments": [
+      {"title": "Six businesses, FY2025 (structure used until 30 June 2026)", "src": "bv_keyfig", "total": 6466.4, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+         {"key": "profit", "label": "Adj. operating profit", "kind": "money"},
+         {"key": "margin", "label": "Adj. operating margin", "kind": "pct"}
+       ],
+       "rows": [
+         {"name": "Buildings & Infrastructure", "revenue": 1997.9, "organic": 5.2, "profit": 272.7, "margin": 13.6},
+         {"name": "Industry", "revenue": 1372.8, "organic": 8.9, "profit": 190.2, "margin": 13.9},
+         {"name": "Agri-Food & Commodities", "revenue": 1163.7, "organic": 3.7, "profit": 175.6, "margin": 15.1},
+         {"name": "Consumer Products", "revenue": 802.4, "organic": 3.7, "profit": 179.3, "margin": 22.4},
+         {"name": "Certification", "revenue": 571.7, "organic": 7.9, "profit": 104.3, "margin": 18.2},
+         {"name": "Marine & Offshore", "revenue": 557.9, "organic": 14.3, "profit": 130.8, "margin": 23.4}
+       ]},
+      {"title": "Four divisions, Q3 2026 (structure from 1 July 2026)", "src": "bv_q3_26", "total": 1569.7, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"}
+       ],
+       "rows": [
+         {"name": "Industrials & Commodities", "revenue": 591.0, "growth": 8.7, "organic": 5.1},
+         {"name": "Buildings & Infrastructure", "revenue": 562.3, "growth": 13.7, "organic": 7.9},
+         {"name": "Product Testing & Services", "revenue": 279.0, "growth": 9.2, "organic": 7.0},
+         {"name": "Business Assurance", "revenue": 137.4, "growth": 4.4, "organic": 3.2}
+       ],
+       "note": "Excludes Oil & Petrochemicals, coal testing and inspection, and Government Services, which are planned for exit."}
+    ],
+    "outlook": {
+      "title": "Full-year 2026 outlook", "as_of": "2026-10-21", "src": "bv_q3_26",
+      "items": [
+        {"text": "Mid-to-high single-digit organic revenue growth.", "change": "confirmed", "was": "Raised in July 2026 from mid-single-digit"},
+        {"text": "Adjusted operating margin improvement at constant exchange rates.", "change": "confirmed"},
+        {"text": "Strong cash flow generation.", "change": "confirmed"}
+      ],
+      "targets": {
+        "title": "LEAP | 28, as updated at the Capital Markets Day on 22 September 2026", "src": "bv_cmd_26",
+        "items": [
+          "Total revenue growth at constant currency raised to a double-digit annual rate for 2027 and 2028, from high single-digit.",
+          "Net debt / EBITDA range narrowed to 1.5x to 2.0x for 2027 and 2028, from 1.0x to 2.0x.",
+          "Return on invested capital above 20% by 2028.",
+          "EUR 1bn of revenue from AI-driven markets and services by 2030.",
+          "Performance programmes to add 110 basis points of margin by the end of 2026, out of up to 180 targeted."
+        ]
+      }
+    },
+    "notes": [
+      "From Q3 2026 Bureau Veritas reports four divisions and treats Oil & Petrochemicals, coal testing and Government Services as businesses planned for exit. 2025 comparatives in the Q3 release are restated; annual figures for FY2022 to FY2025 above are as published before that change.",
+      "H1 2025 revenue is shown as 3,192.5 in the H1 2026 release, restated under IFRS 5.",
+      "A EUR 200m share buyback was announced on 25 February 2026; EUR 68m had been bought by 19 October 2026.",
+      "The Q3 2026 release reports a EUR 700m bond due September 2034 with a 4.125% coupon."
+    ]
+  },
+
+  "itrk": {
+    "latest": {"period": "Q3 2026", "organic_from": "9M 2026", "status": "confirmed", "status_text": "2026 outlook reiterated; takeover by EQT expected to complete Q4 2026 to Q1 2027"},
+    "annual": {
+      "reported": "2026-03-03",
+      "columns": ["FY2022", "FY2023", "FY2024", "FY2025"],
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenue", "kind": "money",
+         "cells": [[3192.9, "itrk_fy23"], [3328.7, "itrk_fy23"], [3393.2, "itrk_fy24"], [3431.6, "itrk_fy25"]]},
+        {"key": "growth", "role": "growth", "label": "Growth at actual exchange rates", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[14.6, "itrk_fy22"], [4.3, "itrk_fy23"], [1.9, "itrk_fy24"], [1.1, "itrk_fy25"]]},
+        {"key": "growth_cc", "label": "Growth at constant currency", "kind": "pct_change",
+         "cells": [[8.2, "itrk_fy22"], [7.1, "itrk_fy23"], [6.6, "itrk_fy24"], [4.3, "itrk_fy25"]]},
+        {"key": "organic", "role": "organic", "label": "Like-for-like growth, constant currency", "kind": "pct_change",
+         "cells": [[4.9, "itrk_fy22_inv"], [6.2, "itrk_fy23_cityam"], [6.3, "itrk_fy24"], [3.9, "itrk_fy25"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted operating profit", "kind": "money",
+         "cells": [[520.1, "itrk_fy23_cityam"], [551.1, "itrk_fy23"], [590.1, "itrk_fy24"], [619.6, "itrk_fy25_rns"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted operating margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[16.3, "itrk_fy22_inv"], [16.6, "itrk_fy23"], [17.4, "itrk_fy24"], [18.1, "itrk_fy25_rns"]]},
+        {"key": "opprofit", "label": "Statutory operating profit", "kind": "money",
+         "cells": [[452.4, "itrk_fy22"], [486.2, "itrk_fy23_dt"], [535.7, "itrk_fy24_pdf"], [542.3, "itrk_fy25_rns"]]},
+        {"key": "net", "role": "net", "label": "Statutory profit after tax", "kind": "money",
+         "cells": [[306.8, "itrk_fy22"], [318.1, "itrk_fy23_dt"], [367.2, "itrk_fy24_pdf"], [null, "not_found"]]},
+        {"key": "eps", "role": "eps", "label": "Adjusted diluted EPS (pence)", "kind": "per_share_1",
+         "cells": [[211.1, "itrk_fy23"], [223.0, "itrk_fy23"], [240.6, "itrk_fy24"], [253.5, "itrk_fy25_rns"]]},
+        {"key": "fcf", "role": "fcf", "label": "Adjusted free cash flow", "kind": "money",
+         "cells": [[386.3, "itrk_fy23"], [378.4, "itrk_fy23"], [408.8, "itrk_fy25_rns"], [352.2, "itrk_fy25_rns"]]},
+        {"key": "netdebt", "role": "netdebt", "label": "Financial net debt, excluding lease liabilities", "kind": "money",
+         "cells": [[737.9, "itrk_fy23"], [610.6, "itrk_fy23"], [499.8, "itrk_fy25_rns"], [996.8, "itrk_fy25_rns"]]},
+        {"key": "leverage", "role": "leverage", "label": "Financial net debt / EBITDA", "kind": "ratio",
+         "cells": [[1.1, "itrk_fy23"], [0.8, "itrk_fy23"], [0.7, "itrk_fy25_rns"], [1.3, "itrk_fy25_rns"]]},
+        {"key": "dps", "role": "dps", "label": "Dividend per share (pence)", "kind": "per_share_1",
+         "cells": [[105.8, "itrk_fy23"], [111.7, "itrk_fy23"], [156.5, "itrk_fy25_rns"], [165.0, "itrk_fy25_rns"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenue", "kind": "money"},
+        {"key": "growth", "label": "Growth, actual rates", "kind": "pct_change"},
+        {"key": "growth_cc", "label": "Growth, constant currency", "kind": "pct_change"},
+        {"key": "organic", "label": "Like-for-like growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Adj. operating profit", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "eps", "label": "Adj. diluted EPS (p)", "kind": "per_share_1"}
+      ],
+      "periods": [
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-10-28", "src": "itrk_q3_26_an",
+         "v": {"revenue": 941.8, "growth": 8.1, "growth_cc": 7.0},
+         "note": "Trading statement: revenue only. Figures from news-wire coverage of the statement."},
+        {"label": "9M 2026", "end": "2026-09-30", "reported": "2026-10-28", "src": "itrk_q3_26",
+         "v": {"revenue": 2713.1, "growth": 7.1, "growth_cc": 6.4, "organic": 5.4},
+         "computed": {"revenue": "H1 1,771.3 + Q3 941.8; the statement gives 2.7bn"},
+         "srcs": {"growth": "itrk_q3_26_an"},
+         "note": "Acquisitions added 1.0 point of growth."},
+        {"label": "H1 2026", "end": "2026-06-30", "reported": "2026-07-31", "src": "itrk_h1_26",
+         "v": {"revenue": 1771.3, "growth": 5.9, "growth_cc": 6.1, "organic": 4.9, "profit": 309.7, "margin": 17.5, "eps": 124.9},
+         "srcs": {"organic": "itrk_h1_26_blog", "eps": "itrk_h1_26_quartr"},
+         "note": "Adjusted operating cash flow 338.1; free cash flow 138.5; financial net debt 1,145.5, or 1.4x EBITDA. No interim dividend because of the pending takeover."},
+        {"label": "Q1 2026", "end": "2026-03-31", "reported": "2026-04-14", "src": "itrk_q1_quartr",
+         "v": {"revenue": 838.5, "growth": 3.7, "growth_cc": 6.7, "organic": 5.4},
+         "srcs": {"organic": "itrk_review_dt"},
+         "note": "Trading statement: revenue only."}
+      ],
+      "sums": [{"parts": ["H1 2026", "Q3 2026"], "total": "9M 2026", "metrics": ["revenue"], "tol": 0.2}]
+    },
+    "segments": [
+      {"title": "Like-for-like growth by division, Q1 2026", "src": "itrk_review_dt",
+       "columns": [{"key": "organic", "label": "Like-for-like growth, constant currency", "kind": "pct_change"}],
+       "rows": [
+         {"name": "Corporate Assurance", "organic": 10.8},
+         {"name": "Consumer Products", "organic": 6.5},
+         {"name": "Health and Safety", "organic": 5.9},
+         {"name": "Industry and Infrastructure", "organic": 5.5},
+         {"name": "World of Energy", "organic": null, "text": {"organic": "Stable"}}
+       ],
+       "note": "Revenue by division was not captured for this version. Under the strategic review of April 2026, Industry and Infrastructure and World of Energy were grouped as Intertek Energy & Infrastructure, with about 1,580 of 2025 revenue according to news-wire coverage."}
+    ],
+    "outlook": {
+      "title": "Full-year 2026 outlook", "as_of": "2026-10-28", "src": "itrk_q3_26",
+      "items": [
+        {"text": "Mid-single-digit like-for-like revenue growth at constant currency.", "change": "confirmed"},
+        {"text": "Continued margin progression, strong earnings growth and strong free cash flow.", "change": "confirmed"},
+        {"text": "By division, a call summary reports mid-single-digit like-for-like growth expected in Consumer Products, Health and Safety, and Industry and Infrastructure; high single-digit in Corporate Assurance; World of Energy stable.", "change": null, "src": "itrk_q3_26_quartr"}
+      ],
+      "targets": {
+        "title": "Medium-term targets, as restated with the FY2025 results", "src": "itrk_fy25",
+        "items": [
+          "Mid-single-digit like-for-like revenue growth a year.",
+          "Adjusted operating margin of 18.5% or more."
+        ]
+      }
+    },
+    "notes": [
+      "Adjusted figures are before separately disclosed items, as the company defines them. Like-for-like growth is at constant currency and leaves out acquisitions owned for less than twelve months.",
+      "Financial net debt leaves out IFRS 16 lease liabilities; total net debt including them was 918.4 at the end of 2023 and 799.4 at the end of 2024.",
+      "On 14 April 2026 Intertek opened a strategic review of a possible separation of its Energy & Infrastructure business. The review was paused in May when the board said it was minded to recommend EQT's offer.",
+      "FY2022 adjusted operating profit to one decimal and FY2023 like-for-like growth come from news coverage of the results; the half-year 2026 like-for-like figure comes from a secondary summary."
+    ]
+  },
+
+  "erf": {
+    "latest": {"period": "9M 2026", "organic_from": "Q3 2026", "status": "lowered", "status_text": "Press reports 2026 organic growth is now expected below the mid-single-digit objective; margin and cash objectives kept"},
+    "annual": {
+      "reported": "2026-01-29",
+      "columns": ["FY2022", "FY2023", "FY2024", "FY2025"],
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenues", "kind": "money",
+         "cells": [[6712, "erf_fy23"], [6515, "erf_fy23"], [6951, "erf_fy25"], [7296, "erf_fy25"]]},
+        {"key": "growth", "role": "growth", "label": "Reported growth", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[null, "not_found"], [-2.9, "erf_fy23"], [6.7, "computed", "6,951 / 6,515 - 1"], [5.0, "erf_fy25"]]},
+        {"key": "organic", "role": "organic", "label": "Organic growth", "kind": "pct_change",
+         "cells": [[5.8, "erf_fy22", "Core business, excluding COVID-19 testing and reagents"], [7.1, "erf_fy23", "Core business, excluding COVID-19 testing and reagents"], [null, "not_found"], [4.1, "erf_fy25", "Includes a 0.4-point adjustment for public working days"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted EBITDA", "kind": "money",
+         "cells": [[1513, "erf_fy23"], [1364, "erf_fy23"], [1552, "erf_fy25"], [1641, "erf_fy25"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted EBITDA margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[22.5, "erf_fy23"], [20.9, "erf_fy23"], [22.3, "erf_fy25_pres"], [22.5, "erf_fy25"]]},
+        {"key": "ebitda", "label": "Reported EBITDA", "kind": "money",
+         "cells": [[1415, "erf_fy23"], [1234, "erf_fy23"], [1439, "erf_fy25"], [1561, "erf_fy25"]]},
+        {"key": "net", "role": "net", "label": "Net profit", "kind": "money",
+         "cells": [[606, "erf_fy23"], [308, "erf_fy23"], [405, "erf_fy25"], [473, "erf_fy25"]]},
+        {"key": "eps", "role": "eps", "label": "Basic EPS (EUR)", "kind": "per_share",
+         "cells": [[3.02, "erf_fy23"], [1.33, "erf_fy23"], [1.87, "erf_fy25"], [2.31, "erf_fy25"]]},
+        {"key": "cfo", "label": "Net cash from operating activities", "kind": "money",
+         "cells": [[1136, "erf_fy23"], [1018, "erf_fy23"], [1319, "erf_fy25"], [1399, "erf_fy25"]]},
+        {"key": "fcf", "role": "fcf", "label": "Free cash flow to the firm", "kind": "money",
+         "cells": [[491, "erf_fy23"], [474, "erf_fy23"], [801, "erf_fy25"], [876, "erf_fy25"]]},
+        {"key": "fcf_pre", "label": "Free cash flow to the firm before investment in owned sites", "kind": "money",
+         "cells": [[677, "erf_fy23"], [626, "erf_fy23"], [954, "erf_fy25"], [1071, "erf_fy25"]]},
+        {"key": "netdebt", "role": "netdebt", "label": "Net debt", "kind": "money",
+         "cells": [[2839, "erf_fy23"], [2705, "erf_fy23"], [2996, "erf_fy25"], [3641, "erf_fy25"]]},
+        {"key": "leverage", "role": "leverage", "label": "Net debt / adjusted pro-forma EBITDA", "kind": "ratio",
+         "cells": [[1.9, "erf_fy23"], [2.0, "erf_fy23"], [1.9, "erf_fy25"], [2.2, "erf_fy25"]]},
+        {"key": "dps", "role": "dps", "label": "Dividend per share (EUR)", "kind": "per_share",
+         "cells": [[null, "not_found"], [0.50, "erf_fy23"], [0.60, "computed", "0.72 proposed for 2025 is stated as a 20% increase"], [0.72, "erf_fy25", "Proposed"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenues", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Adjusted EBITDA", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "eps", "label": "Basic EPS", "kind": "per_share"}
+      ],
+      "periods": [
+        {"label": "9M 2026", "end": "2026-09-30", "reported": "2026-10-21", "src": "erf_9m_26",
+         "v": {"revenue": 5614, "growth": 3.7, "organic": 3.0},
+         "note": "Revenue update only. Currency took 1.7 points off growth; discontinued and sold activities took 0.7 points."},
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-10-21", "src": "erf_9m_26",
+         "v": {"revenue": 1913, "organic": 3.5},
+         "computed": {"revenue": "9M 5,614 - H1 3,701"},
+         "note": "Organic growth rose each quarter: 2.5%, 3.0%, then 3.5%, as stated in the nine-month release. The first-quarter release gave 2.6% for Q1."},
+        {"label": "H1 2026", "end": "2026-06-30", "reported": "2026-07-23", "src": "erf_h1_26_pres",
+         "v": {"revenue": 3701, "growth": 2.5, "organic": 2.7, "profit": 877, "margin": 23.7, "eps": 1.55},
+         "srcs": {"eps": "erf_h1_26_quartr"},
+         "note": "Free cash flow to the firm before investment in owned sites 469, up 33%. Net debt 3,854; leverage 2.2x. Share buy-backs of 206."},
+        {"label": "Q1 2026", "end": "2026-03-31", "reported": "2026-04-22", "src": "erf_q1_26",
+         "v": {"revenue": 1789, "growth": 1.3, "organic": 2.6},
+         "note": "Currency took 4.8 points off growth. The company cites exceptionally severe weather in the quarter."}
+      ],
+      "sums": [{"parts": ["H1 2026", "Q3 2026"], "total": "9M 2026", "metrics": ["revenue"], "tol": 1}]
+    },
+    "segments": [
+      {"title": "Revenues by area of activity, FY2025", "src": "erf_fy25", "total": 7296, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenues", "kind": "money"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"}
+       ],
+       "rows": [
+         {"name": "Life (food, environment, agroscience)", "revenue": 3043, "organic": 6.1},
+         {"name": "BioPharma", "revenue": 2062, "organic": 1.4},
+         {"name": "Diagnostic Services & Products", "revenue": 1496, "organic": 2.6},
+         {"name": "Consumer & Technology Products Testing", "revenue": 695, "organic": 2.3}
+       ]},
+      {"title": "Revenues by region, FY2025", "src": "erf_fy25", "total": 7296, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenues", "kind": "money"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"}
+       ],
+       "rows": [
+         {"name": "Europe", "revenue": 3829, "organic": 3.3},
+         {"name": "North America", "revenue": 2685, "organic": 2.8},
+         {"name": "Rest of the World", "revenue": 782, "organic": 9.0}
+       ]}
+    ],
+    "outlook": {
+      "title": "2026 objectives", "as_of": "2026-10-21", "src": "erf_fy25",
+      "items": [
+        {"text": "Mid-single-digit organic growth. Press coverage of the 21 October update reports that 2026 organic growth is now expected to come in below this objective.", "change": "lowered", "src": "erf_9m_26_ii"},
+        {"text": "Adjusted EBITDA margin above the 2025 level of 22.5%.", "change": "confirmed"},
+        {"text": "Free cash flow to the firm to grow.", "change": "confirmed"},
+        {"text": "About EUR 250m of annualised revenues from acquisitions.", "change": "confirmed"}
+      ],
+      "targets": {
+        "title": "2027 objectives", "src": "erf_fy25",
+        "items": [
+          "Adjusted EBITDA margin of 24% of revenues.",
+          "Long-term average organic growth of 6.5% a year.",
+          "Cash conversion above 50%.",
+          "Net debt / EBITDA between 1.5x and 2.5x."
+        ]
+      }
+    },
+    "notes": [
+      "FY2025 figures were published on 29 January 2026 as preliminary and unaudited.",
+      "Organic growth for FY2022 and FY2023 is for the core business, excluding COVID-19 testing and reagents; revenues from those were just under 600 in 2022.",
+      "Free cash flow to the firm is the company's measure. The second line is before investment in owned sites.",
+      "Two portfolio changes closed on 1 October 2026 and are not in the figures above: the sale of the electrical and electronics testing business to UL Solutions, and the purchase of Element's Life Sciences Testing Services business in North America for an enterprise value of USD 400m."
+    ]
+  },
+
+  "alq": {
+    "latest": {"period": "H1 FY27", "status": "mixed", "status_text": "Group and Minerals growth outlook raised; Life Sciences outlook cut to about 3%"},
+    "annual": {
+      "reported": "2026-05-18",
+      "columns": ["FY23", "FY24", "FY25", "FY26"],
+      "column_notes": {"FY23": "Year to 31 March 2023", "FY24": "Year to 31 March 2024", "FY25": "Year to 31 March 2025", "FY26": "Year to 31 March 2026"},
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenue (underlying)", "kind": "money",
+         "cells": [[2421.2, "als_fy24"], [2586.0, "als_fy25"], [2999.4, "als_fy26"], [3320.1, "als_fy26"]]},
+        {"key": "growth", "role": "growth", "label": "Reported growth", "kind": "pct_change", "check": {"growth_of": "revenue"},
+         "cells": [[15.7, "computed", "2,421.2 / 2,093.1 (FY22, Annual Report 2024) - 1"], [6.8, "als_fy24"], [16.0, "als_fy25"], [10.7, "als_fy26"]]},
+        {"key": "organic", "role": "organic", "label": "Organic growth", "kind": "pct_change",
+         "cells": [[null, "not_found"], [2.2, "als_agm24"], [null, "not_found"], [8.4, "als_fy26_pres"]]},
+        {"key": "profit", "role": "profit", "label": "Underlying EBIT", "kind": "money",
+         "cells": [[490.7, "als_fy24"], [491.8, "als_fy25"], [502.3, "als_fy26", "Restated in the FY26 release; 515.0 as first reported"], [599.0, "als_fy26"]]},
+        {"key": "margin", "role": "margin", "label": "Underlying EBIT margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[20.3, "als_fy24"], [19.0, "als_fy25"], [16.7, "als_fy26", "Restated; 17.2% as first reported"], [18.0, "als_fy26"]]},
+        {"key": "unpat", "label": "Underlying net profit after tax", "kind": "money",
+         "cells": [[320.6, "als_fy24"], [316.5, "als_fy25"], [303.0, "als_fy26", "Restated; 312.1 as first reported"], [381.2, "als_fy26"]]},
+        {"key": "net", "role": "net", "label": "Statutory net profit after tax", "kind": "money",
+         "cells": [[291.2, "als_fy24"], [12.9, "als_fy25", "After 248.8 of impairment and restructuring charges on Nuvisan"], [256.2, "als_fy26"], [318.7, "als_fy26"]]},
+        {"key": "eps", "role": "eps", "label": "Underlying EPS (cents)", "kind": "per_share_1",
+         "cells": [[66.3, "als_fy24"], [65.4, "als_fy25"], [62.5, "als_fy26", "Restated; 64.4 as first reported"], [75.7, "als_fy26"]]},
+        {"key": "fcf", "role": "fcf", "label": "Free cash flow generated", "kind": "money",
+         "cells": [[550.5, "als_fy24"], [522.4, "als_fy25", "532.4 as first reported"], [590.6, "als_fy26"], [674.1, "als_fy26"]]},
+        {"key": "netdebt", "role": "netdebt", "label": "Net debt", "kind": "money",
+         "cells": [[1023, "als_fy24"], [1175.3, "als_fy25"], [1424.1, "als_fy26"], [1069.5, "als_fy26"]]},
+        {"key": "leverage", "role": "leverage", "label": "Leverage ratio", "kind": "ratio",
+         "cells": [[null, "not_found"], [null, "not_found"], [2.3, "als_quartr_co"], [1.5, "als_quartr_co"]]},
+        {"key": "dps", "role": "dps", "label": "Dividend per share (cents)", "kind": "per_share_1",
+         "cells": [[39.7, "als_fy24"], [39.2, "als_fy25"], [38.6, "als_fy26"], [42.5, "als_fy26"]]},
+        {"key": "roce", "label": "Underlying return on capital employed", "kind": "pct",
+         "cells": [[20.5, "als_fy24"], [20.6, "als_fy25"], [18.4, "als_fy26", "Restated; 18.9% as first reported"], [21.5, "als_fy26"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenue", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Underlying EBIT", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "unpat", "label": "Underlying NPAT", "kind": "money"},
+        {"key": "net", "label": "Statutory NPAT", "kind": "money"},
+        {"key": "eps", "label": "Underlying EPS (c)", "kind": "per_share_1"},
+        {"key": "dps", "label": "Interim dividend (c)", "kind": "per_share_1"}
+      ],
+      "periods": [
+        {"label": "H1 FY27", "end": "2026-09-30", "reported": "2026-11-23", "src": "als_h1_27_rtt",
+         "v": {"revenue": 1715, "growth": 3.4, "organic": 10.2, "profit": 332.7, "margin": 19.4, "unpat": 214.6, "net": 297.5, "eps": 42.3, "dps": 23.3},
+         "srcs": {"revenue": "als_h1_27_kal", "organic": "als_h1_27_tip", "net": "als_h1_27_gf", "dps": "als_h1_27_inv"},
+         "note": "Six months to 30 September 2026, taken from press coverage; the ASX release should replace it. Revenue grew 9.6% at constant currency. Statutory profit includes a non-cash fair-value gain of 97.2 on the existing Saudi Arabia investment. Leverage 1.5x."},
+        {"label": "H1 FY26", "end": "2025-09-30", "reported": "2025-11-18", "src": "als_h1_26",
+         "v": {"revenue": 1659.6, "growth": 13.3, "profit": 287.2, "margin": 17.3, "unpat": 178.4, "net": 141.7, "eps": 35.7, "dps": 19.4},
+         "note": "Six months to 30 September 2025, as first reported. The H1 FY27 results restate the comparatives to underlying EBIT 280.5, underlying NPAT 173.6 and underlying EPS 34.8 cents."}
+      ]
+    },
+    "segments": [
+      {"title": "Divisions, H1 FY27 (from press coverage)", "src": "als_h1_27_inv", "total": 1715, "share_of": "revenue", "tol": 1,
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+         {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+         {"key": "margin", "label": "Underlying EBIT margin", "kind": "pct"}
+       ],
+       "rows": [
+         {"name": "Life Sciences", "revenue": 978, "growth": -6.6, "organic": 1.8, "margin": 13.7},
+         {"name": "Commodities", "revenue": 737.2, "growth": 20.4, "organic": 24.5, "margin": 31.6}
+       ],
+       "srcs": ["als_h1_27_inv", "als_h1_27_sk", "als_h1_27_gf"],
+       "note": "Minerals, the largest part of Commodities, grew 30.4% organically with an EBIT margin of 34.7%. Life Sciences underlying EBIT fell 12.6%."},
+      {"title": "Divisions, FY26", "src": "als_fy26_news", "total": 3320.1, "share_of": "revenue",
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+         {"key": "profit", "label": "Underlying EBITDA", "kind": "money"}
+       ],
+       "rows": [
+         {"name": "Life Sciences", "revenue": 2025.9, "growth": 6.0, "profit": 448.9},
+         {"name": "Commodities", "revenue": 1294.2, "growth": 18.8, "profit": null}
+       ],
+       "note": "Commodities revenue is the group total less Life Sciences. Commodities underlying EBITDA was not captured. Life Sciences underlying EBITDA margin was 22.2%."}
+    ],
+    "outlook": {
+      "title": "FY27 outlook (year to 31 March 2027)", "as_of": "2026-11-23", "src": "als_h1_27_gf",
+      "items": [
+        {"text": "Group organic revenue growth in the high single digits, with margin expansion.", "change": "raised", "was": "Mid-to-high single-digit (May 2026)"},
+        {"text": "Minerals organic growth of about 20%, plus about 3% from acquisitions.", "change": "raised", "was": "13% to 15% (May 2026)"},
+        {"text": "Life Sciences organic growth of about 3%.", "change": "lowered", "was": "Mid-single-digit (May 2026)"},
+        {"text": "Net underlying interest cost of A$68m to A$70m.", "change": null}
+      ],
+      "targets": {
+        "title": "Standing targets", "src": "als_fy26_pres",
+        "items": [
+          "Targets set earlier for FY27 were revenue of A$3.3bn and underlying EBIT of A$600m, with a 19% margin floor. FY26 came in at A$3,320m and A$599m, a year early, with a margin of 18.0%.",
+          "Leverage target range of 1.7x to 2.3x, according to the half-year call coverage; leverage was 1.5x at 30 September 2026."
+        ]
+      }
+    },
+    "notes": [
+      "The fiscal year ends on 31 March. FY26 is the year to 31 March 2026, so it overlaps three quarters of calendar 2025.",
+      "Each year is shown as it appears in the most recent release that presents it. FY25 was restated in the FY26 release when ALS changed how it treats restructuring and other items in underlying results.",
+      "Underlying figures leave out restructuring, impairment and other one-off items; statutory NPAT is the audited bottom line.",
+      "H1 FY27 was released on 23 November 2026 and is taken from press coverage. Check it against the ASX release."
+    ]
+  },
+
+  "tic": {
+    "latest": {"period": "Q3 2026", "status": "raised", "status_text": "2026 revenue outlook raised to $2,240m to $2,270m; adjusted EBITDA range narrowed"},
+    "auto_charts": false,
+    "charts": [
+      {"title": "Quarterly revenue, Q1 2025 to Q3 2026", "kind": "money",
+       "points": [["Q1 25", 234.2, "computed", "9M 2025 1,022.0 - Q2 313.9 - Q3 473.9"], ["Q2 25", 313.9, "tic_q2_26"], ["Q3 25", 473.9, "tic_q3_26"], ["Q4 25", 508.3, "tic_fy25"], ["Q1 26", 488.0, "tic_q1_26"], ["Q2 26", 584.3, "tic_q2_26"], ["Q3 26", 639.6, "tic_q3_26"]],
+       "note": "NV5 is included from 4 August 2025, which explains the step up in Q3 and Q4 2025."},
+      {"title": "Adjusted EBITDA margin by quarter, 2026", "kind": "pct",
+       "points": [["Q1 26", 11.8, "computed", "57.7 / 488.0"], ["Q2 26", 16.2, "computed", "94.8 / 584.3"], ["Q3 26", 16.8, "tic_q3_26"]],
+       "note": "The company targets a margin above 18% by 2029."}
+    ],
+    "annual": {
+      "reported": "2026-03-12",
+      "columns": ["2024 Predecessor", "2024 Successor", "2024 combined", "FY2025"],
+      "column_notes": {"2024 Predecessor": "1 January to 29 July 2024, before the Acuren acquisition", "2024 Successor": "30 July to 31 December 2024", "2024 combined": "Non-GAAP sum of the two 2024 periods", "FY2025": "Includes NV5 from 4 August 2025"},
+      "rows": [
+        {"key": "revenue", "role": "revenue", "label": "Revenue", "kind": "money",
+         "cells": [[633.9, "tic_fy25"], [463.5, "tic_fy25"], [1097.4, "computed", "633.9 + 463.5; the company cites 1.1bn"], [1530.3, "tic_fy25"]]},
+        {"key": "growth", "role": "growth", "label": "Growth against 2024 combined", "kind": "pct_change", "tile_sub": "against the two 2024 periods combined",
+         "cells": [[null, "not_applicable"], [null, "not_applicable"], [null, "not_applicable"], [39.4, "computed", "1,530.3 / 1,097.4 - 1; the company states 39%"]]},
+        {"key": "gp", "label": "Gross profit", "kind": "money",
+         "cells": [[162.0, "tic_fy25"], [103.7, "tic_fy25"], [265.7, "computed", "162.0 + 103.7"], [449.4, "tic_fy25"]]},
+        {"key": "profit", "role": "profit", "label": "Adjusted EBITDA", "kind": "money",
+         "cells": [[null, "not_found"], [null, "not_found"], [186.7, "tic_fy25"], [234.1, "tic_fy25"]]},
+        {"key": "margin", "role": "margin", "label": "Adjusted EBITDA margin", "kind": "pct", "check": {"margin_of": ["profit", "revenue"]},
+         "cells": [[null, "not_found"], [null, "not_found"], [17.0, "tic_fy25"], [15.3, "tic_fy25"]]},
+        {"key": "net", "role": "net", "label": "Net loss", "kind": "money",
+         "cells": [[-15.7, "tic_fy25"], [-105.5, "tic_fy25"], [-121.2, "tic_fy25"], [-87.1, "tic_fy25"]]},
+        {"key": "eps", "role": "eps", "label": "Diluted EPS (USD)", "kind": "per_share",
+         "cells": [[-3.13, "tic_fy25"], [-0.86, "tic_fy25"], [null, "not_applicable"], [-0.60, "tic_fy25"]]},
+        {"key": "cfo", "label": "Net cash from operating activities", "kind": "money",
+         "cells": [[null, "not_found"], [null, "not_found"], [null, "not_found"], [95.0, "tic_fy25"]]},
+        {"key": "debt", "role": "netdebt", "label": "Total debt at year end", "kind": "money",
+         "cells": [[null, "not_applicable"], [null, "not_found"], [null, "not_applicable"], [1613.2, "tic_fy25"]]},
+        {"key": "cash", "label": "Cash and cash equivalents at year end", "kind": "money",
+         "cells": [[null, "not_applicable"], [null, "not_found"], [null, "not_applicable"], [439.5, "tic_fy25"]]}
+      ]
+    },
+    "interim": {
+      "metrics": [
+        {"key": "revenue", "label": "Revenue", "kind": "money"},
+        {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+        {"key": "combined", "label": "Combined growth", "kind": "pct_change"},
+        {"key": "organic", "label": "Organic growth", "kind": "pct_change"},
+        {"key": "profit", "label": "Adjusted EBITDA", "kind": "money"},
+        {"key": "margin", "label": "Margin", "kind": "pct"},
+        {"key": "net", "label": "Net loss", "kind": "money"}
+      ],
+      "periods": [
+        {"label": "Q3 2026", "end": "2026-09-30", "reported": "2026-11-05", "src": "tic_q3_26",
+         "v": {"revenue": 639.6, "growth": 35.0, "combined": 12.5, "organic": 8.4, "profit": 107.2, "margin": 16.8, "net": -11.1},
+         "note": "Reported growth mostly reflects NV5, owned since 4 August 2025. Combined growth treats NV5 as owned in both periods. Adjusted diluted EPS 0.18."},
+        {"label": "9M 2026", "end": "2026-09-30", "reported": "2026-11-05", "src": "tic_q3_26",
+         "v": {"revenue": 1712.0, "growth": 67.5, "profit": 259.8, "margin": 15.2, "net": -66.0},
+         "computed": {"growth": "1,712.0 / 1,022.0 - 1", "margin": "259.8 / 1,712.0"},
+         "note": "Operating cash flow for the nine months was 36.6. Cash 197.9 and term-loan debt about 1,600 at 30 September."},
+        {"label": "Q2 2026", "end": "2026-06-30", "reported": "2026-08-06", "src": "tic_q2_26_bw",
+         "v": {"revenue": 584.3, "growth": 86.1, "combined": 3.3, "organic": 2.5, "profit": 94.8, "margin": 16.2, "net": -13.3},
+         "computed": {"growth": "584.3 / 313.9 - 1; the company states 86%", "margin": "94.8 / 584.3"},
+         "note": "Adjusted diluted EPS 0.14."},
+        {"label": "Q1 2026", "end": "2026-03-31", "reported": "2026-05-06", "src": "tic_q1_26",
+         "v": {"revenue": 488.0, "organic": 2.2, "profit": 57.7, "margin": 11.8, "net": -41.5},
+         "computed": {"margin": "57.7 / 488.0"},
+         "srcs": {"organic": "tic_q3_26_ew"},
+         "note": "Organic growth for Q1 is from later press coverage."}
+      ],
+      "sums": [{"parts": ["Q1 2026", "Q2 2026", "Q3 2026"], "total": "9M 2026", "metrics": ["revenue", "profit", "net"], "tol": 0.3}]
+    },
+    "segments": [
+      {"title": "Segments, Q3 2026", "src": "tic_q3_26", "total": 639.6, "share_of": "revenue", "tol": 0.3,
+       "columns": [
+         {"key": "revenue", "label": "Revenue", "kind": "money"},
+         {"key": "growth", "label": "Reported growth", "kind": "pct_change"},
+         {"key": "combined", "label": "Combined growth", "kind": "pct_change"}
+       ],
+       "rows": [
+         {"name": "Inspection & Mitigation", "revenue": 318.2, "growth": 8.5, "combined": null},
+         {"name": "Consulting & Engineering", "revenue": 223.2, "growth": 86.6, "combined": 20.3},
+         {"name": "Geospatial", "revenue": 98.3, "growth": 60.9, "combined": 9.3}
+       ],
+       "note": "Growth rates are derived from the tables in the release: Q3 2025 revenue was 293.2, 119.6 and 61.1 as reported, and 185.5 and 89.9 for the two NV5 segments on a combined basis. Consulting & Engineering and Geospatial came with NV5. Their combined backlog was 1,290 at 30 September 2026, up 23% on a year earlier."}
+    ],
+    "outlook": {
+      "title": "Full-year 2026 outlook", "as_of": "2026-11-05", "src": "tic_q3_26",
+      "items": [
+        {"text": "Revenue of $2,240m to $2,270m.", "change": "raised", "was": "$2,150m to $2,250m (March 2026)"},
+        {"text": "Adjusted EBITDA of $342m to $350m.", "change": "narrowed", "was": "$330m to $355m (March 2026)"}
+      ],
+      "targets": {
+        "title": "2029 targets, set at the Investor Day on 19 May 2026", "src": "tic_invday",
+        "items": [
+          "Revenue above $3bn.",
+          "Adjusted EBITDA margin above 18%.",
+          "Free cash flow conversion above 85%.",
+          "Separately, the company has said it aims to bring net leverage below 3 times over time and to save $25m of cost from the NV5 combination."
+        ]
+      }
+    },
+    "notes": [
+      "Acuren was acquired on 30 July 2024, so 2024 is reported in two parts: a Predecessor period to 29 July and a Successor period from 30 July. The combined 2024 column adds them and is not a GAAP figure.",
+      "NV5 Global was acquired on 4 August 2025. FY2025 therefore holds a full year of Acuren and about five months of NV5, and reported growth rates in 2026 are inflated until the anniversary.",
+      "On the company's combined basis, with NV5 for the whole of 2025, call coverage gives 2025 revenue of about 2,100 and adjusted EBITDA of about 312, a 14.8% margin.",
+      "The company reports net losses; amounts in brackets are losses."
+    ]
+  }
+}

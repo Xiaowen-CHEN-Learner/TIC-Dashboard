@@ -1,0 +1,45 @@
+<header class="page-head">
+  <div>
+    <p class="crumb">TIC Industry Dashboard / Industry overview</p>
+    <h1>Industry overview</h1>
+    <p class="lede">Seven listed testing, inspection and certification groups, and where each stands after its latest report.</p>
+  </div>
+  <p class="pills"><span class="pill pill-strong">As of {{as_of}}</span><span class="pill">{{n_companies}} listed companies</span><span class="pill">5 reporting currencies</span></p>
+</header>
+{{banner}}
+<section class="card" aria-labelledby="ov-h-outlook">
+  <h2 id="ov-h-outlook">Full-year outlook after the latest reports</h2>
+  <p class="sub">How each company changed its own outlook at its most recent results or trading update.</p>
+  {{outlook_summary}}
+</section>
+<section class="card" aria-labelledby="ov-h-latest">
+  <h2 id="ov-h-latest">Latest reported period</h2>
+  <p class="sub">Amounts are in each company's reporting currency and are not converted. Select a company for its full figures and numbered sources.</p>
+  {{scoreboard}}
+</section>
+<div class="grid2">
+  {{chart_organic}}
+  {{chart_margins}}
+</div>
+<section class="card" aria-labelledby="ov-h-fy">
+  <h2 id="ov-h-fy">Latest full year</h2>
+  <p class="sub">Each company's own headline profit measure. ALS has a 31 March year end, so its latest year is FY26.</p>
+  {{fullyear_table}}
+</section>
+<div class="grid2 grid-2-1">
+  <section class="card" aria-labelledby="ov-h-news">
+    <h2 id="ov-h-news">Recent news</h2>
+    {{headlines}}
+    <p class="more"><a href="{{href_news}}">All {{n_news}} news items, results and earnings calls</a></p>
+  </section>
+  <div class="stack">
+    <section class="card" aria-labelledby="ov-h-dates">
+      <h2 id="ov-h-dates">Next dates</h2>
+      {{next_dates}}
+    </section>
+    <section class="card" aria-labelledby="ov-h-open">
+      <h2 id="ov-h-open">Open items in the data</h2>
+      {{open_items}}
+    </section>
+  </div>
+</div>

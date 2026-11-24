@@ -1,0 +1,325 @@
+{
+  "_readme": "news: one item per event, newest first. The first source decides the evidence label, so put the primary document first. calls: the latest call or investor event per company. calendar: confirmed dates only. See docs/DATA_MODEL.md.",
+
+  "types": {
+    "result": "Results",
+    "deal": "Deals",
+    "strategy": "Strategy",
+    "people": "People",
+    "industry": "Industry"
+  },
+
+  "news": [
+    {"id": "2026-11-23-alq-h1", "date": "2026-11-23", "company": "alq", "type": "result",
+     "headline": "ALS half-year underlying profit up 24%; Life Sciences outlook cut and shares fall about 12%",
+     "summary": "For the six months to 30 September 2026, revenue was A$1,715m, up 3.4% reported and 10.2% organically. Underlying EBIT rose 18.6% to A$332.7m, a 19.4% margin, and underlying net profit rose 23.6% to A$214.6m. Commodities grew 24.5% organically; Life Sciences grew 1.8% and its underlying EBIT fell 12.6%. The interim dividend is 23.3 cents, payable on 21 December. The FY27 group growth outlook was raised and the Life Sciences outlook cut to about 3%. The shares fell about 12% on the day; press reports give falls of 11% to 13% at different times.",
+     "sources": ["als_h1_27_rtt", "als_h1_27_inv", "als_h1_27_kal", "als_h1_27_tip", "als_h1_27_gf", "als_h1_27_sk"]},
+
+    {"id": "2026-11-18-sgs-2030", "date": "2026-11-18", "company": "sgs", "type": "strategy",
+     "headline": "SGS sets Strategy 2030 targets at its Capital Markets Event in Berlin",
+     "summary": "SGS targets organic sales growth of 5% to 7% a year through 2030, a further 1% to 2% a year from acquisitions, an adjusted operating income margin of at least 17% by 2030 and cash conversion above 50%. It aims for at least CHF 750m of Digital Trust revenue and about CHF 1.5bn of sustainability revenue by 2030. The company says Strategy 27 was delivered a year ahead of plan.",
+     "sources": ["sgs_cme", "sgs_cme_inv", "sgs_cme_tv"]},
+
+    {"id": "2026-11-05-tic-q3", "date": "2026-11-05", "company": "tic", "type": "result",
+     "headline": "TIC Solutions Q3: revenue $639.6m, organic growth 8.4%, revenue outlook raised",
+     "summary": "Revenue rose 35% as reported, which mostly reflects NV5, and 12.5% on a combined basis. Adjusted EBITDA was $107.2m, a 16.8% margin; the net loss was $11.1m. Backlog in the two NV5 segments reached $1.29bn, up 23%. The 2026 revenue outlook moved up to $2,240m to $2,270m and the adjusted EBITDA range narrowed to $342m to $350m.",
+     "sources": ["tic_q3_26", "tic_q3_26_ew", "tic_q3_26_quartr"]},
+
+    {"id": "2026-11-03-uls-q3", "date": "2026-11-03", "company": "uls", "type": "result",
+     "headline": "UL Solutions Q3: revenue $823m, organic growth 7.0%, margin 28.6%; growth outlook raised",
+     "summary": "Revenue rose 5.1%. Adjusted EBITDA was $235m and net income $117m; adjusted diluted EPS was $0.62. Industrial grew 8.4% organically and Consumer 5.9%. The company now expects full-year organic growth of about 6.5% and an adjusted EBITDA margin of about 27.0%.",
+     "sources": ["uls_q3_26", "uls_q3_quartr"]},
+
+    {"id": "2026-10-30-uls-dqs", "date": "2026-10-30", "company": "uls", "type": "deal",
+     "headline": "UL Solutions sells its stake in DQS Holding for about $117m",
+     "summary": "The sale closed on 30 October 2026 and is reported in the third-quarter release.",
+     "sources": ["uls_q3_26"]},
+
+    {"id": "2026-10-28-itrk-q3", "date": "2026-10-28", "company": "itrk", "type": "result",
+     "headline": "Intertek Q3 trading statement: revenue £941.8m, up 8.1%; outlook reiterated",
+     "summary": "Revenue grew 7.0% at constant currency in the quarter. Over nine months revenue was about £2.71bn, up 6.4% at constant currency, with like-for-like growth of 5.4%. Intertek still expects mid-single-digit like-for-like growth for 2026. The EQT takeover is expected to complete in Q4 2026 or Q1 2027.",
+     "sources": ["itrk_q3_26", "itrk_q3_26_an", "itrk_q3_26_quartr"]},
+
+    {"id": "2026-10-23-sgs-q3", "date": "2026-10-23", "company": "sgs", "type": "result",
+     "headline": "SGS Q3 sales CHF 1,982m, up 14.6%; organic growth 5.7%",
+     "summary": "Acquisitions added 6.9 points of growth and currency 2.0 points. SGS reports double-digit growth in Digital Trust and in its sustainability services, and confirmed its 2026 outlook.",
+     "sources": ["sgs_q3_26"]},
+
+    {"id": "2026-10-21-bvi-q3", "date": "2026-10-21", "company": "bvi", "type": "result",
+     "headline": "Bureau Veritas Q3 revenue €1,569.7m, up 10.1%; organic growth 6.2%",
+     "summary": "This is the first quarter reported on four divisions. Buildings & Infrastructure grew 7.9% organically and Product Testing & Services 7.0%. Businesses planned for exit are left out and 2025 is restated. The 2026 outlook of mid-to-high single-digit organic growth is confirmed.",
+     "sources": ["bv_q3_26"]},
+
+    {"id": "2026-10-21-erf-9m", "date": "2026-10-21", "company": "erf", "type": "result",
+     "headline": "Eurofins nine-month revenues €5,614m; organic growth improves to 3.5% in Q3",
+     "summary": "Revenues rose 3.7% as reported and 3.0% organically over nine months. Organic growth rose each quarter: 2.5%, 3.0%, then 3.5%. Press coverage reports that the company now expects 2026 organic growth below its mid-single-digit objective, while keeping its margin and cash objectives.",
+     "sources": ["erf_9m_26", "erf_9m_26_ii"]},
+
+    {"id": "2026-10-02-sgs-prescient", "date": "2026-10-02", "company": "sgs", "type": "deal",
+     "headline": "SGS completes purchase of a majority stake in Prescient Security",
+     "summary": "Prescient Security is a US cybersecurity compliance and testing firm with more than 350 employees and about 5,000 customers. The deal adds to SGS's Digital Trust business.",
+     "sources": ["sgs_prescient", "sgs_q3_26"]},
+
+    {"id": "2026-10-01-uls-ee-close", "date": "2026-10-01", "company": "uls", "type": "deal",
+     "headline": "UL Solutions closes purchase of Eurofins' electrical and electronics testing business",
+     "summary": "UL Solutions paid about $686m in cash, its largest acquisition. The business covers electromagnetic compatibility, wireless and electrical safety testing and is consolidated from the fourth quarter.",
+     "sources": ["uls_ee_close", "uls_q3_26"]},
+
+    {"id": "2026-10-01-erf-element-close", "date": "2026-10-01", "company": "erf", "type": "deal",
+     "headline": "Eurofins closes purchase of Element's life sciences testing business in North America",
+     "summary": "The enterprise value is $400m. The business has about 750 staff across 27 sites and expected 2026 revenue above $150m. Eurofins announced completion on 2 October.",
+     "sources": ["erf_element_close", "erf_element_agree"]},
+
+    {"id": "2026-10-01-bvi-clo", "date": "2026-10-01", "company": "bvi", "type": "people",
+     "headline": "Bureau Veritas names Angelo Piccirillo Chief Legal Officer",
+     "summary": "The appointment took effect on 1 October 2026 and is reported in the third-quarter release.",
+     "sources": ["bv_q3_26"]},
+
+    {"id": "2026-09-22-bvi-cmd", "date": "2026-09-22", "company": "bvi", "type": "strategy",
+     "headline": "Bureau Veritas raises its LEAP | 28 revenue growth target at Capital Markets Day",
+     "summary": "The target for total revenue growth at constant currency moves to a double-digit annual rate for 2027 and 2028, from high single-digit. The net debt to EBITDA range narrows to 1.5x to 2.0x. The company also aims for €1bn of revenue from AI-driven markets and services by 2030.",
+     "sources": ["bv_cmd_26"]},
+
+    {"id": "2026-08-06-itrk-vote", "date": "2026-08-06", "company": "itrk", "type": "deal",
+     "headline": "Intertek shareholders approve the EQT takeover with 98.72% in favour",
+     "summary": "The Court Meeting and General Meeting both passed the scheme. Completion still needs regulatory approvals and is expected in Q4 2026 or Q1 2027.",
+     "sources": ["itrk_votes", "itrk_votes_tip"]},
+
+    {"id": "2026-08-06-tic-q2", "date": "2026-08-06", "company": "tic", "type": "result",
+     "headline": "TIC Solutions Q2: revenue $584.3m, organic growth 2.5%; outlook reaffirmed",
+     "summary": "Revenue rose 86% as reported, reflecting NV5, and 3.3% on a combined basis. Adjusted EBITDA was $94.8m and the net loss $13.3m. Backlog was $1.18bn, up 20%.",
+     "sources": ["tic_q2_26", "tic_q2_26_bw"]},
+
+    {"id": "2026-08-04-uls-q2", "date": "2026-08-04", "company": "uls", "type": "result",
+     "headline": "UL Solutions Q2: revenue $816m, organic growth 6.6%, margin 26.8%",
+     "summary": "Adjusted EBITDA was $219m and adjusted diluted EPS $0.59. Net income of $254m includes the gain on the sale of the Employee Health and Safety software business, about $191m according to a call summary.",
+     "sources": ["uls_q2_26", "uls_q2_quartr"]},
+
+    {"id": "2026-07-31-itrk-h1", "date": "2026-07-31", "company": "itrk", "type": "result",
+     "headline": "Intertek H1: adjusted operating profit £309.7m, margin 17.5%",
+     "summary": "Revenue was £1,771.3m, up 5.9% at actual rates and 6.1% at constant currency. The margin rose 100 basis points from 16.5%. Adjusted diluted EPS was 124.9p. There is no interim dividend because of the pending takeover.",
+     "sources": ["itrk_h1_26", "itrk_h1_26_an", "itrk_h1_26_quartr"]},
+
+    {"id": "2026-07-29-bvi-h1", "date": "2026-07-29", "company": "bvi", "type": "result",
+     "headline": "Bureau Veritas H1: revenue €3,258.4m, organic growth 5.0%; outlook raised",
+     "summary": "Adjusted operating profit was €506.5m, a 15.5% margin. Attributable net profit fell 26.2% to €237.9m; the half includes a €32m provision for the Government Services compliance matter. The 2026 outlook moved up to mid-to-high single-digit organic growth, and the company set out plans to exit Oil & Petrochemicals, coal testing and Government Services.",
+     "sources": ["bv_h1_26", "bv_h1_26_bw", "bv_h1_26_call"]},
+
+    {"id": "2026-07-27-bvi-lotus-close", "date": "2026-07-27", "company": "bvi", "type": "deal",
+     "headline": "Bureau Veritas closes the LotusWorks acquisition",
+     "summary": "The deal, agreed in April, closed on 27 July 2026 and is reported with the half-year results.",
+     "sources": ["bv_h1_26", "bv_lotus"]},
+
+    {"id": "2026-07-24-sgs-h1", "date": "2026-07-24", "company": "sgs", "type": "result",
+     "headline": "SGS H1: sales CHF 3,683m, organic growth 5.6%, margin 15.1%",
+     "summary": "Sales rose 7.6% as reported. The adjusted operating income margin rose 20 basis points. Free cash flow was CHF 260m. SGS had completed 14 bolt-on acquisitions in the year to date and confirmed its 2026 outlook.",
+     "sources": ["sgs_h1_26"]},
+
+    {"id": "2026-07-23-erf-h1", "date": "2026-07-23", "company": "erf", "type": "result",
+     "headline": "Eurofins H1: adjusted EBITDA €877m, margin 23.7%",
+     "summary": "Revenues were €3,701m, up 2.5% as reported and 2.7% organically. The margin rose 130 basis points. Basic EPS rose 29% to €1.55. Net debt was €3,854m, 2.2x EBITDA, after €206m of share buy-backs.",
+     "sources": ["erf_h1_26", "erf_h1_26_pres", "erf_h1_26_quartr"]},
+
+    {"id": "2026-07-20-erf-element", "date": "2026-07-20", "company": "erf", "type": "deal",
+     "headline": "Eurofins agrees to buy Element's life sciences testing business in North America",
+     "summary": "The agreed enterprise value is $400m for a business with about 750 staff and 27 sites.",
+     "sources": ["erf_element_agree"]},
+
+    {"id": "2026-06-18-itrk-offer", "date": "2026-06-18", "company": "itrk", "type": "deal",
+     "headline": "EQT makes a firm £60.00-a-share cash offer for Intertek; the board recommends it",
+     "summary": "The bidder is Isotope Bidco, owned by EQT X with co-investors that include vehicles of ADIA and Mubadala. Shareholders also keep the 107.7p final dividend for 2025. The offer is a premium of about 59% to the closing price on 9 April, the last day before EQT's first approach. Reports put the equity value at about £9.3bn to £9.5bn and the enterprise value at about £10.7bn to £10.9bn; sources differ.",
+     "sources": ["itrk_offer", "itrk_offer_an", "itrk_timeline"]},
+
+    {"id": "2026-05-30-ind-ma", "date": "2026-05-30", "company": "industry", "type": "industry",
+     "headline": "Deal-making across testing, inspection and certification stays active",
+     "summary": "A Consultancy.eu review reports that mergers and acquisitions in the sector remain busy. An Oaklins sector note followed in June. This dashboard has not extracted figures from either; read them at the source.",
+     "sources": ["ind_consultancy", "ind_oaklins", "ind_aventis"]},
+
+    {"id": "2026-05-19-tic-invday", "date": "2026-05-19", "company": "tic", "type": "strategy",
+     "headline": "TIC Solutions sets 2029 targets: $3bn revenue, 18% margin, 85% cash conversion",
+     "summary": "At its first Investor Day the company set targets of revenue above $3bn, an adjusted EBITDA margin above 18% and free cash flow conversion above 85% by 2029.",
+     "sources": ["tic_invday"]},
+
+    {"id": "2026-05-18-alq-fy26", "date": "2026-05-18", "company": "alq", "type": "result",
+     "headline": "ALS FY26: revenue A$3,320.1m, underlying EBIT A$599.0m, margin 18.0%",
+     "summary": "For the year to 31 March 2026, revenue rose 10.7% and underlying EBIT 19.3%. Underlying net profit was A$381.2m. Dividends for the year total 42.5 cents and leverage fell to 1.5x from 2.3x.",
+     "sources": ["als_fy26", "als_fy26_pres", "als_fy26_q"]},
+
+    {"id": "2026-05-13-itrk-minded", "date": "2026-05-13", "company": "itrk", "type": "deal",
+     "headline": "Intertek's board says it is minded to recommend EQT's final £60.00 proposal",
+     "summary": "EQT's final proposal, announced on 12 May, was £60.00 in cash plus the 107.7p final dividend. Earlier proposals of £51.50, £54.00 and £58.00 had not been accepted. Intertek paused the strategic review it opened in April.",
+     "sources": ["itrk_final_prop", "itrk_minded", "itrk_timeline"]},
+
+    {"id": "2026-05-06-tic-q1", "date": "2026-05-06", "company": "tic", "type": "result",
+     "headline": "TIC Solutions Q1: revenue $488.0m, adjusted EBITDA $57.7m",
+     "summary": "The net loss was $41.5m. Organic growth was 2.2% according to later press coverage.",
+     "sources": ["tic_q1_26", "tic_q3_26_ew"]},
+
+    {"id": "2026-04-22-bvi-q1", "date": "2026-04-22", "company": "bvi", "type": "result",
+     "headline": "Bureau Veritas Q1 revenue €1,547.0m; outlook lowered and a compliance matter disclosed",
+     "summary": "Revenue fell 0.8% as reported and grew 4.5% organically. The company lowered its 2026 organic growth outlook to mid-single-digit. It also disclosed compliance deviations in Government Services contracts in Africa, found after internal alerts, and said it had told the authorities, ended contracts and would speed up its exit from that business.",
+     "sources": ["bv_q1_26", "bv_q1_26_quartr"]},
+
+    {"id": "2026-04-22-erf-q1", "date": "2026-04-22", "company": "erf", "type": "result",
+     "headline": "Eurofins Q1 revenues €1,789m; organic growth 2.6%",
+     "summary": "Revenues rose 1.3% as reported, after a 4.8-point drag from currency. The company cites exceptionally severe weather in the quarter and kept its 2026 and mid-term objectives.",
+     "sources": ["erf_q1_26", "erf_q1_26_quartr"]},
+
+    {"id": "2026-04-14-itrk-review", "date": "2026-04-14", "company": "itrk", "type": "strategy",
+     "headline": "Intertek opens a strategic review of its Energy & Infrastructure business",
+     "summary": "The review covers a possible sale or demerger of the business, which had about £1.58bn of 2025 revenue, to be concluded by mid-2027. First-quarter revenue was £838.5m with like-for-like growth of 5.4%. A new chair was named the same day, and the shares rose as much as 14%.",
+     "sources": ["itrk_review", "itrk_review_dt", "itrk_review_rt", "itrk_review_an"]},
+
+    {"id": "2026-04-13-uls-ee", "date": "2026-04-13", "company": "uls", "type": "deal",
+     "headline": "UL Solutions agrees to buy Eurofins' electrical and electronics testing business",
+     "summary": "The enterprise value is about €575m, or about $670m. The business was expected to bring about $200m of revenue in 2026 and includes the MET Labs certification mark.",
+     "sources": ["uls_ee_agree"]},
+
+    {"id": "2026-04-06-bvi-lotus", "date": "2026-04-06", "company": "bvi", "type": "deal",
+     "headline": "Bureau Veritas agrees to acquire LotusWorks",
+     "summary": "A data feed puts the enterprise value at about €380m. This figure has not been checked against a company release.",
+     "sources": ["bv_lotus"]},
+
+    {"id": "2026-04-01-uls-ehs", "date": "2026-04-01", "company": "uls", "type": "deal",
+     "headline": "UL Solutions completes the sale of its Employee Health and Safety software business for $201m",
+     "summary": "The sale was agreed on 12 February 2026. The proceeds helped fund the Eurofins electrical and electronics purchase.",
+     "sources": ["uls_q3_26", "uls_ee_agree"]},
+
+    {"id": "2026-03-26-itrk-cfo", "date": "2026-03-26", "company": "itrk", "type": "people",
+     "headline": "Intertek names Laura Crespi Group Chief Financial Officer from 10 April",
+     "summary": "Laura Crespi, until then regional finance chief for Europe, the Middle East and Africa, succeeds Colm Deasy. He moves to an operating role as Executive Vice President Asia Pacific, based in Vietnam.",
+     "sources": ["itrk_cfo", "itrk_cfo_decl"]},
+
+    {"id": "2026-03-12-tic-fy25", "date": "2026-03-12", "company": "tic", "type": "result",
+     "headline": "TIC Solutions FY2025: revenue $1,530.3m, adjusted EBITDA $234.1m, net loss $87.1m",
+     "summary": "Revenue rose 39% against the combined 2024 periods, with NV5 included from 4 August 2025. The first 2026 outlook was revenue of $2,150m to $2,250m and adjusted EBITDA of $330m to $355m.",
+     "sources": ["tic_fy25", "tic_fy25_call"]},
+
+    {"id": "2026-03-12-tic-ceo", "date": "2026-03-12", "company": "tic", "type": "people",
+     "headline": "TIC Solutions names Ben Heraud chief executive from 31 March 2026",
+     "summary": "Ben Heraud, then President and Chief Operating Officer, succeeds Tal Pizzey, who retires and stays on the board.",
+     "sources": ["tic_fy25"]},
+
+    {"id": "2026-03-03-itrk-fy25", "date": "2026-03-03", "company": "itrk", "type": "result",
+     "headline": "Intertek FY2025: adjusted operating profit £619.6m, margin 18.1%; shares fall about 12%",
+     "summary": "Revenue was £3,431.6m, up 4.3% at constant currency with like-for-like growth of 3.9%. Adjusted diluted EPS was 253.5p and the dividend for the year 165.0p. Financial net debt rose to £996.8m, 1.3x EBITDA.",
+     "sources": ["itrk_fy25", "itrk_fy25_rns", "itrk_fy25_an"]},
+
+    {"id": "2026-02-25-bvi-fy25", "date": "2026-02-25", "company": "bvi", "type": "result",
+     "headline": "Bureau Veritas FY2025: organic growth 6.5%, margin 16.3%; €200m buyback",
+     "summary": "Revenue was €6,466.4m, up 3.6% as reported. Adjusted operating profit was €1,052.9m and free cash flow €824.2m. The proposed dividend is €0.92 and a new €200m share buyback was announced.",
+     "sources": ["bv_fy25", "bv_fy25_bw"]},
+
+    {"id": "2026-02-19-uls-fy25", "date": "2026-02-19", "company": "uls", "type": "result",
+     "headline": "UL Solutions FY2025: revenue $3,053m, adjusted EBITDA margin 25.9%",
+     "summary": "Revenue rose 6.4%, or 6.2% organically. Adjusted EBITDA was $792m and free cash flow $403m. The quarterly dividend was raised 11.5% to $0.145.",
+     "sources": ["uls_fy25"]},
+
+    {"id": "2026-02-11-sgs-fy25", "date": "2026-02-11", "company": "sgs", "type": "result",
+     "headline": "SGS FY2025: sales CHF 6,945m, adjusted operating income margin 16.0%",
+     "summary": "Organic growth was 5.6%. Adjusted operating income was CHF 1,108m and free cash flow CHF 841m, or CHF 774m before the sale of the Geneva head office. Basic EPS was CHF 3.48.",
+     "sources": ["sgs_fy25", "sgs_fy25_rtt"]},
+
+    {"id": "2026-01-29-erf-fy25", "date": "2026-01-29", "company": "erf", "type": "result",
+     "headline": "Eurofins FY2025: revenues €7,296m, adjusted EBITDA €1,641m",
+     "summary": "Figures are preliminary and unaudited. Revenues rose 5.0% as reported and 4.1% organically. The adjusted EBITDA margin was 22.5% and basic EPS €2.31. The proposed dividend is €0.72.",
+     "sources": ["erf_fy25", "erf_fy25_pres"]}
+  ],
+
+  "calls": [
+    {"company": "alq", "event": "H1 FY27 results call", "date": "2026-11-23", "time": null,
+     "points": [
+       "FY27 group organic growth outlook raised to high single digits, with margin expansion.",
+       "Minerals grew 30.4% organically in the half with a 34.7% EBIT margin; the FY27 Minerals outlook is about 20% organic growth plus about 3% from acquisitions.",
+       "Life Sciences grew 1.8% organically and its underlying EBIT fell 12.6%; the FY27 outlook for the division is cut to about 3%.",
+       "Net underlying interest cost of A$68m to A$70m expected for FY27; leverage of 1.5x sits below the 1.7x to 2.3x target range."
+     ],
+     "links": ["als_h1_27_call", "als_h1_27_gf"],
+     "sources": ["als_h1_27_gf", "als_h1_27_inv", "als_h1_27_kal"]},
+
+    {"company": "sgs", "event": "Capital Markets Event, Berlin (investor presentation, not an earnings call)", "date": "2026-11-18", "time": null,
+     "points": [
+       "Strategy 2030: organic sales growth of 5% to 7% a year, plus 1% to 2% a year from acquisitions.",
+       "Adjusted operating income margin of at least 17% by 2030; cash conversion above 50%.",
+       "Digital Trust revenue of at least CHF 750m by 2030.",
+       "No call transcript was found for the third-quarter sales update of 23 October."
+     ],
+     "links": ["sgs_cme", "sgs_cme_inv"],
+     "sources": ["sgs_cme"]},
+
+    {"company": "tic", "event": "Q3 2026 earnings call", "date": "2026-11-05", "time": "8:30 a.m. ET",
+     "points": [
+       "Organic growth rose to 8.4%, from 2.5% in Q2 and 2.2% in Q1.",
+       "Backlog in Consulting & Engineering and Geospatial reached $1.29bn, up 23% on a year earlier.",
+       "2026 revenue outlook raised to $2,240m to $2,270m; adjusted EBITDA range narrowed to $342m to $350m.",
+       "Press coverage notes adjusted EPS of $0.18 was one cent short of consensus."
+     ],
+     "links": ["tic_q3_26_call", "tic_q3_26_quartr"],
+     "sources": ["tic_q3_26", "tic_q3_26_ew"]},
+
+    {"company": "uls", "event": "Q3 2026 earnings call", "date": "2026-11-03", "time": "8:30 a.m. ET",
+     "points": [
+       "Organic growth of 7.0%, led by Industrial at 8.4%.",
+       "Adjusted EBITDA margin of 28.6%, against 27.7% a year earlier.",
+       "Full-year outlook: organic growth about 6.5%, adjusted EBITDA margin about 27.0%, capital expenditure about 8.5% of revenue.",
+       "The Eurofins electrical and electronics business joined on 1 October, after the quarter end."
+     ],
+     "links": ["uls_q3_quartr", "uls_q3_26"],
+     "sources": ["uls_q3_26"]},
+
+    {"company": "itrk", "event": "Q3 2026 trading update", "date": "2026-10-28", "time": null,
+     "points": [
+       "Q3 revenue £941.8m, up 8.1% at actual rates and 7.0% at constant currency.",
+       "Nine-month like-for-like growth of 5.4%; acquisitions added 1.0 point.",
+       "For 2026 the call summary reports mid-single-digit like-for-like growth expected in Consumer Products, Health and Safety, and Industry and Infrastructure, high single-digit in Corporate Assurance, and a stable World of Energy.",
+       "The EQT takeover is expected to complete in Q4 2026 or Q1 2027."
+     ],
+     "links": ["itrk_q3_26_quartr", "itrk_q3_26"],
+     "sources": ["itrk_q3_26", "itrk_q3_26_an", "itrk_q3_26_quartr"]},
+
+    {"company": "bvi", "event": "Q3 2026 revenue call", "date": "2026-10-21", "time": "3:00 p.m. Paris",
+     "points": [
+       "Organic growth of 6.2% in the quarter: Buildings & Infrastructure 7.9%, Product Testing & Services 7.0%, Industrials & Commodities 5.1%, Business Assurance 3.2%.",
+       "First quarter on the four-division structure; businesses planned for exit are left out and 2025 is restated.",
+       "2026 outlook confirmed: mid-to-high single-digit organic growth, margin improvement at constant exchange rates.",
+       "No transcript of this call was found; the half-year call transcript is linked under earlier calls."
+     ],
+     "links": ["bv_q3_26"],
+     "sources": ["bv_q3_26"]},
+
+    {"company": "erf", "event": "Nine-month 2026 revenue update", "date": "2026-10-21", "time": null,
+     "points": [
+       "Organic growth improved each quarter: 2.5%, 3.0%, then 3.5%.",
+       "Nine-month revenues of €5,614m, up 3.7% as reported.",
+       "Press coverage reports 2026 organic growth is now expected below the mid-single-digit objective; margin and cash objectives are kept.",
+       "No transcript of this update was found; the half-year call summary is linked under earlier calls."
+     ],
+     "links": ["erf_9m_26"],
+     "sources": ["erf_9m_26", "erf_9m_26_ii"]}
+  ],
+
+  "earlier_calls": [
+    {"company": "tic", "event": "Q3 2026 earnings summary", "date": "2026-11-05", "link": "tic_q3_26_quartr"},
+    {"company": "uls", "event": "Q2 2026 earnings call summary", "date": "2026-08-04", "link": "uls_q2_quartr"},
+    {"company": "itrk", "event": "H1 2026 results call summary", "date": "2026-07-31", "link": "itrk_h1_26_quartr"},
+    {"company": "bvi", "event": "H1 2026 results call transcript", "date": "2026-07-29", "link": "bv_h1_26_call"},
+    {"company": "erf", "event": "H1 2026 results call summary", "date": "2026-07-23", "link": "erf_h1_26_quartr"},
+    {"company": "alq", "event": "FY26 results call summary", "date": "2026-05-18", "link": "als_fy26_q"},
+    {"company": "bvi", "event": "Q1 2026 revenue call summary", "date": "2026-04-22", "link": "bv_q1_26_quartr"},
+    {"company": "erf", "event": "Q1 2026 revenue call summary", "date": "2026-04-22", "link": "erf_q1_26_quartr"},
+    {"company": "itrk", "event": "Q1 2026 trading update summary", "date": "2026-04-14", "link": "itrk_q1_quartr"},
+    {"company": "tic", "event": "Q4 2025 earnings call summary", "date": "2026-03-12", "link": "tic_fy25_call"}
+  ],
+
+  "calendar": [
+    {"date": "2027-02-11", "company": "sgs", "event": "Full-year 2026 results", "src": "sgs_ir"},
+    {"date": "2027-03-24", "company": "sgs", "event": "Annual General Meeting", "src": "sgs_ir"},
+    {"date": "2027-04-23", "company": "sgs", "event": "First-quarter 2027 sales update", "src": "sgs_ir"},
+    {"date": "2027-05-17", "company": "alq", "event": "FY27 full-year results", "src": "als_ar26"},
+    {"date": "2027-07-23", "company": "sgs", "event": "Half-year 2027 results", "src": "sgs_ir"}
+  ],
+  "calendar_windows": [
+    {"window": "Q4 2026 to Q1 2027", "company": "itrk", "event": "Expected completion of the EQT takeover, subject to regulatory approvals; delisting follows", "src": "itrk_q3_26"}
+  ],
+  "calendar_note": "No confirmed date was found for the next results of UL Solutions, Bureau Veritas, Intertek, Eurofins or TIC Solutions. Check each investor relations page; dates are not estimated here."
+}

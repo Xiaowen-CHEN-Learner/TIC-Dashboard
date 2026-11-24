@@ -1,0 +1,11 @@
+# Build output: python tools/build_static.py recreates it
+site/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/

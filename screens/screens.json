@@ -1,0 +1,9 @@
+{
+  "_readme": "One entry per screen, in sidebar order. template is the file in screens/; file is the page the build writes to site/. id is the anchor of the screen and must stay unique.",
+  "screens": [
+    {"id": "overview", "num": "00", "label": "Industry overview", "template": "Main.screen.html", "file": "Main.html"},
+    {"id": "news", "num": "01", "label": "TIC news", "template": "News.screen.html", "file": "News.html"},
+    {"id": "financials", "num": "02", "label": "Company financials", "template": "Financials.screen.html", "file": "Financials.html"},
+    {"id": "sources", "num": "03", "label": "Sources and method", "template": "Sources.screen.html", "file": "Sources.html"}
+  ]
+}
