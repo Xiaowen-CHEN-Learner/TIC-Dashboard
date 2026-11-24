@@ -1,6 +1,6 @@
 # TIC Industry Dashboard
 
-A dashboard for managers in the testing, inspection and certification (TIC) industry. It follows seven listed companies: their news, earnings results and earnings calls, and four years of financials.
+A dashboard for managers in the testing, inspection and certification (TIC) industry. It follows seven listed companies: industry news, earnings results and earnings calls, and five years of financials with the latest year-to-date figures.
 
 The dashboard is a static site built from JSON files. Every figure carries a source and an evidence label, and a check script recomputes the arithmetic before anything is built.
 
@@ -12,10 +12,11 @@ The dashboard is a static site built from JSON files. Every figure carries a sou
 
 | # | Screen | What it shows |
 |---|---|---|
-| 00 | Industry overview | Outlook changes, the latest reported period for each company, two ranked charts, the latest full year, recent news and next dates |
-| 01 | TIC news | Earnings results this year, earnings calls with links to transcripts or summaries, confirmed dates, and a news feed you can filter by company and type |
-| 02 | Company financials | One section per company to scroll through: key figures, charts, annual and interim tables, segments, outlook and targets, reading notes and numbered sources |
-| 03 | Sources and method | How the data is compiled, evidence labels, human-review count, known gaps and the full source register |
+| 00 | Industry overview | Outlook changes, the latest reported period for each company, two ranked charts, the latest full year and next dates |
+| 01 | Industry news | Deals, strategy updates, leadership changes and sector developments, in a feed you can filter by company and type, with deal and meeting dates ahead |
+| 02 | TIC earnings news | Earnings results this year, earnings calls with links to transcripts or summaries, confirmed results dates, and the earnings news feed, all filtered by company |
+| 03 | Company financials | One section per company to scroll through: key figures, charts, five years of annual figures with the latest year to date beside them, interim tables, segments, outlook and targets, reading notes and numbered sources |
+| 04 | Sources and method | How the data is compiled, evidence labels, human-review count, known gaps and the full source register |
 
 ## Companies
 
@@ -48,7 +49,7 @@ data/                 the content; edit these files
   meta.json           as-of date, banner, label definitions, known gaps
   companies.json      profile of each company, and the order they appear in
   financials.json     annual and interim figures, segments, outlook and targets
-  news.json           news items, earnings calls, calendar
+  news.json           industry and earnings news items, earnings calls, calendar
   sources.json        every source: title, publisher, date, kind, link
 screens/              one template per screen, the page shell, styles and script
 tools/

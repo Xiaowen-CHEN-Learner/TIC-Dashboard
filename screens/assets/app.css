@@ -85,7 +85,7 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
 .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px 24px; flex-wrap: wrap; }
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; align-items: start; }
 .grid-2-1 { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
-.grid2 > .card, .stack > .card:last-child { margin-bottom: 0; }
+.grid2 > .card { margin-bottom: 0; }
 .more { margin-top: 12px; font-size: 13px; }
 .legend { font-size: 12px; color: var(--muted); margin-top: 8px; max-width: 110ch; }
 .h-sub { font-size: 13px; font-weight: 600; margin: 18px 0 6px; }
@@ -107,6 +107,10 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
 .mk { font: 600 10px/1 var(--sans); color: var(--amber-2); margin-left: 2px; }
 .fin tbody th { white-space: normal; min-width: 190px; }
 .fin .r.key > * { font-weight: 600; }
+/* The Latest column is year to date, not a full year: set it apart from the fiscal-year columns. */
+.fin .lat { background: #F7F9FC; border-left: 1px solid var(--line); padding-left: 12px; }
+.fin thead .lat { color: var(--ink); }
+.fin td.lat small { font-family: var(--sans); font-weight: 400; }
 .fin tr.subrow td { padding-top: 0; font-size: 12px; color: var(--muted); max-width: 0; }
 .fin tr.r:has(+ tr.subrow) > * { border-bottom: 0; }
 .refs { white-space: nowrap; }
@@ -148,18 +152,14 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
 .score th a:hover, .t tbody th a:hover { text-decoration: underline; }
 .score .st + small { margin-top: 4px; max-width: 30ch; }
 .score .ev + small { margin-top: 4px; }
-.heads { list-style: none; }
-.heads li { display: grid; grid-template-columns: 92px 100px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 8px 0;
-  border-top: 1px solid var(--rule); font-size: 13.5px; }
-.heads li:first-child { border-top: 0; padding-top: 0; }
-.heads time { font: 400 12px var(--mono); color: var(--muted); }
-.heads .tag { justify-self: start; }
-.heads a { color: var(--ink); text-decoration: none; font-weight: 500; }
-.heads a:hover { color: var(--blue); text-decoration: underline; }
 .dates { list-style: none; }
 .dates li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-top: 1px solid var(--rule); font-size: 13px; }
 .dates li:first-child { border-top: 0; padding-top: 0; }
 .when { font: 400 12px/1.6 var(--mono); color: var(--muted); }
+.dates small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.dates a { font-weight: 600; text-decoration: none; }
+.dates a:hover { text-decoration: underline; }
+.dates small a { font-weight: 400; text-decoration: underline; }
 .gaps, .notes { padding-left: 18px; font-size: 13px; display: grid; gap: 6px; max-width: 100ch; }
 .gaps li::marker, .notes li::marker { color: var(--dim); }
 
@@ -262,8 +262,6 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
   .co { padding: 16px; }
   .news-item { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .ni-meta { flex-direction: row; flex-wrap: wrap; align-items: center; }
-  .heads li { grid-template-columns: 80px minmax(0, 1fr); }
-  .heads .tag { display: none; }
   .src-list { columns: 1; }
   .filterbar, .jump { position: static; }
 }

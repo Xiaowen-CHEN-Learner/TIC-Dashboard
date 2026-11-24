@@ -1,6 +1,6 @@
 """Builds the click-through site from data/ and screens/.
 
-    python tools/build_static.py            site/Main.html, News.html, Financials.html, Sources.html, index.html
+    python tools/build_static.py            one page per screen in site/, plus index.html
     python tools/build_static.py --single   also site/tic-dashboard.html, one self-contained file to email or share
 
 Styles and script are inlined, so every page works when opened from disk.
@@ -51,11 +51,17 @@ def build(d, single=False):
                                         "sidebar": render.sidebar(ctx, s["id"]),
                                         "content": f'<section class="screen" id="{s["id"]}">{bodies[s["id"]]}</section>'},
                                 "shell.html")
-    first = ctx.screens[0]["file"]
-    pages["index.html"] = (f'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><title>{title}</title>'
-                           f'<meta http-equiv="refresh" content="0; url={first}"></head>'
-                           f'<body><p><a href="{first}">Open the dashboard</a></p></body></html>\n')
+    pages["index.html"] = redirect(title, ctx.screens[0]["file"], "Open the dashboard")
+    for s in ctx.screens:
+        for old in s.get("was", []):  # a renamed page keeps its old address
+            pages[old] = redirect(title, s["file"], f'This page is now {s["label"]}')
     return pages
+
+
+def redirect(title, to, text):
+    return (f'<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><title>{title}</title>'
+            f'<meta http-equiv="refresh" content="0; url={to}"></head>'
+            f'<body><p><a href="{to}">{text}</a></p></body></html>\n')
 
 
 def main():

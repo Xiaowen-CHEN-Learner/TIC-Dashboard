@@ -39,6 +39,11 @@ KINDS = {"money", "pct", "pct_change", "per_share", "per_share_1", "ratio", "cou
 CHANGES = {"raised", "lowered", "confirmed", "narrowed", "mixed", None}
 STATUSES = ["raised", "mixed", "confirmed", "lowered"]
 
+# News types shown on the TIC earnings news screen. Every other type goes to Industry news.
+EARNINGS_TYPES = {"result"}
+# Calendar entries are split the same way.
+CALENDAR_KINDS = {"earnings", "other"}
+
 
 def load():
     """Return every data file as one dict."""
@@ -71,6 +76,23 @@ def period_src(period, metric):
     return (period.get("srcs") or {}).get(metric, period["src"])
 
 
+def ytd_figure(fin, key):
+    """The newest year-to-date figure for an annual row, as printed in the Latest column.
+
+    Walks latest.ytd_order, newest period first, and returns (value, source, formula, period label)
+    from the first period that carries the row key in v or extra. Returns None when no period does.
+    """
+    periods = {p["label"]: p for p in fin["interim"]["periods"]}
+    for label in fin["latest"].get("ytd_order", []):
+        per = periods.get(label)
+        if per is None:
+            continue
+        for bag in (per["v"], per.get("extra") or {}):
+            if key in bag:
+                return bag[key], period_src(per, key), (per.get("computed") or {}).get(key), label
+    return None
+
+
 def iter_figures(d, charts=False):
     """Yield every figure cell as a dict.
 
@@ -93,6 +115,10 @@ def iter_figures(d, charts=False):
                 note = (per.get("computed") or {}).get(m["key"])
                 yield {"company": cid, "where": "interim", "row": m["label"], "col": per["label"],
                        "value": per["v"][m["key"]], "src": src, "note": note}
+            for key, v in (per.get("extra") or {}).items():
+                row = next((r["label"] for r in co["annual"]["rows"] if r["key"] == key), key)
+                yield {"company": cid, "where": "interim", "row": row, "col": per["label"],
+                       "value": v, "src": period_src(per, key), "note": None}
         for seg in co.get("segments", []):
             for r in seg["rows"]:
                 for c in seg["columns"]:

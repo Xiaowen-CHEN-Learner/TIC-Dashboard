@@ -26,12 +26,13 @@
 
   "known_gaps": [
     "ALS half-year FY27 figures (released 23 November 2026) come from press coverage only. Replace them with the ASX release and Appendix 4D.",
-    "SGS: net debt and leverage at the end of 2025 were not found. Sales by business line were not captured. FY2024 and FY2025 profit attributable come from secondary sources.",
-    "UL Solutions: FY2022 revenue comes from a data aggregator. Debt, cash and dividends for FY2022 and FY2023 were not captured. The first-quarter 2026 release was not captured; Q1 revenue is derived.",
+    "SGS: net debt was not found for the end of 2025 or 2021, nor leverage for 2025, 2022 or 2021. Sales by business line were not captured. FY2024 and FY2025 profit attributable come from secondary sources. Nine-month 2026 sales are added up here, because the update gives the quarter only.",
+    "UL Solutions: growth for FY2021 and organic growth before FY2024 were not found. Debt, cash and regular dividends before FY2024 were mostly not captured. The first-quarter 2026 release was not captured; Q1 revenue is derived.",
     "Bureau Veritas: annual figures come from the company's key-figures web page, not the Universal Registration Document. Nine-month 2026 revenue is on a new basis and does not equal H1 plus Q3.",
     "Intertek: FY2025 statutory profit after tax was not found. Revenue by division was not captured. Equity and enterprise values for the EQT offer differ between sources.",
-    "Eurofins: FY2025 figures are preliminary and unaudited. Group organic growth for FY2024 was not captured. FY2022 and FY2023 organic growth is for the core business only.",
-    "TIC Solutions: 2024 is split into Predecessor and Successor periods, and NV5 joins from 4 August 2025, so year-on-year growth is not like-for-like. Cash flow and balance-sheet figures for 2024 were not captured.",
+    "Eurofins: FY2025 figures are preliminary and unaudited. Group organic growth for FY2024 was not captured. FY2021 to FY2023 organic growth is for the core business only.",
+    "TIC Solutions: only three years are shown, because figures before 2023 were not found. 2023 and part of 2024 belong to the Predecessor, and NV5 joins from 4 August 2025, so year-on-year growth is not like-for-like. Operating cash flow for 2023 and 2024 was not captured.",
+    "ALS: FY22 return on capital employed was not found. FY22 revenue and profit are on a continuing-operations basis, while its growth rates are as first reported, before Asset Care was taken out.",
     "Next results dates were found only for SGS and ALS.",
     "Share prices, valuation multiples and analyst consensus are out of scope for this version."
   ]

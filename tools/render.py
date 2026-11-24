@@ -7,7 +7,8 @@ tools/check.py also verifies.
 from html import escape as esc
 
 import charts
-from model import REASONS, LABELS, STATUSES, label_of, period_src, tally, source_use
+from model import (EARNINGS_TYPES, LABELS, REASONS, STATUSES, label_of, period_src, source_use, tally,
+                   ytd_figure)
 
 MINUS = "−"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -155,11 +156,11 @@ def latest(ctx, cid):
     return row, periods[fin["latest"].get("organic_from", fin["latest"]["period"])]
 
 
-def cell(ctx, co, v, src, kind, note=None):
-    """One table cell with its marker and hover text."""
+def cell(ctx, co, v, src, kind, note=None, cls="num", under=None):
+    """One table cell with its marker and hover text. under is a small line printed below the value."""
     if v is None:
         short, long = REASONS[src]
-        return f'<td class="num na" title="{long.capitalize()}">{short}</td>'
+        return f'<td class="{cls} na" title="{long.capitalize()}">{short}</td>'
     marks, title = "", []
     if src == "computed":
         marks = '<sup class="mk">c</sup>'
@@ -172,7 +173,8 @@ def cell(ctx, co, v, src, kind, note=None):
         if note:
             marks += '<sup class="mk">†</sup>'
             title.append(note)
-    return f'<td class="num" title="{esc(". ".join(title), quote=True)}">{fmt(v, kind, co["dp"])}{marks}</td>'
+    small = f"<small>{esc(under)}</small>" if under else ""
+    return f'<td class="{cls}" title="{esc(". ".join(title), quote=True)}">{fmt(v, kind, co["dp"])}{marks}{small}</td>'
 
 
 def figure(title, sub, svg, note=None, cls="card chart", level=2):
@@ -188,7 +190,7 @@ def status_pill(key):
 
 LEGEND = ('<p class="legend"><sup class="mk">c</sup> computed here. <sup class="mk">s</sup> from a secondary '
           'source. <sup class="mk">†</sup> see the notes under the table. n/f: not found in the sources used. '
-          'n/a: not applicable. A dash means not reported for the period, or not captured.</p>')
+          'n/a: not applicable. n/m: not meaningful. A dash means not reported for the period, or not captured.</p>')
 
 
 # ---------- shell ----------
@@ -331,15 +333,6 @@ def fullyear_table(ctx):
             f'<tbody>{"".join(rows)}</tbody></table></div>{LEGEND}')
 
 
-def headlines(ctx, n=7):
-    items = []
-    for it in ctx.news["news"][:n]:
-        items.append(f'<li><time datetime="{it["date"]}">{fdate(it["date"])}</time>'
-                     f'<span class="tag tag-co">{esc(ctx.co_name(it["company"]))}</span>'
-                     f'<a href="{ctx.href("news", "n-" + it["id"])}">{esc(it["headline"])}</a></li>')
-    return f'<ul class="heads">{"".join(items)}</ul>'
-
-
 def next_dates(ctx):
     cal = sorted((c for c in ctx.news["calendar"] if c["date"] >= ctx.as_of), key=lambda c: c["date"])
     items = [f'<li><span class="when">{esc(w["window"])}</span><span>{ctx.fin_link(w["company"])}: {esc(w["event"])}</span></li>'
@@ -356,20 +349,27 @@ def open_items(ctx, n=4):
             f'{more} more gaps, and how the data was compiled</a></p>')
 
 
-# ---------- news ----------
+# ---------- news: shared by the Industry news and TIC earnings news screens ----------
 
-def company_chips(ctx):
+def news_items(ctx, earnings):
+    """Results items for the earnings screen; every other type for the industry screen."""
+    return [it for it in ctx.news["news"] if (it["type"] in EARNINGS_TYPES) == earnings]
+
+
+def company_chips(ctx, industry):
+    """industry adds a chip for sector items that belong to no single company."""
     chips = ['<button class="chip" type="button" data-filter-company="all" aria-pressed="true">All companies</button>']
     chips += [f'<button class="chip" type="button" data-filter-company="{cid}" aria-pressed="false">'
               f'{esc(ctx.cos[cid]["short"])}</button>' for cid in ctx.order]
-    chips.append('<button class="chip" type="button" data-filter-company="industry" aria-pressed="false">Industry</button>')
+    if industry:
+        chips.append('<button class="chip" type="button" data-filter-company="industry" aria-pressed="false">Industry</button>')
     return f'<div class="chips" role="group" aria-label="Filter by company">{"".join(chips)}</div>'
 
 
 def type_chips(ctx):
     chips = ['<button class="chip" type="button" data-filter-type="all" aria-pressed="true">All types</button>']
     chips += [f'<button class="chip" type="button" data-filter-type="{k}" aria-pressed="false">{esc(v)}</button>'
-              for k, v in ctx.news["types"].items()]
+              for k, v in ctx.news["types"].items() if k not in EARNINGS_TYPES]
     return f'<div class="chips" role="group" aria-label="Filter by type">{"".join(chips)}</div>'
 
 
@@ -422,7 +422,7 @@ def results_log(ctx):
 
 def calls_block(ctx):
     cards = []
-    for c in ctx.news["calls"]:
+    for c in sorted(ctx.news["calls"], key=lambda c: c["date"], reverse=True):
         pts = "".join(f"<li>{esc(p)}</li>" for p in c["points"])
         links = "; ".join(ctx.ext(s, f'{ctx.src[s]["title"]} ({ctx.src[s]["publisher"]})') for s in c["links"])
         when = fdate(c["date"]) + (f', {esc(c["time"])}' if c.get("time") else "")
@@ -440,36 +440,52 @@ def calls_block(ctx):
             f'<tbody>{rows}</tbody></table></div>')
 
 
-def calendar_block(ctx):
-    rows = [f'<tr data-company="{w["company"]}"><td>{esc(w["window"])}</td><th scope="row">{ctx.fin_link(w["company"])}</th>'
-            f'<td>{esc(w["event"])}</td><td>{ctx.ext(w["src"])}</td></tr>' for w in ctx.news["calendar_windows"]]
-    rows += [f'<tr data-company="{c["company"]}"><td><time datetime="{c["date"]}">{fdate(c["date"])}</time></td>'
-             f'<th scope="row">{ctx.fin_link(c["company"])}</th><td>{esc(c["event"])}</td><td>{ctx.ext(c["src"])}</td></tr>'
-             for c in sorted(ctx.news["calendar"], key=lambda c: c["date"])]
+def calendar_items(ctx, kind):
+    """Timing windows first, then confirmed dates in order, for one kind of entry."""
+    return ([w for w in ctx.news["calendar_windows"] if w["kind"] == kind]
+            + sorted((c for c in ctx.news["calendar"] if c["kind"] == kind), key=lambda c: c["date"]))
+
+
+def _when(c):
+    return f'<time datetime="{c["date"]}">{fdate(c["date"])}</time>' if c.get("date") else esc(c["window"])
+
+
+def calendar_earnings(ctx):
+    rows = [f'<tr data-company="{c["company"]}"><td>{_when(c)}</td><th scope="row">{ctx.fin_link(c["company"])}</th>'
+            f'<td>{esc(c["event"])}</td><td>{ctx.ext(c["src"])}</td></tr>' for c in calendar_items(ctx, "earnings")]
     return ('<div class="table-wrap"><table class="t" data-filterable><thead><tr><th scope="col">Date</th>'
             '<th scope="col">Company</th><th scope="col">Event</th><th scope="col">Source</th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table></div><p class="legend">{esc(ctx.news["calendar_note"])}</p>')
 
 
-def feed(ctx):
+def calendar_other(ctx):
+    items = [f'<li data-company="{c["company"]}"><span class="when">{_when(c)}</span>'
+             f'<span>{ctx.fin_link(c["company"])}: {esc(c["event"])}<small>Source: {ctx.ext(c["src"])}</small></span></li>'
+             for c in calendar_items(ctx, "other")]
+    return f'<ul class="dates" data-filterable>{"".join(items)}</ul>'
+
+
+def feed(ctx, earnings):
+    """The month-by-month feed for one of the two news screens."""
     months, order = {}, []
-    for it in ctx.news["news"]:
+    for it in news_items(ctx, earnings):
         key = it["date"][:7]
         if key not in months:
             months[key] = []
             order.append(key)
         srcs = ", ".join(ctx.ext(s) for s in it["sources"])
+        kind = "" if earnings else f'<span class="tag">{esc(ctx.news["types"][it["type"]])}</span>'
         months[key].append(
             f'<article class="news-item" id="n-{it["id"]}" data-company="{it["company"]}" data-type="{it["type"]}">'
             f'<div class="ni-meta"><time datetime="{it["date"]}">{fdate(it["date"])}</time>'
-            f'<span class="tag tag-co">{esc(ctx.co_name(it["company"]))}</span>'
-            f'<span class="tag">{esc(ctx.news["types"][it["type"]])}</span></div>'
+            f'<span class="tag tag-co">{esc(ctx.co_name(it["company"]))}</span>{kind}</div>'
             f'<div class="ni-body"><h3>{esc(it["headline"])}</h3><p>{esc(it["summary"])}</p>'
             f'<p class="ni-src">{ctx.ev(ctx.label(it["sources"][0]))}<span>Sources: {srcs}</span></p></div></article>')
     out = [f'<section class="month" data-month><h3 class="month-h">{fdate(k, long=True)}</h3>{"".join(months[k])}</section>'
            for k in order]
-    return (f'<div class="feed" data-feed>{"".join(out)}</div>'
-            '<p class="empty" data-empty hidden>No news items match these filters. Choose All companies or All types to see more.</p>')
+    empty = ("No earnings news for this company in the period covered." if earnings
+             else "No news items match these filters. Choose All companies or All types to see more.")
+    return f'<div class="feed" data-feed>{"".join(out)}</div><p class="empty" data-empty hidden>{empty}</p>'
 
 
 # ---------- company financials ----------
@@ -538,9 +554,14 @@ def company_charts(ctx, cid):
 
 
 def annual_table(ctx, cid, refs):
-    co, a = ctx.cos[cid], ctx.fin[cid]["annual"]
+    """Full fiscal years, then one Latest column with the newest year-to-date figure for each row."""
+    co, fin = ctx.cos[cid], ctx.fin[cid]
+    a = fin["annual"]
     cols = a["columns"]
     head = "".join(f'<th class="num" scope="col">{esc(c)}</th>' for c in cols)
+    show_latest = bool(fin["latest"].get("ytd_order"))  # empty between a full-year release and the next interim one
+    if show_latest:
+        head += '<th class="num lat" scope="col">Latest<small>year to date</small></th>'
     body, notes = [], []
     for row in a["rows"]:
         tds, sids = [], []
@@ -551,6 +572,16 @@ def annual_table(ctx, cid, refs):
                 sids.append(src)
             if v is not None and note:
                 notes.append(("c" if src == "computed" else "†", row["label"], col, note))
+        ytd = ytd_figure(fin, row["key"]) if show_latest else None
+        if ytd:
+            v, src, formula, period = ytd
+            tds.append(cell(ctx, co, v, src, row["kind"], formula, cls="num lat", under=period))
+            if src != "computed":
+                sids.append(src)
+            if formula:
+                notes.append(("c", row["label"], period, formula))
+        elif show_latest:
+            tds.append('<td class="num lat na" title="No year-to-date figure reported for this row, or not captured">–</td>')
         key = " key" if row.get("role") in ("revenue", "profit") else ""
         body.append(f'<tr class="r{key}"><th scope="row">{esc(row["label"])}</th>{"".join(tds)}'
                     f'<td class="refs">{refs.marks(sids)}</td></tr>')
@@ -562,9 +593,12 @@ def annual_table(ctx, cid, refs):
     if notes:
         cellnotes = '<ul class="cell-notes">' + "".join(
             f'<li><span class="mk">{m}</span> <strong>{esc(r)}, {esc(c)}:</strong> {esc(n)}</li>' for m, r, c, n in notes) + "</ul>"
+    latest_note = ('<p class="legend"><strong>Latest:</strong> the newest year-to-date figure reported in '
+                   f'{ctx.as_of[:4]}, with its period under the value. It covers part of a year, so do not read it '
+                   'against the full-year columns. Balance-sheet rows are at the period end.</p>') if show_latest else ""
     return (f'<div class="table-wrap"><table class="t fin"><thead><tr><th scope="col">{esc(co["unit"])}</th>{head}'
             f'<th scope="col" class="refs">Sources</th></tr></thead><tbody>{"".join(body)}</tbody></table></div>'
-            f'{colnotes}{cellnotes}{LEGEND}')
+            f'{latest_note}{colnotes}{cellnotes}{LEGEND}')
 
 
 def interim_table(ctx, cid, refs):
@@ -583,7 +617,7 @@ def interim_table(ctx, cid, refs):
             else:
                 tds.append('<td class="num na" title="Not reported for the period, or not captured">–</td>')
         sids = [per["src"]] + list((per.get("srcs") or {}).values())
-        rep = f'Reported {fdate(per["reported"])}' if per.get("reported") else "Derived from later releases"
+        rep = f'Reported {fdate(per["reported"])}' if per.get("reported") else "Derived here"
         derived = all(k in (per.get("computed") or {}) for k in per["v"])
         evid = ctx.ev("computed" if derived else ctx.label(per["src"]))
         body.append(f'<tr class="r"><th scope="row">{esc(per["label"])}<small>{rep}</small></th>{"".join(tds)}'
@@ -668,6 +702,7 @@ def company_section(ctx, cid):
     segs = segment_tables(ctx, cid, refs)
     outlook = outlook_block(ctx, cid, refs)
     notes = "".join(f"<li>{esc(n)}</li>" for n in fin.get("notes", []))
+    annual_h = "Annual figures and the latest year to date" if fin["latest"].get("ytd_order") else "Annual figures"
     return (
         f'<section class="card co" id="fin-{cid}" aria-labelledby="h-{cid}">'
         f'<header class="co-head"><div><h2 id="h-{cid}">{esc(co["name"])}</h2>'
@@ -675,7 +710,7 @@ def company_section(ctx, cid):
         f'<p class="co-links"><span class="pill">{esc(co["listing"])}</span>'
         f'<a class="btn" href="{esc(co["ir_url"], quote=True)}" target="_blank" rel="noopener noreferrer">Investor relations site</a></p>'
         f'</header><dl class="facts">{dl}</dl>{status}{t}{company_charts(ctx, cid)}'
-        f'<h3>Annual figures</h3>{annual}'
+        f'<h3>{annual_h}</h3>{annual}'
         f'<h3>Interim results reported in {ctx.as_of[:4]}</h3>{interim}'
         f'<h3>Segments</h3>{segs}'
         f'<h3>Outlook and targets</h3>{outlook}'
@@ -731,11 +766,13 @@ def slots(ctx):
         "as_of": fdate(ctx.as_of),
         "as_of_long": fdate(ctx.as_of, long=True),
         "href_overview": ctx.href("overview"),
-        "href_news": ctx.href("news"),
+        "href_industry_news": ctx.href("industry-news"),
+        "href_earnings": ctx.href("earnings"),
         "href_financials": ctx.href("financials"),
         "href_sources": ctx.href("sources"),
         "n_companies": str(len(ctx.order)),
-        "n_news": str(len(ctx.news["news"])),
+        "n_industry_news": str(len(news_items(ctx, False))),
+        "n_earnings_news": str(len(news_items(ctx, True))),
         "n_sources": str(len(ctx.src)),
         "n_figures": f'{sum(t["by_label"][k] for k in LABELS[:4]):,}',
         "outlook_summary": outlook_summary(ctx),
@@ -743,15 +780,17 @@ def slots(ctx):
         "chart_organic": chart_organic(ctx),
         "chart_margins": chart_margins(ctx),
         "fullyear_table": fullyear_table(ctx),
-        "headlines": headlines(ctx),
         "next_dates": next_dates(ctx),
         "open_items": open_items(ctx),
-        "company_chips": company_chips(ctx),
+        "industry_chips": company_chips(ctx, industry=True),
         "type_chips": type_chips(ctx),
+        "industry_feed": feed(ctx, earnings=False),
+        "calendar_other": calendar_other(ctx),
+        "earnings_chips": company_chips(ctx, industry=False),
         "results_log": results_log(ctx),
         "calls": calls_block(ctx),
-        "calendar": calendar_block(ctx),
-        "feed": feed(ctx),
+        "calendar_earnings": calendar_earnings(ctx),
+        "earnings_feed": feed(ctx, earnings=True),
         "jumpbar": jumpbar(ctx),
         "companies": companies(ctx),
         "labels_table": labels_table(ctx),
