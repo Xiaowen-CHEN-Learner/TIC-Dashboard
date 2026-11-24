@@ -4,6 +4,7 @@ Shared by tools/build_static.py and tools/check.py so that the build and the
 checks always read the data the same way. Share prices are walked separately,
 by tools/stockindex.py.
 """
+import hashlib
 import json
 import pathlib
 
@@ -161,6 +162,64 @@ def price_sources(d):
             if sid and sid not in out:
                 out.append(sid)
     return out
+
+
+def cited_numbers(d, sid):
+    """Every number on the dashboard that cites this source, as sorted text lines.
+
+    Figures in the tables and charts, and for a share-price source its prices, returns
+    and market caps. This is what a person's sign-off of the source covers.
+    """
+    out = [f'{f["company"]}|{f["where"]}|{f["row"]}|{f["col"]}|{f["value"]!r}'
+           for f in iter_figures(d, charts=True) if f["src"] == sid]
+    px = d["prices"]
+    for cid, series in px["series"].items():
+        if series.get("src") == sid:
+            out += [f"{cid}|adj|{m}|{v!r}" for m, v in series["adj"]]
+            out.append(f'{cid}|last_close|{series["last_close"]!r}')
+        if series.get("ret_src") == sid:
+            out += [f"{cid}|ret|{m}|{v!r}" for m, v in series["ret"]]
+    for cid, mcap in px["market_caps"].items():
+        if mcap.get("src") == sid:
+            out += [f"{cid}|mcap|{m}|{v!r}" for m, v in mcap["values"]]
+    return sorted(out)
+
+
+def review_sum(d, sid):
+    """Short checksum of the numbers that cite a source, stored with its sign-off.
+
+    tools/check.py recomputes it, so a sign-off lapses when a figure it covered is
+    added, removed or changed.
+    """
+    return hashlib.sha256("\n".join(cited_numbers(d, sid)).encode("utf-8")).hexdigest()[:12]
+
+
+def review(d):
+    """How much of the data a person has signed off.
+
+    state is 'none', 'part' or 'all'. 'all' means every sourced figure and every
+    share-price source. who lists the reviewers; first and last are the earliest and
+    latest sign-off dates.
+    """
+    sources = d["sources"]["sources"]
+    t = tally(d)
+    px = price_sources(d)
+    px_done = sum(1 for sid in px if sources[sid].get("reviewed_by"))
+    signed = [s for s in sources.values() if s.get("reviewed_by")]
+    who = []
+    for s in signed:
+        if s["reviewed_by"] not in who:
+            who.append(s["reviewed_by"])
+    dates = sorted(s["reviewed_on"] for s in signed)
+    if t["checked"] == 0 and px_done == 0:
+        state = "none"
+    elif t["checked"] == t["sourced"] and px_done == len(px):
+        state = "all"
+    else:
+        state = "part"
+    return {"state": state, "checked": t["checked"], "sourced": t["sourced"], "px_done": px_done, "px_total": len(px),
+            "who": who, "first": dates[0] if dates else None, "last": dates[-1] if dates else None,
+            "sources_done": len(signed), "sources_total": len(sources)}
 
 
 def source_use(d):

@@ -70,6 +70,10 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
 .note { background: var(--amber-bg); border: 1px solid var(--amber-line); color: var(--amber-ink); border-radius: 10px;
   padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
 .note a { color: var(--amber-2); font-weight: 500; }
+/* Once a person has checked everything the note stops being a warning. */
+.note-ok { background: #fff; border-color: var(--line); color: var(--muted); }
+.note-ok strong { color: var(--ink); }
+.note-ok a { color: var(--blue); }
 
 /* ----- cards and grids ----- */
 .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
@@ -265,6 +269,7 @@ h1 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 7
 .top { margin-top: 14px; font-size: 12.5px; }
 .review-n { display: block; font: 600 24px/1.2 var(--mono); letter-spacing: -0.02em; margin: 10px 0 4px; }
 .review { font-size: 13.5px; }
+.review-by { font-size: 13.5px; font-weight: 500; margin-top: 4px; }
 
 /* ----- small screens and print ----- */
 @media (max-width: 1180px) {

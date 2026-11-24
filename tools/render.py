@@ -9,8 +9,8 @@ from html import escape as esc
 import charts
 import stockindex
 from charts import ln_month
-from model import (EARNINGS_TYPES, LABELS, REASONS, STATUSES, label_of, period_src, price_sources, source_use,
-                   tally, ytd_figure)
+from model import (EARNINGS_TYPES, LABELS, REASONS, STATUSES, label_of, period_src, review, source_use, tally,
+                   ytd_figure)
 
 MINUS = "−"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -224,9 +224,33 @@ def sidebar(ctx, active):
             f'</aside>')
 
 
+REVIEW_LEAD = {"none": "Unverified draft.", "part": "Partly checked.", "all": "Checked by a person."}
+
+
+def names(items):
+    """Xavier Chen; A and B; A, B and C."""
+    items = list(items)
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+def review_dates(r):
+    """on 24 November 2026, or between two dates when the sign-offs were given on different days."""
+    if r["first"] == r["last"]:
+        return f'on {fdate(r["last"], long=True)}'
+    return f'between {fdate(r["first"], long=True)} and {fdate(r["last"], long=True)}'
+
+
 def banner(ctx):
-    text = ctx.meta["banner"].replace("{as_of}", fdate(ctx.as_of, long=True))
-    return (f'<div class="note" role="note"><strong>Unverified draft.</strong> {esc(text)} '
+    """The note on every screen. Its wording follows how much a person has signed off."""
+    r, b = review(ctx.d), ctx.meta["banner"]
+    fill = {"{as_of}": fdate(ctx.as_of, long=True), "{checked}": f'{r["checked"]:,}', "{sourced}": f'{r["sourced"]:,}',
+            "{px_done}": str(r["px_done"]), "{px_total}": str(r["px_total"]),
+            "{who}": names(r["who"]) if r["who"] else "", "{when}": review_dates(r) if r["who"] else ""}
+    text = " ".join((b["intro"], b[r["state"]], b["outro"]))
+    for k, v in fill.items():
+        text = text.replace(k, v)
+    cls = "note note-ok" if r["state"] == "all" else "note"
+    return (f'<div class="{cls}" role="note"><strong>{REVIEW_LEAD[r["state"]]}</strong> {esc(text)} '
             f'<a href="{ctx.href("sources")}">Sources and method</a></div>')
 
 
@@ -1006,12 +1030,12 @@ def labels_table(ctx):
 
 
 def review_block(ctx):
-    t = tally(ctx.d)
-    px = price_sources(ctx.d)
-    px_done = sum(1 for sid in px if ctx.src[sid].get("reviewed_by"))
-    return (f'<p class="review"><span class="review-n">{t["checked"]:,} of {t["sourced"]:,}</span> sourced figures have been '
-            f'checked against their source by a person.</p><p class="sub">{esc(ctx.meta["review"]["how"])}</p>'
-            f'<p class="sub">Share prices are counted by source, not by figure: {px_done} of {len(px)} price and '
+    r = review(ctx.d)
+    who = (f'<p class="review-by">Signed off by {esc(names(r["who"]))} {review_dates(r)}: {r["sources_done"]} of '
+           f'{r["sources_total"]} sources in the register below.</p>') if r["who"] else ""
+    return (f'<p class="review"><span class="review-n">{r["checked"]:,} of {r["sourced"]:,}</span> sourced figures have been '
+            f'checked against their source by a person.</p>{who}<p class="sub">{esc(ctx.meta["review"]["how"])}</p>'
+            f'<p class="sub">Share prices are counted by source, not by figure: {r["px_done"]} of {r["px_total"]} price and '
             f'market-cap sources behind <a href="{ctx.href("stock")}">TIC stock price</a> have been checked.</p>')
 
 

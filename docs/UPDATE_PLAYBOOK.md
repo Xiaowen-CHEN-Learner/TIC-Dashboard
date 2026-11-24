@@ -17,6 +17,8 @@ What to do when a company reports, and when a month ends. Allow about twenty min
 11. **Review `known_gaps`** in `data/meta.json`. Remove what you filled and add what you could not find.
 12. **Run** `python tools/check.py` and `python tools/build_static.py`. Open `site/index.html` and read the company's section from top to bottom.
 
+A new source starts without a sign-off, so the banner changes to "partly checked" until a person has checked it. If the check says a sign-off no longer matches, you changed a figure under a source that was already signed off: remove that sign-off as the message says.
+
 ## After a month end: share prices
 
 Do this once the month is complete. A part-month price never goes in.
@@ -27,7 +29,8 @@ Do this once the month is complete. A part-month price never goes in.
 4. **Set `last`, `last_date` and `read_on`**, and each share's `last_close`, the unadjusted close on the last trading day.
 5. **After a year end,** add the year-end US dollar market cap for each share to `market_caps`.
 6. **Rewrite the first line of `limits`**, which names the last month and anything notable that happened after it.
-7. **Run** `python tools/check.py` and `python tools/build_static.py`. Open the TIC stock price screen and compare the latest month with the price pages.
+7. **Remove the sign-off from each price source you changed.** The new prices have not been checked by a person: `python tools/signoff.py --remove px_sgs px_bvi` and so on. The check names any you miss.
+8. **Run** `python tools/check.py` and `python tools/build_static.py`. Open the TIC stock price screen and compare the latest month with the price pages.
 
 Do not enter an index level or a weight. They are computed. If a month is missing for a share, stop and find it; do not fill it in.
 
@@ -43,19 +46,23 @@ The first candidates are listed under Known gaps on the Sources screen.
 
 ## Signing off figures
 
-A person, not an AI assistant, does this.
+A person, not an AI assistant, does the checking.
 
 1. Open a source from the register on the Sources screen.
-2. On the Company financials screen, find the figures that cite it. The numbered marks beside each row point to the source.
+2. On the Company financials screen, find the figures that cite it. The numbered marks beside each row point to the source. For a share-price source, compare the page with the month-end prices in `data/prices.json`.
 3. Compare each figure with the document.
-4. Add two fields to the source in `data/sources.json`:
+4. Record the sign-off, for the sources you checked or for all of them:
 
-```json
-"reviewed_by": "XC",
-"reviewed_on": "2026-11-30"
+```
+python tools/signoff.py --by "Your Name" sgs_q3_26 uls_q3_26
+python tools/signoff.py --by "Your Name" --all
 ```
 
-The count on the Sources screen rises by the number of figures that cite the source. When every source is signed off, change the banner in `data/meta.json`.
+Or tell Claude in chat which sources you have checked and the name to show. Claude runs the same command with your name and the date, and says so in the pull request. Claude never signs off on its own judgement.
+
+The banner on every screen and the count on the Sources screen follow by themselves: unverified draft, partly checked, or checked by a person. `python tools/signoff.py --status` prints the count.
+
+A sign-off covers the figures that cited the source on that day. If one is added, removed or changed later, `python tools/check.py` fails and names the source. Remove that sign-off with `python tools/signoff.py --remove <id>`. The count drops until a person checks the source again.
 
 ## Adding a company
 
