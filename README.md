@@ -4,6 +4,8 @@ A dashboard for managers in the testing, inspection and certification (TIC) indu
 
 The dashboard is a static site built from JSON files. Every figure carries a source and an evidence label, and a check script recomputes the arithmetic before anything is built.
 
+**Live site:** https://xiaowen-chen-learner.github.io/TIC-Dashboard/
+
 > **Status: unverified draft.** Compiled by an AI assistant (Claude) from public sources on 23 November 2026. No figure has yet been checked by a person. Company measures differ and are not like-for-like. This is not investment advice.
 
 ## Screens
@@ -83,7 +85,7 @@ After a company reports, follow `docs/UPDATE_PLAYBOOK.md`: add the source, add t
 
 - **Preview from CI.** Every run of the `check` workflow uploads the built site as an artifact named `dashboard-preview`.
 - **One file.** `python tools/build_static.py --single` writes `site/tic-dashboard.html`, which opens from disk or an email attachment.
-- **GitHub Pages.** Set the repository variable `ENABLE_PAGES` to `true` and choose "GitHub Actions" as the Pages source. The `pages` workflow then publishes `main`. A Pages site can be reached by anyone with the link, and Pages on a private repository needs a paid plan.
+- **GitHub Pages.** The live site is published by the `pages` workflow on every push to `main`, after the rule checks pass. It is on because the Pages source is "GitHub Actions" and the repository variable `ENABLE_PAGES` is `true`. Set the variable to `false` to stop publishing new versions; to take the site down, unpublish it under Settings, Pages. Anyone with the link can open the site.
 - **Container.** `docker build -t tic-dashboard . && docker run -p 8080:8080 tic-dashboard`, then open `http://localhost:8080`. The same image runs on Cloud Run. There is no sign-in, so keep it private unless you mean to publish it.
 
 ## Design choices
