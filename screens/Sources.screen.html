@@ -16,6 +16,7 @@
       <li>Outlook statements and targets are the companies' own claims and carry the company_claim label.</li>
       <li>Growth rates, margins, segment totals and period sums are recomputed by <code>tools/check.py</code> and must agree with the stated figures.</li>
       <li>News summaries are written in plain words from the sources listed. They are not quotations.</li>
+      <li>Share prices and market caps come from market-data sites and carry the secondary_report label. The two indexes on the <a href="{{href_stock}}">TIC stock price</a> screen are computed from them by <code>tools/stockindex.py</code>.</li>
       <li>The dashboard holds public information only. It is not investment advice.</li>
     </ul>
   </section>
@@ -41,6 +42,6 @@
 </div>
 <section class="card" aria-labelledby="so-h-register">
   <h2 id="so-h-register">Source register</h2>
-  <p class="sub">{{n_sources}} sources, accessed {{as_of_long}}. Links open the source in a new tab.</p>
+  <p class="sub">{{n_sources}} sources, accessed {{as_of_long}}; the share-price and market-cap pages were read on {{stock_read_on}}. Links open the source in a new tab.</p>
   {{register}}
 </section>

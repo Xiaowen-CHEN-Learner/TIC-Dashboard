@@ -1,6 +1,6 @@
 # TIC Industry Dashboard
 
-A dashboard for managers in the testing, inspection and certification (TIC) industry. It follows seven listed companies: industry news, earnings results and earnings calls, and five years of financials with the latest year-to-date figures.
+A dashboard for managers in the testing, inspection and certification (TIC) industry. It follows seven listed companies: industry news, earnings results and earnings calls, five years of financials with the latest year-to-date figures, and two monthly indexes of their share prices.
 
 The dashboard is a static site built from JSON files. Every figure carries a source and an evidence label, and a check script recomputes the arithmetic before anything is built.
 
@@ -15,15 +15,16 @@ The dashboard is a static site built from JSON files. Every figure carries a sou
 | 00 | Industry overview | Outlook changes, the latest reported period for each company, two ranked charts, the latest full year and next dates |
 | 01 | Industry news | Deals, strategy updates, leadership changes and sector developments, in a feed you can filter by company and type, with deal and meeting dates ahead |
 | 02 | TIC earnings news | Earnings results this year, earnings calls with links to transcripts or summaries, confirmed results dates, and the earnings news feed, all filtered by company |
-| 03 | Company financials | One section per company to scroll through: key figures, charts, five years of annual figures with the latest year to date beside them, interim tables, segments, outlook and targets, reading notes and numbered sources |
+| 03 | Company financials | One numbered section per company, 3.1 SGS to 3.7 TIC Solutions. Each opens with a latest summary, then key figures, charts, five years of annual figures with the latest year to date beside them, interim tables, segments, outlook and targets, reading notes and numbered sources |
 | 04 | Sources and method | How the data is compiled, evidence labels, human-review count, known gaps and the full source register |
+| 05 | TIC stock price | Two indexes of the seven shares at each month end since December 2020, one weighted by market cap and one equal-weighted, with yearly returns, weights, every month-end level, the method and its limits |
 
 ## Companies
 
 | Company | Listing | Reports in | Year end |
 |---|---|---|---|
-| UL Solutions Inc. | NYSE: ULS | USD | 31 December |
 | SGS SA | SIX: SGSN | CHF | 31 December |
+| UL Solutions Inc. | NYSE: ULS | USD | 31 December |
 | Bureau Veritas SA | Euronext Paris: BVI | EUR | 31 December |
 | Intertek Group plc | LSE: ITRK | GBP | 31 December |
 | Eurofins Scientific SE | Euronext Paris: ERF | EUR | 31 December |
@@ -50,6 +51,7 @@ data/                 the content; edit these files
   companies.json      profile of each company, and the order they appear in
   financials.json     annual and interim figures, segments, outlook and targets
   news.json           industry and earnings news items, earnings calls, calendar
+  prices.json         month-end share prices and year-end market caps for the indexes
   sources.json        every source: title, publisher, date, kind, link
 screens/              one template per screen, the page shell, styles and script
 tools/
@@ -57,10 +59,11 @@ tools/
   build_static.py     builds site/ from data/ and screens/
   render.py           turns data into the tables, tiles and lists
   charts.py           inline SVG charts
+  stockindex.py       computes the two share-price indexes from prices.json
   model.py            loads the data and walks every figure
 docs/
   DATA_MODEL.md       what each field means
-  UPDATE_PLAYBOOK.md  what to do after a results release
+  UPDATE_PLAYBOOK.md  what to do after a results release or a month end
 .github/workflows/    check.yml runs on every pull request and push; pages.yml is an optional publish step
 Dockerfile            optional container that serves site/
 CLAUDE.md             rules for any AI assistant editing this repo
@@ -71,6 +74,7 @@ CLAUDE.md             rules for any AI assistant editing this repo
 ## The rules in one minute
 
 - **No invented numbers.** A figure has a source, or a formula, or it is left empty with a reason. Nothing is estimated and no currency is converted.
+- **Indexes are computed, not typed in.** The share-price indexes are worked out from month-end prices in each share's own currency. Published US dollar market caps are used only to set weights.
 - **Evidence labels.** `verified_public_record` for filings and exchange announcements, `company_claim` for other company statements and for every outlook or target, `secondary_report` for news, call records and data providers, `computed` for figures derived here, `not_found_in_scoped_search` for gaps.
 - **Charts follow the data.** Charts are drawn from the same JSON as the tables, so they cannot disagree.
 - **Plain writing, no long quotations.** News is summarised in the dashboard's own words.
@@ -80,7 +84,7 @@ The full rules are in `CLAUDE.md`.
 
 ## Update it
 
-After a company reports, follow `docs/UPDATE_PLAYBOOK.md`: add the source, add the new period, update the outlook, add the news item, run the checks and build.
+After a company reports, follow `docs/UPDATE_PLAYBOOK.md`: add the source, add the new period, update the outlook, add the news item, run the checks and build. After a month end, the same playbook says how to add the month's share prices.
 
 ## Share or publish it
 

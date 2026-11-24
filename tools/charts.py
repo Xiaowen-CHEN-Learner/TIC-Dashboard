@@ -2,7 +2,8 @@
 
 Rules (see CLAUDE.md, "Charts"): one blue for every data mark, text in ink
 colours, every value printed beside its mark, bars start at zero, and a table
-with the same numbers sits on the same screen.
+with the same numbers sits on the same screen. A monthly line prints its latest
+value only; its table carries every month.
 """
 from html import escape
 
@@ -147,8 +148,125 @@ def line(points, fmt, label, width=500, height=196):
     return _svg(width, height, label, body)
 
 
-def share_bar(share):
-    """Small inline bar for a share of total, 0 to 100."""
+def _ticks(lo, hi):
+    """Round axis ticks that cover lo..hi, four to seven of them."""
+    for step in (5, 10, 20, 25, 50, 100, 200, 250, 500):
+        first = int(lo // step) * step
+        ticks = []
+        v = first
+        while v < hi + step:
+            ticks.append(v)
+            v += step
+        if len(ticks) <= 7:
+            return ticks
+    return ticks
+
+
+def timeseries(months, lines, label, notes=(), base=None, width=960, height=340):
+    """Monthly lines on one scale, for an index that starts at a base level.
+
+    months: ['YYYY-MM', ...]. lines: [{name, values, dashed}], values aligned to months.
+    Every line is the same blue; a dashed stroke tells the second from the first, and each
+    line is named at its right-hand end with its latest value. notes: [(month, text)] marks
+    an event with a thin vertical rule. base draws a stronger reference line at that level.
+    The scale is fitted to the data, so read levels from the labels and the table.
+    The c-cursor group and the c-hit rectangles are for the hover read-out in app.js; without
+    script each rectangle still shows its month in a native tooltip.
+    """
+    vals = [v for ln in lines for v in ln["values"] if v is not None]
+    ticks = _ticks(min(vals), max(vals))
+    lo, hi = ticks[0], ticks[-1]
+    left, right, top, bottom = 40, 170, 36, 30
+    x0, x1, y0, y1 = left, width - right, top, height - bottom
+    n = len(months)
+
+    def x(i):
+        return x0 + (x1 - x0) * i / (n - 1)
+
+    def y(v):
+        return y1 - (v - lo) / (hi - lo) * (y1 - y0)
+
+    body = []
+    for t in ticks:
+        strong = base is not None and t == base
+        body.append(f'<line x1="{x0}" x2="{x1}" y1="{y(t):.1f}" y2="{y(t):.1f}" stroke="{RULE if strong else "#EEF0F3"}" '
+                    f'stroke-width="1"/>'
+                    f'<text x="{x0 - 8}" y="{y(t) + 4:.1f}" text-anchor="end" class="c-sub">{t:g}</text>')
+    # year labels under the axis, with a tick where each year starts
+    years = {}
+    for i, m in enumerate(months):
+        years.setdefault(m[:4], []).append(i)
+    for year, idx in years.items():
+        if len(idx) < 2:
+            continue
+        if idx[0] > 0:
+            body.append(f'<line x1="{x(idx[0] - 0.5):.1f}" x2="{x(idx[0] - 0.5):.1f}" y1="{y1}" y2="{y1 + 5}" '
+                        f'stroke="{RULE}" stroke-width="1"/>')
+        body.append(f'<text x="{(x(idx[0]) + x(idx[-1])) / 2:.1f}" y="{height - 8}" text-anchor="middle" '
+                    f'class="c-sub">{year}</text>')
+    # event notes: a thin rule with its text to the left; a second row when two would touch
+    edge, row = None, 0
+    for month, text in notes:
+        i = months.index(month)
+        start = x(i) - 6 - 5.8 * len(text)
+        row = row + 1 if edge is not None and start < edge + 10 else 0
+        edge = x(i)
+        ty = y0 + 11 + 14 * row
+        body.append(f'<line x1="{x(i):.1f}" x2="{x(i):.1f}" y1="{y0}" y2="{y1}" stroke="{RULE}" stroke-width="1" '
+                    f'stroke-dasharray="2 4"/>'
+                    f'<text x="{x(i) - 6:.1f}" y="{ty}" text-anchor="end" class="c-sub c-halo">{escape(text)}</text>')
+    # legend, top left
+    lx = x0
+    for ln in lines:
+        dash = ' stroke-dasharray="6 4"' if ln.get("dashed") else ""
+        body.append(f'<line x1="{lx}" x2="{lx + 28}" y1="12" y2="12" stroke="{BLUE}" stroke-width="2"{dash}/>'
+                    f'<text x="{lx + 34}" y="16" class="c-sub">{escape(ln["name"])}</text>')
+        lx += 34 + 6.2 * len(ln["name"]) + 22
+    ends = []
+    for ln in lines:
+        pts = [(x(i), y(v)) for i, v in enumerate(ln["values"]) if v is not None]
+        d = "M" + "L".join(f"{px:.1f},{py:.1f}" for px, py in pts)
+        dash = ' stroke-dasharray="6 4"' if ln.get("dashed") else ""
+        body.append(f'<path d="{d}" fill="none" stroke="{BLUE}" stroke-width="2" stroke-linejoin="round" '
+                    f'stroke-linecap="round"{dash}/>')
+        ends.append([pts[-1][1], ln])
+    for ey, ln in ends:
+        body.append(f'<circle cx="{x(n - 1):.1f}" cy="{ey:.1f}" r="4.5" fill="{BLUE}" stroke="#FFFFFF" stroke-width="2"/>')
+    # name each line at its end; keep the labels at least 32px apart
+    ends.sort(key=lambda e: e[0])
+    for a, b in zip(ends, ends[1:]):
+        if b[0] - a[0] < 32:
+            mid = (a[0] + b[0]) / 2
+            a[0], b[0] = mid - 16, mid + 16
+    for ly, ln in ends:
+        last = [v for v in ln["values"] if v is not None][-1]
+        body.append(f'<text x="{x1 + 12}" y="{ly - 2:.1f}" class="c-label">{escape(ln["name"])}</text>'
+                    f'<text x="{x1 + 12}" y="{ly + 13:.1f}" class="c-val">{last:,.1f}</text>')
+    # hover read-out: hidden until app.js moves it to the month under the pointer
+    dots = "".join(f'<circle r="4.5" fill="{BLUE}" stroke="#FFFFFF" stroke-width="2"/>' for _ in lines)
+    body.append(f'<g class="c-cursor" visibility="hidden"><line y1="{y0}" y2="{y1}" stroke="#98A2B3" stroke-width="1"/>'
+                f'{dots}<text x="{x1}" y="16" text-anchor="end" class="c-read"></text></g>')
+    step = (x1 - x0) / (n - 1)
+    for i, m in enumerate(months):
+        have = [ln for ln in lines if ln["values"][i] is not None]
+        tip = ", ".join(f'{ln["name"].lower()} {ln["values"][i]:,.1f}' for ln in have)
+        ys = " ".join(f'{y(ln["values"][i]):.1f}' if ln["values"][i] is not None else "" for ln in lines)
+        body.append(f'<rect class="c-hit" x="{x(i) - step / 2:.1f}" y="{y0}" width="{step:.1f}" height="{y1 - y0}" '
+                    f'fill="#FFFFFF" fill-opacity="0" data-x="{x(i):.1f}" data-y="{ys}">'
+                    f'<title>{escape(ln_month(m))}: {escape(tip)}</title></rect>')
+    return _svg(width, height, label, body)
+
+
+MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def ln_month(month):
+    """'2026-10' -> 'Oct 2026'."""
+    return f"{MONTH_NAMES[int(month[5:7]) - 1]} {month[:4]}"
+
+
+def share_bar(share, dp=0):
+    """Small inline bar for a share of total, 0 to 100, with the value printed beside it."""
     w = max(0.0, min(100.0, share))
     return (f'<span class="share"><span class="share-track"><span class="share-fill" style="width:{w:.1f}%"></span></span>'
-            f'<span class="share-val">{share:.0f}%</span></span>')
+            f'<span class="share-val">{share:.{dp}f}%</span></span>')

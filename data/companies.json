@@ -1,6 +1,6 @@
 {
   "_readme": "order sets the sequence on every screen. The as-of date lives in meta.json. See docs/DATA_MODEL.md.",
-  "order": ["uls", "sgs", "bvi", "itrk", "erf", "alq", "tic"],
+  "order": ["sgs", "uls", "bvi", "itrk", "erf", "alq", "tic"],
   "companies": {
     "uls": {
       "name": "UL Solutions Inc.",

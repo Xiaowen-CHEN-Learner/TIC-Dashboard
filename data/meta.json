@@ -1,6 +1,6 @@
 {
   "title": "TIC Industry Dashboard",
-  "subtitle": "Testing, inspection and certification: listed-company news and financials",
+  "subtitle": "Testing, inspection and certification: listed-company news, financials and share-price indexes",
   "as_of": "2026-11-23",
   "banner": "Compiled by an AI assistant from public sources on {as_of}. No figure has yet been checked by a person. Company measures differ and are not like-for-like. This is not investment advice.",
 
@@ -34,6 +34,7 @@
     "TIC Solutions: only three years are shown, because figures before 2023 were not found. 2023 and part of 2024 belong to the Predecessor, and NV5 joins from 4 August 2025, so year-on-year growth is not like-for-like. Operating cash flow for 2023 and 2024 was not captured.",
     "ALS: FY22 return on capital employed was not found. FY22 revenue and profit are on a continuing-operations basis, while its growth rates are as first reported, before Asset Care was taken out.",
     "Next results dates were found only for SGS and ALS.",
-    "Share prices, valuation multiples and analyst consensus are out of scope for this version."
+    "Share prices and market caps come from market-data sites, not from the exchanges. UL Solutions month-end prices before November 2025 and TIC Solutions market caps before October 2026 were not captured; the TIC stock price screen says how the indexes handle this.",
+    "Valuation multiples and analyst consensus are out of scope for this version."
   ]
 }

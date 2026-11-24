@@ -1,7 +1,8 @@
 """Loads data/*.json and walks every figure in it.
 
 Shared by tools/build_static.py and tools/check.py so that the build and the
-checks always read the data the same way.
+checks always read the data the same way. Share prices are walked separately,
+by tools/stockindex.py.
 """
 import json
 import pathlib
@@ -48,7 +49,7 @@ CALENDAR_KINDS = {"earnings", "other"}
 def load():
     """Return every data file as one dict."""
     d = {}
-    for name in ("meta", "companies", "financials", "news", "sources"):
+    for name in ("meta", "companies", "financials", "news", "prices", "sources"):
         with open(DATA / f"{name}.json", encoding="utf-8") as f:
             d[name] = json.load(f)
     with open(SCREENS / "screens.json", encoding="utf-8") as f:
@@ -151,6 +152,17 @@ def tally(d):
     return {"by_label": by_label, "sourced": sourced, "checked": checked}
 
 
+def price_sources(d):
+    """Source ids behind the share prices and market caps, in the order they are first used."""
+    px, out = d["prices"], []
+    for cid in company_ids(d):
+        series = px["series"][cid]
+        for sid in (series["src"], series.get("ret_src"), px["market_caps"][cid]["src"]):
+            if sid and sid not in out:
+                out.append(sid)
+    return out
+
+
 def source_use(d):
     """How many times each source is cited anywhere in the data."""
     use = {k: 0 for k in d["sources"]["sources"]}
@@ -189,4 +201,10 @@ def source_use(d):
         hit(c["link"])
     for c in n["calendar"] + n["calendar_windows"]:
         hit(c["src"])
+    for series in d["prices"]["series"].values():
+        hit(series["src"])
+        if series.get("ret_src"):
+            hit(series["ret_src"])
+    for mcap in d["prices"]["market_caps"].values():
+        hit(mcap["src"])
     return use

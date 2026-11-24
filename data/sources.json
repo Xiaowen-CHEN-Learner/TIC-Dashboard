@@ -932,6 +932,111 @@
    "date": "2025-03-27",
    "kind": "filing",
    "url": "https://www.businesswire.com/news/home/20250327902309/en"
+  },
+  "px_sgs": {
+   "title": "SGS (SGSN.SW) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/SGSN.SW/price"
+  },
+  "px_bvi": {
+   "title": "Bureau Veritas (BVI.PA) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/BVI.PA/price"
+  },
+  "px_itrk": {
+   "title": "Intertek (ITRK.L) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/ITRK.L/price"
+  },
+  "px_erf": {
+   "title": "Eurofins Scientific (ERF.PA) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/ERF.PA/price"
+  },
+  "px_alq": {
+   "title": "ALS (ALQ.AX) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/ALQ.AX/price"
+  },
+  "px_tic": {
+   "title": "TIC Solutions (TIC) monthly price history, adjusted and unadjusted",
+   "publisher": "Digrin",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.digrin.com/stocks/detail/TIC/price"
+  },
+  "px_uls": {
+   "title": "UL Solutions (ULS) daily historical prices with adjusted close",
+   "publisher": "Quiver Quantitative",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://www.quiverquant.com/stock/ULS/historical-prices/"
+  },
+  "px_uls_ret": {
+   "title": "UL Solutions (ULS) monthly total returns",
+   "publisher": "ChartRow",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://chartrow.com/quote/uls/monthly-returns"
+  },
+  "mcap_sgs": {
+   "title": "SGS market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/sgs/marketcap/"
+  },
+  "mcap_uls": {
+   "title": "UL Solutions market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/ul-solutions/marketcap/"
+  },
+  "mcap_bvi": {
+   "title": "Bureau Veritas market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/bureau-veritas/marketcap/"
+  },
+  "mcap_itrk": {
+   "title": "Intertek market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/intertek/marketcap/"
+  },
+  "mcap_erf": {
+   "title": "Eurofins Scientific market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/eurofins-scientific/marketcap/"
+  },
+  "mcap_alq": {
+   "title": "ALS market capitalisation at each year end, in US dollars",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/als-global/marketcap/"
+  },
+  "mcap_tic": {
+   "title": "Largest US companies by market capitalisation, page listing TIC Solutions",
+   "publisher": "CompaniesMarketCap",
+   "date": null,
+   "kind": "aggregator",
+   "url": "https://companiesmarketcap.com/usa/largest-companies-in-the-usa-by-market-cap?page=16"
   }
  }
 }

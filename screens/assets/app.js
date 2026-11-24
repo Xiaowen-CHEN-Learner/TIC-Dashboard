@@ -71,15 +71,7 @@
     });
   });
 
-  /* ----- Sidebar: close the company list after a choice ----- */
-  all('.picker a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      var d = a.closest('details');
-      if (d) { d.removeAttribute('open'); }
-    });
-  });
-
-  /* ----- Company financials: mark the company in view on the jump bar ----- */
+  /* ----- Company financials: mark the company in view on the jump bar and in the sidebar ----- */
   var jumps = all('[data-jump]');
   if (jumps.length && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -90,6 +82,37 @@
     }, { rootMargin: '-15% 0px -75% 0px' });
     all('.co').forEach(function (s) { io.observe(s); });
   }
+
+  /* ----- Monthly line chart: read a month off the chart -----
+     Moves the cursor group to the month under the pointer and prints its levels.
+     The native tooltip is removed once this works, so the two do not show together. */
+  all('.chart-svg').forEach(function (svg) {
+    var cursor = svg.querySelector('.c-cursor');
+    if (!cursor) { return; }
+    var rule = cursor.querySelector('line');
+    var dots = all('circle', cursor);
+    var out = cursor.querySelector('text');
+    all('.c-hit', svg).forEach(function (hit) {
+      var title = hit.querySelector('title');
+      var tip = title ? title.textContent : '';
+      if (title) { hit.removeChild(title); }
+      var showAt = function () {
+        var x = hit.getAttribute('data-x');
+        var ys = hit.getAttribute('data-y').split(' ');
+        rule.setAttribute('x1', x);
+        rule.setAttribute('x2', x);
+        dots.forEach(function (dot, i) {
+          dot.setAttribute('visibility', ys[i] ? 'inherit' : 'hidden');
+          if (ys[i]) { dot.setAttribute('cx', x); dot.setAttribute('cy', ys[i]); }
+        });
+        out.textContent = tip;
+        cursor.setAttribute('visibility', 'visible');
+      };
+      hit.addEventListener('pointerenter', showAt);
+      hit.addEventListener('pointerdown', showAt);
+    });
+    svg.addEventListener('pointerleave', function () { cursor.setAttribute('visibility', 'hidden'); });
+  });
 
   /* ----- One-file build: show one screen at a time ----- */
   var screens = all('.screen');
@@ -108,6 +131,10 @@
         } else {
           a.removeAttribute('aria-current');
         }
+      });
+      jumps.forEach(function (j) {  // a company stays marked only while its screen is the one shown
+        var target = document.getElementById(j.getAttribute('data-jump'));
+        if (!target || target.closest('.screen') !== screen) { j.classList.remove('on'); }
       });
       all('.is-target').forEach(function (t) { t.classList.remove('is-target'); });
       if (el === screen) {

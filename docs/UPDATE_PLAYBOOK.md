@@ -1,6 +1,6 @@
 # Update playbook
 
-What to do when a company reports. Allow about twenty minutes per release.
+What to do when a company reports, and when a month ends. Allow about twenty minutes per release.
 
 ## After a results release or trading update
 
@@ -16,6 +16,20 @@ What to do when a company reports. Allow about twenty minutes per release.
 10. **Move the as-of date** in `data/meta.json`, and `accessed` in `data/sources.json`.
 11. **Review `known_gaps`** in `data/meta.json`. Remove what you filled and add what you could not find.
 12. **Run** `python tools/check.py` and `python tools/build_static.py`. Open `site/index.html` and read the company's section from top to bottom.
+
+## After a month end: share prices
+
+Do this once the month is complete. A part-month price never goes in.
+
+1. **Open each price source** listed under Price and market-cap sources on the TIC stock price screen. Read the month-end adjusted close for each share.
+2. **Replace each share's `adj` list** in `data/prices.json` with the series as the page shows it now, up to the new month end. Do not just add the new month: after a dividend the source restates every earlier adjusted price, so prices from two readings do not belong in one list.
+3. **UL Solutions** is the exception. Its price page shows about a year of daily prices, so earlier months are held in `ret` as published monthly returns. Extend `ret` so that it reaches the first month of the new `adj` list.
+4. **Set `last`, `last_date` and `read_on`**, and each share's `last_close`, the unadjusted close on the last trading day.
+5. **After a year end,** add the year-end US dollar market cap for each share to `market_caps`.
+6. **Rewrite the first line of `limits`**, which names the last month and anything notable that happened after it.
+7. **Run** `python tools/check.py` and `python tools/build_static.py`. Open the TIC stock price screen and compare the latest month with the price pages.
+
+Do not enter an index level or a weight. They are computed. If a month is missing for a share, stop and find it; do not fill it in.
 
 ## Replacing a secondary source
 
@@ -45,7 +59,8 @@ The count on the Sources screen rises by the number of figures that cite the sou
 
 ## Adding a company
 
-1. Add the profile to `data/companies.json` and its key to `order`.
+1. Add the profile to `data/companies.json` and its key to `order`. The order sets the section numbers on Company financials.
 2. Add the same key to `data/financials.json` with `latest`, `annual`, `interim`, `segments`, `outlook` and `notes`.
 3. The annual table needs rows with the roles `revenue`, `profit` and `margin`.
-4. Run the checks. They list anything missing.
+4. Add the same key to `series` and `market_caps` in `data/prices.json`, with a price source and at least one market cap. The share joins the indexes at its first month end.
+5. Run the checks. They list anything missing.
