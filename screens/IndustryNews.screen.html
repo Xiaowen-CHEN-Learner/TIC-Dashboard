@@ -1,0 +1,30 @@
+<header class="page-head">
+  <div>
+    <p class="crumb">TIC Industry Dashboard / Industry news</p>
+    <h1>Industry news</h1>
+    <p class="lede">Deals, strategy updates, leadership changes and sector developments since January 2026. Results and earnings calls are under <a href="{{href_earnings}}">TIC earnings news</a>.</p>
+  </div>
+  <p class="pills"><span class="pill pill-strong">As of {{as_of}}</span><span class="pill">{{n_industry_news}} news items</span></p>
+</header>
+{{banner}}
+<div class="filterbar">
+  <p class="filter-k">Show</p>
+  {{industry_chips}}
+</div>
+<div class="grid2 grid-2-1">
+  <section class="card" aria-labelledby="in-h-feed">
+    <div class="card-head">
+      <div>
+        <h2 id="in-h-feed">News</h2>
+        <p class="sub" data-count aria-live="polite">{{n_industry_news}} items</p>
+      </div>
+      {{type_chips}}
+    </div>
+    {{industry_feed}}
+  </section>
+  <section class="card" aria-labelledby="in-h-dates">
+    <h2 id="in-h-dates">Dates ahead</h2>
+    <p class="sub">Deal milestones and shareholder meetings found in a company document. Results dates are under TIC earnings news.</p>
+    {{calendar_other}}
+  </section>
+</div>

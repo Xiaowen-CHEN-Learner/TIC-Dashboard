@@ -9,8 +9,10 @@ a failing check pass: fix the data or the screen, or raise it in the PR.
 What it checks
   1. Sources: required fields, known kind, https link, no duplicate link.
   2. Every figure has a source, or says why it is missing. Computed figures carry their formula.
+     The Latest column has a declared list of year-to-date periods to read from.
   3. Arithmetic: growth rates, margins, segment totals and declared period sums agree with the figures.
   4. News: required fields, known company and type, dated on or before the as-of date, newest first.
+     Calendar entries say whether they are earnings dates or other dates.
   5. Writing: no banned words, no long quotations, no emoji.
   6. Built pages: no empty slots, balanced tags, unique ids, every internal link resolves.
 """
@@ -161,6 +163,10 @@ def check_company(d, cid, src):
     for m in it["metrics"]:
         if m.get("kind") not in model.KINDS:
             err(f"financials.json {cid} interim metric {m.get('key')}: unknown kind")
+        elif m["key"] in rows and m["kind"] != rows[m["key"]].get("kind"):
+            # the Latest column prints an interim value in the annual row that shares its key
+            err(f"financials.json {cid} interim metric {m['key']}: kind {m['kind']!r} differs from the annual row "
+                f"with the same key ({rows[m['key']].get('kind')!r}); use another key if the measure differs")
     periods = {}
     for p in it["periods"]:
         w = f"financials.json {cid} interim {p.get('label')!r}"
@@ -176,8 +182,16 @@ def check_company(d, cid, src):
                 err(f"{w}: {k} is not a declared metric")
             if not num(v):
                 err(f"{w}: {k} must be a number")
+        extra = p.get("extra") or {}
+        for k, v in extra.items():
+            if k not in rows:
+                err(f"{w}: extra.{k} is not the key of an annual row")
+            if k in keys:
+                err(f"{w}: extra.{k} is an interim metric; put the value in v")
+            if not num(v):
+                err(f"{w}: extra.{k} must be a number")
         for k, s in (p.get("srcs") or {}).items():
-            if k not in p["v"]:
+            if k not in p["v"] and k not in extra:
                 err(f"{w}: srcs.{k} has no value")
             need(src, s, w)
         for k, formula in (p.get("computed") or {}).items():
@@ -200,6 +214,14 @@ def check_company(d, cid, src):
             err(f"financials.json {cid}: latest.{k} {lat[k]!r} is not an interim period")
     if lat.get("status") not in model.STATUSES:
         err(f"financials.json {cid}: latest.status must be one of {model.STATUSES}")
+    ytd = lat.get("ytd_order")
+    if not isinstance(ytd, list):
+        err(f"financials.json {cid}: latest.ytd_order must list the year-to-date periods for the Latest column; "
+            f"use [] when there is none yet")
+    elif any(x not in periods for x in ytd):
+        err(f"financials.json {cid}: latest.ytd_order names a period that is not in interim.periods")
+    elif [periods[x].get("end") or "" for x in ytd] != sorted((periods[x].get("end") or "" for x in ytd), reverse=True):
+        err(f"financials.json {cid}: latest.ytd_order must run from the newest period to the oldest")
 
     # segments, outlook, charts
     for seg in f.get("segments", []):
@@ -278,6 +300,10 @@ def check_news(d, src):
         need(src, c.get("src"), f"news.json calendar {c.get('event')!r}")
         if c.get("company") not in order:
             err(f"news.json calendar {c.get('event')!r}: unknown company")
+        if c.get("kind") not in model.CALENDAR_KINDS:
+            err(f"news.json calendar {c.get('event')!r}: kind must be one of {sorted(model.CALENDAR_KINDS)}")
+    if not model.EARNINGS_TYPES <= set(n["types"]):
+        err(f"news.json types: needs {sorted(model.EARNINGS_TYPES)}, the types shown on the TIC earnings news screen")
 
 
 # ---------- 5. writing ----------
@@ -350,6 +376,11 @@ class Page(HTMLParser):
 
 
 def check_pages(d):
+    files = [s["file"] for s in d["screens"]["screens"]]
+    for s in d["screens"]["screens"]:
+        for old in s.get("was", []):
+            if old in files or old == "index.html":
+                err(f"screens.json {s['id']}: was {old!r} is the name of a current page")
     out = {}
     for single in (False, True):
         try:

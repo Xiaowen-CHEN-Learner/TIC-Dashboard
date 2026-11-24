@@ -68,12 +68,13 @@ One object per company, keyed as in `companies.json`.
 |---|---|
 | `period` | Label of the interim period shown on the overview. |
 | `organic_from` | Optional. Label of the period the organic growth figure comes from, when the headline period does not give one. |
+| `ytd_order` | Labels of the year-to-date periods the Latest column reads, newest first, for example `["9M 2026", "H1 2026"]`. Each row takes the first period that has a value for it. Use `[]` after a full-year release until the next interim one; the column is then left out. |
 | `status` | `raised`, `mixed`, `confirmed` or `lowered`: what the company did to its full-year outlook. |
 | `status_text` | One line saying so. |
 
 ### annual
 
-`columns` are the year labels. `reported` is the date the latest year was published. `column_notes` explains unusual columns. Each row has:
+`columns` are the year labels: five fiscal years where they were found. `reported` is the date the latest year was published. `column_notes` explains unusual columns. The table also prints a Latest column, which is not stored here: it is read from the interim periods named in `latest.ytd_order`, for every row whose `key` matches an interim metric or an `extra` value. Each row has:
 
 | Field | Meaning |
 |---|---|
@@ -92,9 +93,12 @@ One object per company, keyed as in `companies.json`.
 | `label`, `end`, `reported` | For example "Q3 2026", period end date, release date. `reported` is `null` for a derived period. |
 | `src` | The main source. |
 | `v` | Values by metric key. Leave a metric out when it was not reported. |
-| `srcs` | Optional. A different source for single metrics. |
+| `extra` | Optional. Year-to-date values for annual rows that are not interim columns, by annual row key, for example cash flow or net debt. They show only in the Latest column of the annual table. |
+| `srcs` | Optional. A different source for single values in `v` or `extra`. |
 | `computed` | Optional. Formula by metric key for values derived here. |
 | `note` | Optional. Shown under the row. |
+
+An interim metric that shares its key with an annual row must be the same measure and the same `kind`, because the Latest column prints it in that row. Give a different measure its own key, as ALS does with `interim_dps`.
 
 Where a period gives profit, revenue and margin, the margin is recomputed. `sums` declares periods that must add up, for example Q1 + Q2 + Q3 = 9M, with a tolerance. Do not declare a sum where the company changed its reporting basis.
 
@@ -108,16 +112,16 @@ A list of tables. Each has `title`, `src`, `columns`, `rows` and an optional `no
 
 ### notes and charts
 
-`notes` are the reading notes for the company. By default the company gets a revenue chart and a margin chart from the annual table. Set `auto_charts` to `false` and list `charts` to replace them, as TIC Solutions does because its annual columns are not consecutive years.
+`notes` are the reading notes for the company. By default the company gets a revenue chart and a margin chart from the annual table. The charts show full years only, never the Latest column. Set `auto_charts` to `false` and list `charts` to replace them, as TIC Solutions does to show quarters, because it has three annual columns and one is a non-GAAP combination.
 
 ## news.json
 
 | Part | Meaning |
 |---|---|
-| `types` | The news types and their labels. |
-| `news` | Items newest first: `id` (unique slug), `date`, `company` (a company key or `industry`), `type`, `headline`, `summary`, `sources`. The first source sets the evidence label. |
-| `calls` | The latest call or investor event per company: `company`, `event`, `date`, `time`, `points`, `links` (where to read or hear it), `sources` (what the points rest on). |
+| `types` | The news types and their labels. Type `result` is earnings news; every other type is industry news. |
+| `news` | Items newest first: `id` (unique slug), `date`, `company` (a company key or `industry`), `type`, `headline`, `summary`, `sources`. The first source sets the evidence label. Items of type `result` show on the TIC earnings news screen and the rest on the Industry news screen. |
+| `calls` | The latest earnings call or results update per company: `company`, `event`, `date`, `time`, `points`, `links` (where to read or hear it), `sources` (what the points rest on). Investor days and strategy events are news items of type `strategy`. |
 | `earlier_calls` | Other call records from the year: `company`, `event`, `date`, `link`. |
-| `calendar` | Confirmed future dates only: `date`, `company`, `event`, `src`. |
-| `calendar_windows` | Timing given as a window, not a date. |
+| `calendar` | Confirmed future dates only: `date`, `company`, `kind`, `event`, `src`. `kind` is `earnings` for results dates, which show on TIC earnings news, or `other`, which shows on Industry news. |
+| `calendar_windows` | Timing given as a window, not a date, with the same `kind`. |
 | `calendar_note` | Says which companies have no confirmed date. |

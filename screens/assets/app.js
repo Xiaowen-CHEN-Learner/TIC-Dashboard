@@ -7,63 +7,67 @@
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
-  /* ----- News: filter by company and by type ----- */
-  var state = { company: 'all', type: 'all' };
+  /* ----- News screens: filter by company and by type -----
+     Each screen keeps its own choice, so the two news screens do not affect each other
+     when the one-file build puts them on the same page. */
+  all('.screen').forEach(function (screen) {
+    var state = { company: 'all', type: 'all' };
 
-  function press(attr, value) {
-    all('[' + attr + ']').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.getAttribute(attr) === value));
-    });
-  }
-
-  function matches(el) {
-    return state.company === 'all' || el.getAttribute('data-company') === state.company;
-  }
-
-  function applyFilters() {
-    all('[data-filterable]').forEach(function (box) {
-      var shown = 0;
-      all('[data-company]', box).forEach(function (el) {
-        el.hidden = !matches(el);
-        if (!el.hidden) { shown += 1; }
+    function press(attr, value) {
+      all('[' + attr + ']', screen).forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute(attr) === value));
       });
-      var wrap = box.closest('.table-wrap') || box;
-      var msg = wrap.nextElementSibling;
-      if (!msg || !msg.hasAttribute('data-none')) {
-        msg = document.createElement('p');
-        msg.className = 'empty';
-        msg.setAttribute('data-none', '');
-        msg.textContent = 'Nothing here for this selection.';
-        wrap.parentNode.insertBefore(msg, wrap.nextSibling);
-      }
-      msg.hidden = shown !== 0;
-      wrap.hidden = shown === 0;
-    });
-    var count = 0;
-    all('[data-feed] .news-item').forEach(function (el) {
-      var ok = matches(el) && (state.type === 'all' || el.getAttribute('data-type') === state.type);
-      el.hidden = !ok;
-      if (ok) { count += 1; }
-    });
-    all('[data-month]').forEach(function (m) {
-      m.hidden = !m.querySelector('.news-item:not([hidden])');
-    });
-    all('[data-empty]').forEach(function (e) { e.hidden = count !== 0; });
-    all('[data-count]').forEach(function (c) { c.textContent = count + (count === 1 ? ' item' : ' items'); });
-  }
+    }
 
-  all('[data-filter-company]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      state.company = b.getAttribute('data-filter-company');
-      press('data-filter-company', state.company);
-      applyFilters();
+    function matches(el) {
+      return state.company === 'all' || el.getAttribute('data-company') === state.company;
+    }
+
+    function applyFilters() {
+      all('[data-filterable]', screen).forEach(function (box) {
+        var shown = 0;
+        all('[data-company]', box).forEach(function (el) {
+          el.hidden = !matches(el);
+          if (!el.hidden) { shown += 1; }
+        });
+        var wrap = box.closest('.table-wrap') || box;
+        var msg = wrap.nextElementSibling;
+        if (!msg || !msg.hasAttribute('data-none')) {
+          msg = document.createElement('p');
+          msg.className = 'empty';
+          msg.setAttribute('data-none', '');
+          msg.textContent = 'Nothing here for this selection.';
+          wrap.parentNode.insertBefore(msg, wrap.nextSibling);
+        }
+        msg.hidden = shown !== 0;
+        wrap.hidden = shown === 0;
+      });
+      var count = 0;
+      all('[data-feed] .news-item', screen).forEach(function (el) {
+        var ok = matches(el) && (state.type === 'all' || el.getAttribute('data-type') === state.type);
+        el.hidden = !ok;
+        if (ok) { count += 1; }
+      });
+      all('[data-month]', screen).forEach(function (m) {
+        m.hidden = !m.querySelector('.news-item:not([hidden])');
+      });
+      all('[data-empty]', screen).forEach(function (e) { e.hidden = count !== 0; });
+      all('[data-count]', screen).forEach(function (c) { c.textContent = count + (count === 1 ? ' item' : ' items'); });
+    }
+
+    all('[data-filter-company]', screen).forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.company = b.getAttribute('data-filter-company');
+        press('data-filter-company', state.company);
+        applyFilters();
+      });
     });
-  });
-  all('[data-filter-type]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      state.type = b.getAttribute('data-filter-type');
-      press('data-filter-type', state.type);
-      applyFilters();
+    all('[data-filter-type]', screen).forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.type = b.getAttribute('data-filter-type');
+        press('data-filter-type', state.type);
+        applyFilters();
+      });
     });
   });
 

@@ -6,13 +6,13 @@ What to do when a company reports. Allow about twenty minutes per release.
 
 1. **Find the primary document.** Use the regulatory filing or exchange announcement: SEC EDGAR for UL Solutions and TIC Solutions, the ASX announcement for ALS, the RNS for Intertek, the company's regulated press release for SGS, Bureau Veritas and Eurofins.
 2. **Add the source** to `data/sources.json` with its exact link, date and kind.
-3. **Add the period** at the top of `interim.periods` in `data/financials.json`. Enter only what the release states. For anything you derive, add the formula under `computed`.
-4. **Point `latest` at it.** Set `latest.period`, and update `status` and `status_text` if the outlook changed.
+3. **Add the period** at the top of `interim.periods` in `data/financials.json`. Enter only what the release states. For anything you derive, add the formula under `computed`. Year-to-date values for annual rows that are not interim columns, such as cash flow or net debt, go in the period's `extra`.
+4. **Point `latest` at it.** Set `latest.period`, put the newest year-to-date period first in `latest.ytd_order`, and update `status` and `status_text` if the outlook changed. A single quarter is not year to date; list the nine-month or half-year period.
 5. **Update the outlook.** Replace the items, set `as_of` and `src`, and record the previous wording in `was`.
-6. **Full-year results only:** add a column to `annual.columns`, add a cell to every row, and set `annual.reported`. Drop the oldest column if you want to keep four years. Check whether the release restates earlier years, and note it in the cell if so.
-7. **Add the news item** at the top of `news` in `data/news.json`, with the primary source first.
+6. **Full-year results only:** add a column to `annual.columns`, add a cell to every row, and set `annual.reported`. Drop the oldest column to keep five years. Set `latest.ytd_order` to `[]`, so that the Latest column does not show a period older than the new full year. Check whether the release restates earlier years, and note it in the cell if so.
+7. **Add the news item** at the top of `news` in `data/news.json`, with the primary source first. Give a results release or trading update the type `result`, which puts it on the TIC earnings news screen.
 8. **Update the call** for that company in `calls`: the main points in your own words, and links to the transcript or a summary. Move the old call to `earlier_calls` if it has a third-party record.
-9. **Update the calendar** if the release confirms the next date.
+9. **Update the calendar** if the release confirms the next date, with `kind` set to `earnings`.
 10. **Move the as-of date** in `data/meta.json`, and `accessed` in `data/sources.json`.
 11. **Review `known_gaps`** in `data/meta.json`. Remove what you filled and add what you could not find.
 12. **Run** `python tools/check.py` and `python tools/build_static.py`. Open `site/index.html` and read the company's section from top to bottom.

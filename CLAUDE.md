@@ -43,6 +43,6 @@ Read `docs/DATA_MODEL.md` before changing data and `docs/UPDATE_PLAYBOOK.md` bef
 ## Adding things
 
 - **A results release:** follow `docs/UPDATE_PLAYBOOK.md`.
-- **A news item:** add it at the top of `news` in `data/news.json`, primary source first.
+- **A news item:** add it at the top of `news` in `data/news.json`, primary source first. Type `result` shows on TIC earnings news; every other type shows on Industry news.
 - **A company:** add it to `companies.json` (and to `order`) and to `financials.json` with the same key. The annual table needs rows with the roles `revenue`, `profit` and `margin`.
 - **A screen:** add the template to `screens/`, an entry to `screens/screens.json`, and any new slot to `slots()` in `tools/render.py`.

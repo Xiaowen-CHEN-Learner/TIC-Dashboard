@@ -26,20 +26,13 @@
   <p class="sub">Each company's own headline profit measure. ALS has a 31 March year end, so its latest year is FY26.</p>
   {{fullyear_table}}
 </section>
-<div class="grid2 grid-2-1">
-  <section class="card" aria-labelledby="ov-h-news">
-    <h2 id="ov-h-news">Recent news</h2>
-    {{headlines}}
-    <p class="more"><a href="{{href_news}}">All {{n_news}} news items, results and earnings calls</a></p>
+<div class="grid2">
+  <section class="card" aria-labelledby="ov-h-dates">
+    <h2 id="ov-h-dates">Next dates</h2>
+    {{next_dates}}
   </section>
-  <div class="stack">
-    <section class="card" aria-labelledby="ov-h-dates">
-      <h2 id="ov-h-dates">Next dates</h2>
-      {{next_dates}}
-    </section>
-    <section class="card" aria-labelledby="ov-h-open">
-      <h2 id="ov-h-open">Open items in the data</h2>
-      {{open_items}}
-    </section>
-  </div>
+  <section class="card" aria-labelledby="ov-h-open">
+    <h2 id="ov-h-open">Open items in the data</h2>
+    {{open_items}}
+  </section>
 </div>

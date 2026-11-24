@@ -1,5 +1,5 @@
 {
-  "_readme": "news: one item per event, newest first. The first source decides the evidence label, so put the primary document first. calls: the latest call or investor event per company. calendar: confirmed dates only. See docs/DATA_MODEL.md.",
+  "_readme": "news: one item per event, newest first. Items of type result go to the TIC earnings news screen; every other type goes to Industry news. The first source decides the evidence label, so put the primary document first. calls: the latest earnings call or results update per company. calendar: confirmed dates only; kind is earnings or other. See docs/DATA_MODEL.md.",
 
   "types": {
     "result": "Results",
@@ -237,15 +237,6 @@
      "links": ["als_h1_27_call", "als_h1_27_gf"],
      "sources": ["als_h1_27_gf", "als_h1_27_inv", "als_h1_27_kal"]},
 
-    {"company": "sgs", "event": "Capital Markets Event, Berlin (investor presentation, not an earnings call)", "date": "2026-11-18", "time": null,
-     "points": [
-       "Strategy 2030: organic sales growth of 5% to 7% a year, plus 1% to 2% a year from acquisitions.",
-       "Adjusted operating income margin of at least 17% by 2030; cash conversion above 50%.",
-       "Digital Trust revenue of at least CHF 750m by 2030.",
-       "No call transcript was found for the third-quarter sales update of 23 October."
-     ],
-     "links": ["sgs_cme", "sgs_cme_inv"],
-     "sources": ["sgs_cme"]},
 
     {"company": "tic", "event": "Q3 2026 earnings call", "date": "2026-11-05", "time": "8:30 a.m. ET",
      "points": [
@@ -287,6 +278,16 @@
      "links": ["bv_q3_26"],
      "sources": ["bv_q3_26"]},
 
+    {"company": "sgs", "event": "Q3 2026 sales update", "date": "2026-10-23", "time": null,
+     "points": [
+       "Third-quarter sales of CHF 1,982m, up 14.6% as reported and 5.7% organically.",
+       "Acquisitions added 6.9 points of growth and currency 2.0 points.",
+       "Double-digit growth in Digital Trust and in sustainability services.",
+       "2026 outlook confirmed. No call transcript was found; the Strategy 2030 investor event of 18 November is under Industry news."
+     ],
+     "links": ["sgs_q3_26"],
+     "sources": ["sgs_q3_26"]},
+
     {"company": "erf", "event": "Nine-month 2026 revenue update", "date": "2026-10-21", "time": null,
      "points": [
        "Organic growth improved each quarter: 2.5%, 3.0%, then 3.5%.",
@@ -312,14 +313,14 @@
   ],
 
   "calendar": [
-    {"date": "2027-02-11", "company": "sgs", "event": "Full-year 2026 results", "src": "sgs_ir"},
-    {"date": "2027-03-24", "company": "sgs", "event": "Annual General Meeting", "src": "sgs_ir"},
-    {"date": "2027-04-23", "company": "sgs", "event": "First-quarter 2027 sales update", "src": "sgs_ir"},
-    {"date": "2027-05-17", "company": "alq", "event": "FY27 full-year results", "src": "als_ar26"},
-    {"date": "2027-07-23", "company": "sgs", "event": "Half-year 2027 results", "src": "sgs_ir"}
+    {"date": "2027-02-11", "company": "sgs", "kind": "earnings", "event": "Full-year 2026 results", "src": "sgs_ir"},
+    {"date": "2027-03-24", "company": "sgs", "kind": "other", "event": "Annual General Meeting", "src": "sgs_ir"},
+    {"date": "2027-04-23", "company": "sgs", "kind": "earnings", "event": "First-quarter 2027 sales update", "src": "sgs_ir"},
+    {"date": "2027-05-17", "company": "alq", "kind": "earnings", "event": "FY27 full-year results", "src": "als_ar26"},
+    {"date": "2027-07-23", "company": "sgs", "kind": "earnings", "event": "Half-year 2027 results", "src": "sgs_ir"}
   ],
   "calendar_windows": [
-    {"window": "Q4 2026 to Q1 2027", "company": "itrk", "event": "Expected completion of the EQT takeover, subject to regulatory approvals; delisting follows", "src": "itrk_q3_26"}
+    {"window": "Q4 2026 to Q1 2027", "company": "itrk", "kind": "other", "event": "Expected completion of the EQT takeover, subject to regulatory approvals; delisting follows", "src": "itrk_q3_26"}
   ],
   "calendar_note": "No confirmed date was found for the next results of UL Solutions, Bureau Veritas, Intertek, Eurofins or TIC Solutions. Check each investor relations page; dates are not estimated here."
 }

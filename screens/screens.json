@@ -1,9 +1,10 @@
 {
-  "_readme": "One entry per screen, in sidebar order. template is the file in screens/; file is the page the build writes to site/. id is the anchor of the screen and must stay unique.",
+  "_readme": "One entry per screen, in sidebar order. template is the file in screens/; file is the page the build writes to site/. id is the anchor of the screen and must stay unique. was lists earlier page names; the build keeps each as a redirect so old links still open.",
   "screens": [
     {"id": "overview", "num": "00", "label": "Industry overview", "template": "Main.screen.html", "file": "Main.html"},
-    {"id": "news", "num": "01", "label": "TIC news", "template": "News.screen.html", "file": "News.html"},
-    {"id": "financials", "num": "02", "label": "Company financials", "template": "Financials.screen.html", "file": "Financials.html"},
-    {"id": "sources", "num": "03", "label": "Sources and method", "template": "Sources.screen.html", "file": "Sources.html"}
+    {"id": "industry-news", "num": "01", "label": "Industry news", "template": "IndustryNews.screen.html", "file": "IndustryNews.html"},
+    {"id": "earnings", "num": "02", "label": "TIC earnings news", "template": "EarningsNews.screen.html", "file": "EarningsNews.html", "was": ["News.html"]},
+    {"id": "financials", "num": "03", "label": "Company financials", "template": "Financials.screen.html", "file": "Financials.html"},
+    {"id": "sources", "num": "04", "label": "Sources and method", "template": "Sources.screen.html", "file": "Sources.html"}
   ]
 }

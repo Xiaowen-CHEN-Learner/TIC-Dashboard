@@ -58,13 +58,6 @@
    "kind": "filing",
    "url": "https://www.sec.gov/Archives/edgar/data/1901440/000162828024039106/uls-20240903.htm"
   },
-  "uls_sa": {
-   "title": "UL Solutions income statement, FY2021 to FY2025",
-   "publisher": "StockAnalysis",
-   "date": null,
-   "kind": "aggregator",
-   "url": "https://stockanalysis.com/stocks/uls/financials/income-statement/"
-  },
   "uls_ee_agree": {
    "title": "UL Solutions agrees to acquire Eurofins Scientific's Electrical & Electronics business (Form 8-K, Exhibit 99.1)",
    "publisher": "UL Solutions via SEC EDGAR",
@@ -876,6 +869,69 @@
    "date": "2026-03-30",
    "kind": "filing",
    "url": "https://live.euronext.com/en/products/equities/company-news/2026-03-30-bureau-veritas-filing-2025-universal-registration"
+  },
+  "sgs_fy21": {
+   "title": "SGS 2021 full year results (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2022-01-27",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en/news/2022/01/sgs-2021-full-year-results"
+  },
+  "sgs_fy21_report": {
+   "title": "SGS 2021 full year results report (PDF with financial highlights table)",
+   "publisher": "SGS",
+   "date": "2022-01-27",
+   "kind": "filing",
+   "url": "https://sgs.com/-/media/sgscorp/documents/corporate/reports-and-presentations/2020s/2021/sgs-2021-full-year-results-report.cdn.en.1.ashx"
+  },
+  "sgs_fy22": {
+   "title": "SGS 2022 full year results (ad hoc announcement)",
+   "publisher": "SGS",
+   "date": "2023-01-26",
+   "kind": "filing",
+   "url": "https://www.sgs.com/en/news/2023/01/sgs-2022-full-year-results"
+  },
+  "bv_fy21": {
+   "title": "Bureau Veritas FY 2021 results press release (PDF)",
+   "publisher": "Bureau Veritas via AMF",
+   "date": "2022-02-24",
+   "kind": "filing",
+   "url": "https://echanges.dila.gouv.fr/OPENDATA/AMF/MKW/2022/02/FCMKW116674_20220224.pdf"
+  },
+  "itrk_fy21": {
+   "title": "Intertek 2021 full year results announcement (RNS)",
+   "publisher": "Intertek via LSE.co.uk",
+   "date": "2022-03-01",
+   "kind": "filing",
+   "url": "https://www.lse.co.uk/rns/ITRK/final-results-lhcn9ky29zd2ied.html"
+  },
+  "erf_fy21": {
+   "title": "Eurofins FY 2021 results press release",
+   "publisher": "Eurofins Scientific",
+   "date": "2022-02-22",
+   "kind": "filing",
+   "url": "https://www.eurofins.com/media-centre/press-releases-2022/2022-02-22/"
+  },
+  "als_ar22": {
+   "title": "ALS Annual Report 2022 (FY22 results as first reported)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2022-07-19",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20220719/pdf/45bz2vfzq4gtsh.pdf"
+  },
+  "als_ar23": {
+   "title": "ALS Annual Report 2023 (FY23 results with FY22 comparatives)",
+   "publisher": "ALS Limited via ASX",
+   "date": "2023-06-21",
+   "kind": "filing",
+   "url": "https://announcements.asx.com.au/asxpdf/20230621/pdf/05qv3jf4snc3ps.pdf"
+  },
+  "tic_fy24": {
+   "title": "Acuren Corporation announces results for the fourth quarter and full year 2024 (Business Wire copy)",
+   "publisher": "Acuren Corporation via Business Wire",
+   "date": "2025-03-27",
+   "kind": "filing",
+   "url": "https://www.businesswire.com/news/home/20250327902309/en"
   }
  }
 }
