@@ -6,7 +6,7 @@ The dashboard is a static site built from JSON files. Every figure carries a sou
 
 **Live site:** https://xiaowen-chen-learner.github.io/TIC-Dashboard/
 
-> **Status: unverified draft.** Compiled by an AI assistant (Claude) from public sources on 23 November 2026. No figure has yet been checked by a person. Company measures differ and are not like-for-like. This is not investment advice.
+> **Status.** Compiled by an AI assistant (Claude) from public sources on 23 November 2026. On 24 November 2026 Xavier Chen signed off every sourced figure and every share-price source as checked against the original. The banner on each screen shows the current state: it drops to "partly checked" when figures are added or changed, until a person checks them. Company measures differ and are not like-for-like. This is not investment advice.
 
 ## Screens
 
@@ -60,6 +60,7 @@ tools/
   render.py           turns data into the tables, tiles and lists
   charts.py           inline SVG charts
   stockindex.py       computes the two share-price indexes from prices.json
+  signoff.py          records a person's sign-off of sources
   model.py            loads the data and walks every figure
 docs/
   DATA_MODEL.md       what each field means
@@ -78,7 +79,7 @@ CLAUDE.md             rules for any AI assistant editing this repo
 - **Evidence labels.** `verified_public_record` for filings and exchange announcements, `company_claim` for other company statements and for every outlook or target, `secondary_report` for news, call records and data providers, `computed` for figures derived here, `not_found_in_scoped_search` for gaps.
 - **Charts follow the data.** Charts are drawn from the same JSON as the tables, so they cannot disagree.
 - **Plain writing, no long quotations.** News is summarised in the dashboard's own words.
-- **A person signs off.** A figure counts as checked only when a person marks its source as reviewed. See `docs/UPDATE_PLAYBOOK.md`.
+- **A person signs off.** A figure counts as checked only when a person has signed off its source, and the sign-off lapses if the figure changes. See `docs/UPDATE_PLAYBOOK.md`.
 
 The full rules are in `CLAUDE.md`.
 

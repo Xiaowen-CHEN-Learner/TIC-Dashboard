@@ -2,10 +2,17 @@
   "title": "TIC Industry Dashboard",
   "subtitle": "Testing, inspection and certification: listed-company news, financials and share-price indexes",
   "as_of": "2026-11-23",
-  "banner": "Compiled by an AI assistant from public sources on {as_of}. No figure has yet been checked by a person. Company measures differ and are not like-for-like. This is not investment advice.",
+  "banner": {
+    "_readme": "The banner on every screen. The middle sentence is chosen by how much a person has signed off: none, part or all. tools/render.py fills the {slots}.",
+    "intro": "Compiled by an AI assistant from public sources on {as_of}.",
+    "none": "No figure has yet been checked by a person.",
+    "part": "A person has checked {checked} of {sourced} sourced figures, and {px_done} of {px_total} share-price sources.",
+    "all": "{who} checked every sourced figure and share price against its source {when}.",
+    "outro": "Company measures differ and are not like-for-like. This is not investment advice."
+  },
 
   "review": {
-    "how": "A figure counts as checked when its source in data/sources.json carries reviewed_by and reviewed_on. Open the source, compare every figure that cites it, then add the two fields."
+    "how": "A figure counts as checked when a person has signed off its source: they opened the source and compared every figure that cites it. A sign-off lapses when one of those figures is later added or changed, and the count drops until a person checks again."
   },
 
   "evidence_labels": {

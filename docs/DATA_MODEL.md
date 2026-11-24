@@ -7,7 +7,7 @@ All content is in `data/`. Six files, each plain JSON. `tools/check.py` validate
 | Field | Meaning |
 |---|---|
 | `as_of` | The date the dashboard describes, `YYYY-MM-DD`. The one place this date is set. |
-| `banner` | The notice at the top of every screen. `{as_of}` is replaced with the date. |
+| `banner` | The notice at the top of every screen, in parts: `intro`, then one of `none`, `part` or `all`, then `outro`. The middle part is chosen by how much a person has signed off. `{as_of}`, `{checked}`, `{sourced}`, `{px_done}`, `{px_total}`, `{who}` and `{when}` are filled in by the build. |
 | `evidence_labels` | The definition shown for each label on the Sources screen. |
 | `comparability` | Why the companies are not like-for-like. |
 | `known_gaps` | What is missing or weakly sourced. The first four show on the overview. |
@@ -23,7 +23,7 @@ All content is in `data/`. Six files, each plain JSON. `tools/check.py` validate
 | `date` | `YYYY-MM-DD`, `YYYY-MM`, or `null` for an undated page. |
 | `kind` | `filing`, `company`, `news`, `transcript`, `aggregator` or `advisory`. |
 | `url` | The exact document, `https` only. |
-| `reviewed_by`, `reviewed_on` | Set by a person once they have compared every figure that cites the source. |
+| `reviewed_by`, `reviewed_on`, `reviewed_sum` | A person's sign-off: who compared every figure that cites the source, on which day, and a checksum of those figures. Written by `tools/signoff.py`, never by hand. The check fails when the figures no longer match the checksum, and the sign-off is then removed. |
 
 The kind sets the evidence label:
 

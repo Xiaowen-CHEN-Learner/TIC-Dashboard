@@ -15,8 +15,10 @@ What it checks
      Calendar entries say whether they are earnings dates or other dates.
   5. Share prices: one price or return for every month a share is in the index, a source for
      every series, published returns that agree with the prices, and indexes that compute.
-  6. Writing: no banned words, no long quotations, no emoji.
-  7. Built pages: no empty slots, balanced tags, unique ids, every internal link resolves.
+  6. Human review: a sign-off names who and when, and still matches the figures that cite the
+     source. It lapses when one of them is added, removed or changed.
+  7. Writing: no banned words, no long quotations, no emoji.
+  8. Built pages: no empty slots, balanced tags, unique ids, every internal link resolves.
 """
 import pathlib
 import re
@@ -73,8 +75,11 @@ def check_sources(d):
         if s.get("url") in seen:
             err(f"{w}: same url as {seen[s['url']]}")
         seen[s.get("url")] = sid
-        if bool(s.get("reviewed_by")) != bool(s.get("reviewed_on")):
-            err(f"{w}: reviewed_by and reviewed_on go together")
+        marks = [k for k in ("reviewed_by", "reviewed_on", "reviewed_sum") if s.get(k)]
+        if marks and len(marks) < 3:
+            err(f"{w}: reviewed_by, reviewed_on and reviewed_sum go together; tools/signoff.py writes all three")
+        if s.get("reviewed_on") and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(s["reviewed_on"])):
+            err(f"{w}: reviewed_on must be YYYY-MM-DD")
     return src
 
 
@@ -401,7 +406,23 @@ def check_prices(d, src):
             err(f"{w} {month}: market-cap weights do not add up to 100%")
 
 
-# ---------- 6. writing ----------
+# ---------- 6. human review ----------
+
+def check_review(d, src):
+    """A sign-off covers the figures that cited the source on the day it was given.
+
+    Runs only on otherwise clean data, because it walks every figure.
+    """
+    if errors:
+        return
+    for sid, s in src.items():
+        if s.get("reviewed_sum") and s["reviewed_sum"] != model.review_sum(d, sid):
+            err(f"sources.json {sid}: the figures that cite this source have changed since {s['reviewed_by']} "
+                f"signed it off on {s['reviewed_on']}. Remove the sign-off (python tools/signoff.py --remove {sid}). "
+                f"Only the reviewer can renew it.")
+
+
+# ---------- 7. writing ----------
 
 def strings(x, path=""):
     if isinstance(x, str):
@@ -434,7 +455,7 @@ def check_writing(d):
             err(f"{where}: emoji or pictograph. Use words")
 
 
-# ---------- 7. built pages ----------
+# ---------- 8. built pages ----------
 
 class Page(HTMLParser):
     def __init__(self):
@@ -530,6 +551,7 @@ def main():
         err(f"financials.json: companies not in companies.json order: {sorted(extra)}")
     check_news(d, src)
     check_prices(d, src)
+    check_review(d, src)
     check_writing(d)
     pages = check_pages(d)
 
@@ -537,13 +559,11 @@ def main():
     unused = sorted(k for k, n in model.source_use(d).items() if n == 0)
     print(f"Sources {len(src)}; news items {len(d['news']['news'])}; pages built {len(pages)}")
     print("Figures by evidence label: " + ", ".join(f"{k} {v}" for k, v in t["by_label"].items()))
-    print(f"Checked by a person: {t['checked']} of {t['sourced']} sourced figures")
-    px = model.price_sources(d)
+    r = model.review(d)
+    by = f" ({', '.join(r['who'])}, latest {r['last']})" if r["who"] else ""
+    print(f"Checked by a person: {r['checked']} of {r['sourced']} sourced figures{by}")
     print(f"Share prices: {sum(len(s['adj']) for s in d['prices']['series'].values())} month-end prices to "
-          f"{d['prices']['last']}; {sum(1 for sid in px if src[sid].get('reviewed_by'))} of {len(px)} price and "
-          f"market-cap sources checked by a person")
-    if unused:
-        print(f"Note: {len(unused)} sources are in the register but not cited: {', '.join(unused)}")
+          f"{d['prices']['last']}; {r['px_done']} of {r['px_total']} price and market-cap sources checked by a person")
     if errors:
         print(f"\nFAILED: {len(errors)} problem(s)")
         for e in errors:
